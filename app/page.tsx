@@ -1,4 +1,10 @@
 import { Button } from '@/components/ui/button'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Super Mario',
+  description: 'Used car dealership',
+}
 
 export default function Home() {
   return (
