@@ -1,6 +1,8 @@
+import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+import UserSync from '@/components/hooks/userSync'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -18,18 +20,21 @@ export const metadata: Metadata = {
   description: 'Used car dealership',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang='en'>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <UserSync />
+          <main>{children}</main>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
