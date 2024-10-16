@@ -66,7 +66,7 @@ export class UserEntity {
 
       return {
         error: false,
-        message: newUser.success,
+        message: 'Successfully created new user',
       }
     } catch (error) {
       return {

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       },
     })
 
-    const newUserProfile = await prisma.userProfile.create({
+    const userProfile = await prisma.userProfile.create({
       data: {
         userId: newUser.id,
         firstName: data.firstName,
@@ -48,10 +48,12 @@ export async function POST(req: Request) {
       },
     })
 
-    return NextResponse.json(
-      { success: 'User created successfully' },
-      { status: 201 }
-    )
+    const newUserWithProfile = {
+      ...newUser,
+      ...userProfile,
+    }
+
+    return NextResponse.json(newUserWithProfile, { status: 201 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Something went wrong', details: error },
