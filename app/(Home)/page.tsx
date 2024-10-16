@@ -1,15 +1,11 @@
-'use client'
-import { useUser } from '@clerk/nextjs'
+import { createAuthControl } from '@/controls/services/authService'
 
-export default function Home() {
-  const { user, isSignedIn } = useUser()
+export default async function Home() {
+  const authControl = createAuthControl()
+  authControl.checkUser()
   return (
     <div>
-      <h1 className='text-4xl text-primary font-bold'>
-        {isSignedIn
-          ? `Welcome back, ${user.fullName}!`
-          : 'You are not signed in.'}
-      </h1>
+      <h1>Home page</h1>
     </div>
   )
 }

@@ -5,11 +5,12 @@ export async function GET() {
   try {
     // Get all users from database
     const users = await prisma.user.findMany()
+
     return NextResponse.json(users)
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to get users', details: error },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }
@@ -19,16 +20,42 @@ export async function POST(req: Request) {
   const data = await req.json()
 
   try {
-    // Create a new user in the database
-    const newUser = await prisma.user.create({
-      data,
+    // Check if the user already exists
+    const existingUser = await prisma.user.findFirst({
+      where: { email: data.email },
     })
 
-    return NextResponse.json(newUser)
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'User already exists' },
+        { status: 400 }
+      )
+    }
+
+    // Create a new user in the database
+    const newUser = await prisma.user.create({
+      data: {
+        email: data.email,
+        password: data.password,
+      },
+    })
+
+    const newUserProfile = await prisma.userProfile.create({
+      data: {
+        userId: newUser.id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      },
+    })
+
+    return NextResponse.json(
+      { success: 'User created successfully' },
+      { status: 201 }
+    )
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to create user', details: error },
-      { status: 500 },
+      { error: 'Something went wrong', details: error },
+      { status: 500 }
     )
   }
 }

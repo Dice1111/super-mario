@@ -8,31 +8,26 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { MenuItems } from '@/lib/utils'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { RxHamburgerMenu } from 'react-icons/rx'
 import { CiShoppingCart } from 'react-icons/ci'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 export default function Header() {
   const [isNav, setNav] = useState<boolean>(false) // keep track of the nav state on mobile
 
-  useEffect(() => {
-    console.log(isNav)
-  }, [isNav])
-
   return (
-    <header className={'fixed w-full bg-primary font-bold z-10'}>
-      <ul className='flex container mx-auto justify-between items-center py-4 px-2 sm:px-0 text-secondary'>
+    <header className={'bg-primary fixed z-10 w-full font-bold'}>
+      <ul className="text-secondary container mx-auto flex items-center justify-between px-2 py-4 sm:px-0">
         <li>
-          <h1 className='text-2xl'>Super Mario</h1>
+          <h1 className="text-2xl">Super Mario</h1>
         </li>
         <li>
-          <ul className='justify-center items-center gap-8 hidden md:flex'>
+          <ul className="hidden items-center justify-center gap-8 md:flex">
             {MenuItems.map((item, index) => (
               <Link
-                className='hover:-translate-y-2 text-lg transition-all duration-200 ease-in-out cursor-pointer p-3'
+                className="cursor-pointer p-3 text-lg transition-all duration-200 ease-in-out hover:-translate-y-2"
                 key={index}
                 href={item.link}
               >
@@ -40,15 +35,15 @@ export default function Header() {
               </Link>
             ))}
           </ul>
-          <ul className='block md:hidden' onClick={() => setNav(!isNav)}>
+          <ul className="block md:hidden" onClick={() => setNav(!isNav)}>
             <DropdownMenu>
-              <DropdownMenuTrigger className='pt-3 outline-none border-none'>
-                <RxHamburgerMenu className='text-white text-2xl cursor-pointer' />
+              <DropdownMenuTrigger className="border-none pt-3 outline-none">
+                <RxHamburgerMenu className="cursor-pointer text-2xl text-white" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className='bg-primary border-primary outline-primary text-white p-2'>
+              <DropdownMenuContent className="bg-primary border-primary outline-primary p-2 text-white">
                 {MenuItems.map((item, index) => (
                   <Link href={item.link} key={index}>
-                    <DropdownMenuItem className='text-lg cursor-pointer'>
+                    <DropdownMenuItem className="cursor-pointer text-lg">
                       {item.name}
                     </DropdownMenuItem>
                   </Link>
@@ -58,23 +53,18 @@ export default function Header() {
           </ul>
         </li>
         <li>
-          <ul className='flex justify-center items-center gap-8'>
+          <ul className="flex items-center justify-center gap-8">
             <li>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-              <SignedOut>
-                <Link href={'/auth/sign-in'}>
-                  <Button variant={'secondary'}>Login</Button>
-                </Link>
-              </SignedOut>
+              <Link href={'/auth/signup'}>
+                <Button variant={'secondary'}>Login</Button>
+              </Link>
             </li>
             <li>
-              <Link href={'/cart'} className='relative'>
-                <CiShoppingCart className='text-3xl' />
+              <Link href={'/cart'} className="relative">
+                <CiShoppingCart className="text-3xl" />
                 <Badge
                   variant={'secondary'}
-                  className='rounded-full w-5 h-5 grid place-items-center p-0 absolute -top-3 -right-2'
+                  className="absolute -right-2 -top-3 grid h-5 w-5 place-items-center rounded-full p-0"
                 >
                   {0}
                 </Badge>

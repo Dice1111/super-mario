@@ -1,7 +1,6 @@
 // controllers/AuthControl.ts
+import { User, UserProfile } from '@prisma/client'
 import { UserEntity } from '../entities/User'
-import { baseUrl } from '@/lib/utils'
-import { currentUser } from '@clerk/nextjs/server'
 
 export class AuthControl {
   private userEntity: UserEntity
@@ -11,49 +10,33 @@ export class AuthControl {
   }
 
   public async checkUser() {
-    const user = await currentUser()
+    console.log(this.userEntity.users)
+  }
 
-    // If the user is not logged in, return null
-    if (!user) {
-      return null
-    }
+  public async CreateUser(
+    user: User,
+    profile: UserProfile
+  ): Promise<{
+    error: boolean
+    message: string
+  }> {
+    const { error, message } = await this.userEntity.createUser(user, profile)
 
-    // Check if the user is already in the database
-    const existingUserByClerkID = await this.userEntity.findUserById(user.id)
+    return { error, message }
+  }
 
-    // If the user is in the database, return the user
-    if (existingUserByClerkID) {
-      return existingUserByClerkID
-    }
+  public async AuthenticateUser(
+    email: string,
+    password: string
+  ): Promise<{
+    error: boolean
+    message: string
+  }> {
+    const { error, message } = await this.userEntity.authenticateUser({
+      email,
+      password,
+    })
 
-    // Check if the user with the same email is in the database
-    const email = user.primaryEmailAddress?.emailAddress || ''
-    const existingUserByEmail = await this.userEntity.findUserByEmail(email)
-
-    if (existingUserByEmail) {
-      return existingUserByEmail
-    }
-
-    // If the user is not in the database, create the user
-    try {
-      const response = await fetch(`${baseUrl}/api/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          clerkUserId: user.id,
-          email: user.primaryEmailAddress?.emailAddress,
-          name: `${user.firstName} ${user.lastName}`,
-          imageUrl: user.imageUrl,
-        }),
-      })
-
-      const newUser = await response.json()
-      return newUser
-    } catch (error) {
-      console.error('Failed to create user:', error)
-      return null
-    }
+    return { error, message }
   }
 }

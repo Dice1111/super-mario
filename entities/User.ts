@@ -1,10 +1,10 @@
 import { baseUrl } from '@/lib/utils'
-import { User } from '@prisma/client'
+import { User, UserProfile } from '@prisma/client'
 
 export class UserEntity {
   // Static property to hold the single instance of the class
   private static instance: UserEntity
-  private users: User[] = []
+  public users: User[] = []
 
   // Private constructor to prevent direct instantiation
   private constructor() {
@@ -19,7 +19,6 @@ export class UserEntity {
     return UserEntity.instance
   }
 
-  // Fetch users asynchronously and store them in the users array
   private async loadUsers(): Promise<void> {
     try {
       const response = await fetch(`${baseUrl}/api/users`, {
@@ -35,27 +34,88 @@ export class UserEntity {
     }
   }
 
-  // Asynchronous method to get users, ensuring they are loaded first
-  public async getUsers(): Promise<User[]> {
-    if (this.users.length === 0) {
-      await this.loadUsers()
+  public async createUser(
+    user: User,
+    profile: UserProfile
+  ): Promise<{
+    error: boolean
+    message: string
+  }> {
+    try {
+      const data = {
+        ...user,
+        ...profile,
+      }
+      const response = await fetch(`${baseUrl}/api/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      if (!response.ok) {
+        const result = await response.json()
+        return {
+          error: true,
+          message: result.error || 'Failed to create user.',
+        }
+      }
+
+      const newUser = await response.json()
+      this.users.push(newUser)
+
+      return {
+        error: false,
+        message: newUser.success,
+      }
+    } catch (error) {
+      return {
+        error: true,
+        message: 'Unknown error occurred during login',
+      }
     }
-    return this.users
   }
 
-  // Asynchronous method to find a user by email
-  public async findUserByEmail(email: string): Promise<User | undefined> {
-    if (this.users.length === 0) {
-      await this.loadUsers()
-    }
-    return this.users.find((user) => user.email === email)
-  }
+  public async authenticateUser({
+    email,
+    password,
+  }: {
+    email: string
+    password: string
+  }): Promise<{
+    error: boolean
+    message: string
+  }> {
+    try {
+      const response = await fetch(`${baseUrl}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
-  // Asynchronous method to find a user by ID
-  public async findUserById(id: string): Promise<User | undefined> {
-    if (this.users.length === 0) {
-      await this.loadUsers()
+      // Check if the response is not successful (status 200-299)
+      if (!response.ok) {
+        const result = await response.json()
+        return {
+          error: true,
+          message: result.error || 'Failed to authenticate user',
+        }
+      }
+
+      // If successful, parse the response
+      const result = await response.json()
+
+      return {
+        error: false,
+        message: result.success || 'Successfully logged in',
+      }
+    } catch (error) {
+      return {
+        error: true,
+        message: 'Unknown error occurred during login',
+      }
     }
-    return this.users.find((user) => user.clerkUserId === id)
   }
 }
