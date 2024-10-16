@@ -1,9 +1,18 @@
-import LoginForm from '@/components/Forms/LoginForm'
+'use client'
 
-export default function LoginPage() {
-  return (
-    <div className="container mx-auto flex h-screen w-full items-center justify-center">
-      <LoginForm />
-    </div>
-  )
+import React, { Component } from 'react'
+import UserLoginUI from '@/app/boundaries/LoginBoundary'
+
+class LoginPage extends Component {
+  render() {
+    const userLoginClass = new UserLoginUI()
+
+    return (
+      <div className="container mx-auto flex h-screen w-full items-center justify-center">
+        {userLoginClass.displayLoginUI()}
+      </div>
+    )
+  }
 }
+
+export default LoginPage

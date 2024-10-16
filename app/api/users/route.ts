@@ -3,11 +3,19 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    // Get all users from database
-    const users = await prisma.user.findMany()
+    const usersWithProfile = await prisma.user.findMany({
+      include: {
+        UserProfile: true,
+      },
+    })
 
-    return NextResponse.json(users)
+    // Log the users to verify the structure
+    console.log('Users with profile:', usersWithProfile)
+
+    return NextResponse.json({ users: usersWithProfile }, { status: 200 })
   } catch (error) {
+    console.error('Error fetching users:', error)
+
     return NextResponse.json(
       { error: 'Failed to get users', details: error },
       { status: 500 }

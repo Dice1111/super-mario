@@ -40,12 +40,12 @@ export default function LoginForm() {
     const authControl = createAuthControl()
 
     authControl
-      .AuthenticateUser(values.email, values.password)
-      .then(({ error, message }) => {
+      .verifyAccount(values.email, values.password)
+      .then(({ error }) => {
         if (error) {
-          console.log('Authentication failed:', message)
+          console.log('Authentication failed:', 'Invalid email or password')
         } else {
-          console.log(message)
+          console.log('Authentication successful')
           form.reset()
           router.push('/')
         }

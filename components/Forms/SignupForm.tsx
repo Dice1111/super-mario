@@ -70,15 +70,17 @@ export default function SignupForm() {
     const authControl = createAuthControl()
 
     try {
-      authControl.CreateUser(user, profile).then(({ error, message }) => {
-        if (error) {
-          console.log('Failed to create user: ', message)
-        } else {
-          console.log(message)
-          router.push('/auth/login')
-          form.reset()
-        }
-      })
+      authControl
+        .createUserAccountController(user, profile)
+        .then(({ error }) => {
+          if (error) {
+            console.log('Failed to create user: ', 'User already exists')
+          } else {
+            console.log('User created successfully')
+            router.push('/auth/login')
+            form.reset()
+          }
+        })
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error('Failed to create user:', error.context)

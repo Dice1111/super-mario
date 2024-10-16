@@ -55,7 +55,7 @@ export default function Header() {
         <li>
           <ul className="flex items-center justify-center gap-8">
             <li>
-              <Link href={'/auth/signup'}>
+              <Link href={'/auth/login'}>
                 <Button variant={'secondary'}>Login</Button>
               </Link>
             </li>
