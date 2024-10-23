@@ -1,19 +1,15 @@
-import { UserEntity } from "@/entities/User";
-import { User } from "@prisma/client";
-
-type viewUserAccountsControllerReturnType = {
-  users: User[];
-};
+import { UserEntity } from '@/entities/User'
+import { User } from '@prisma/client'
 
 export class ViewUserAccountsController {
-  private userEntity: UserEntity;
+  private userEntity: UserEntity
 
   constructor(userEntity: UserEntity) {
-    this.userEntity = userEntity;
+    this.userEntity = userEntity
   }
 
   public async viewUserAccountsController(): Promise<User[]> {
-    const users = await this.userEntity.viewUserAccountsEntity();
-    return users;
+    const users = await this.userEntity.viewUserAccountsEntity()
+    return users
   }
 }

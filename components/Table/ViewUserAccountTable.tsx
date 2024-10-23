@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Table,
@@ -8,36 +8,32 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { createViewAccountControl } from "@/controls/services/viewUserAccountService";
-import React, { useState, useEffect } from "react";
-import { User } from "@prisma/client";
+} from '@/components/ui/table'
+import { createViewAccountControl } from '@/controls/services/viewUserAccountService'
+import React, { useState, useEffect } from 'react'
+import { User } from '@prisma/client'
 
 const ViewUserAccountTable = () => {
-  const viewUserAccountsController = createViewAccountControl();
+  const viewUserAccountsController = createViewAccountControl()
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const data =
-          await viewUserAccountsController.viewUserAccountsController();
+        const { users } =
+          await viewUserAccountsController.viewUserAccountsController()
 
-        data.map((user) => {
-          console.log(user);
-        });
+        setUsers(users)
 
-        if (data.length > 0) {
-          setUsers(data);
-        }
+        console.log(users)
       } catch (err) {
-        console.error("Error fetching users:", err);
+        console.error('Error fetching users:', err)
       }
-    };
+    }
 
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [viewUserAccountsController])
 
   return (
     <div>
@@ -45,7 +41,7 @@ const ViewUserAccountTable = () => {
         <div key={user.id}>{user.email}</div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default ViewUserAccountTable;
+export default ViewUserAccountTable
