@@ -9,16 +9,13 @@ export async function GET() {
       },
     })
 
-    // Log the users to verify the structure
-    console.log('Users with profile:', usersWithProfile)
-
     return NextResponse.json({ users: usersWithProfile }, { status: 200 })
   } catch (error) {
     console.error('Error fetching users:', error)
 
     return NextResponse.json(
       { error: 'Failed to get users', details: error },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
@@ -36,7 +33,7 @@ export async function POST(req: Request) {
     if (existingUser) {
       return NextResponse.json(
         { error: 'User already exists' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -65,7 +62,7 @@ export async function POST(req: Request) {
   } catch (error) {
     return NextResponse.json(
       { error: 'Something went wrong', details: error },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

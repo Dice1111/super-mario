@@ -36,6 +36,11 @@ export class UserEntity {
     return this.users
   }
 
+  public async viewUserAccountsEntity(): Promise<User[]> {
+    const users = await this.getUsers()
+    return users
+  }
+
   // Load users from the API, and cache the result
   private async loadUsers(): Promise<void> {
     try {
@@ -57,7 +62,7 @@ export class UserEntity {
 
   public async createUserAccountEntity(
     user: User,
-    profile: UserProfile
+    profile: UserProfile,
   ): Promise<CreateAccountReturnType> {
     try {
       const data = {
