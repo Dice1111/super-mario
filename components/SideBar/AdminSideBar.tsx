@@ -24,17 +24,17 @@ const items = [
   },
   {
     title: "User Accounts",
-    url: "/auth/login",
+    url: "/admin/user_account",
     icon: Inbox,
   },
   {
     title: "User Profiles",
-    url: "#",
+    url: "/admin/user_profile",
     icon: Calendar,
   },
 ];
 
-export function AppSidebar() {
+export function AdminSideBar() {
   const [collapsed, setCollapsed] = useState(false); // state for collapse
 
   const toggleSidebar = () => {

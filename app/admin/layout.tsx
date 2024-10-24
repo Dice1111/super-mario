@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { Adm, AdminSideBar } from "@/components/SideBar/AdminSideBar"
 import AdminHeader from '@/components/Header/AdminHeader'
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <div>
       <AdminHeader />
       <SidebarProvider>
-        <AppSidebar />
+        <AdminSideBar />
         <main className='relative container top-20 mx-auto px-2 sm:px-0'>
             
           {children}
