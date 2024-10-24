@@ -2,14 +2,6 @@
 import { User, UserProfile } from '@prisma/client'
 import { UserEntity } from '../entities/User'
 
-type VerifyAccountReturnType = {
-  error: boolean
-}
-
-type CreateAccountReturnType = {
-  error: boolean
-}
-
 export class AuthControl {
   private userEntity: UserEntity
 
@@ -25,25 +17,22 @@ export class AuthControl {
 
   public async createUserAccountController(
     user: User,
-    profile: UserProfile
-  ): Promise<CreateAccountReturnType> {
-    const { error } = await this.userEntity.createUserAccountEntity(
-      user,
-      profile
-    )
+    profile: UserProfile,
+  ): Promise<boolean> {
+    const success = await this.userEntity.createUserAccountEntity(user, profile)
 
-    return { error }
+    return success
   }
 
   public async verifyAccount(
     email: string,
-    password: string
-  ): Promise<VerifyAccountReturnType> {
-    const { error } = await this.userEntity.verifyAccount({
+    password: string,
+  ): Promise<boolean> {
+    const success = await this.userEntity.verifyAccount({
       email,
       password,
     })
 
-    return { error }
+    return success
   }
 }
