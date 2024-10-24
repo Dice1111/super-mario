@@ -1,14 +1,14 @@
 'use client'
 
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+// import {
+//   Table,
+//   TableBody,
+//   TableCaption,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from '@/components/ui/table'
 import { createViewAccountControl } from '@/controls/services/viewUserAccountService'
 import React, { useState, useEffect } from 'react'
 import { User } from '@prisma/client'
@@ -21,12 +21,10 @@ const ViewUserAccountTable = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { users } =
+        const users =
           await viewUserAccountsController.viewUserAccountsController()
 
         setUsers(users)
-
-        console.log(users)
       } catch (err) {
         console.error('Error fetching users:', err)
       }
