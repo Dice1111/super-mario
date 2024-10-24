@@ -41,8 +41,8 @@ export default function LoginForm() {
 
     authControl
       .verifyAccount(values.email, values.password)
-      .then(({ error }) => {
-        if (error) {
+      .then((success) => {
+        if (!success) {
           console.log('Authentication failed:', 'Invalid email or password')
         } else {
           console.log('Authentication successful')
@@ -56,17 +56,17 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="w-[300px]">
+    <div className='w-[300px]'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" type="email" {...field} />
+                  <Input placeholder='email' type='email' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,18 +74,18 @@ export default function LoginForm() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="password" type="password" {...field} />
+                  <Input placeholder='password' type='password' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type='submit'>Submit</Button>
         </form>
       </Form>
     </div>

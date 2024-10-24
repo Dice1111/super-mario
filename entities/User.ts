@@ -1,14 +1,6 @@
 import { baseUrl } from '@/lib/utils'
 import { User, UserProfile } from '@prisma/client'
 
-type VerifyAccountReturnType = {
-  error: boolean
-}
-
-type CreateAccountReturnType = {
-  error: boolean
-}
-
 export class UserEntity {
   // Static property to hold the single instance of the class
   private static instance: UserEntity
@@ -63,7 +55,7 @@ export class UserEntity {
   public async createUserAccountEntity(
     user: User,
     profile: UserProfile,
-  ): Promise<CreateAccountReturnType> {
+  ): Promise<boolean> {
     try {
       const data = {
         ...user,
@@ -77,21 +69,15 @@ export class UserEntity {
         body: JSON.stringify(data),
       })
       if (!response.ok) {
-        return {
-          error: true,
-        }
+        return false
       }
 
       this.loadUsers()
 
-      return {
-        error: false,
-      }
+      return true
     } catch (error) {
       console.error('Failed to create user:', error)
-      return {
-        error: true,
-      }
+      return false
     }
   }
 
@@ -101,7 +87,7 @@ export class UserEntity {
   }: {
     email: string
     password: string
-  }): Promise<VerifyAccountReturnType> {
+  }): Promise<boolean> {
     try {
       const response = await fetch(`${baseUrl}/api/login`, {
         method: 'POST',
@@ -113,19 +99,13 @@ export class UserEntity {
 
       // Check if the response is not successful (status 200-299)
       if (!response.ok) {
-        return {
-          error: true,
-        }
+        return false
       }
 
-      return {
-        error: false,
-      }
+      return true
     } catch (error) {
       console.error('Failed to authenticate user:', error)
-      return {
-        error: true,
-      }
+      return false
     }
   }
 }

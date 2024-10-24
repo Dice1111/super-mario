@@ -70,17 +70,15 @@ export default function SignupForm() {
     const authControl = createAuthControl()
 
     try {
-      authControl
-        .createUserAccountController(user, profile)
-        .then(({ error }) => {
-          if (error) {
-            console.log('Failed to create user: ', 'User already exists')
-          } else {
-            console.log('User created successfully')
-            router.push('/auth/login')
-            form.reset()
-          }
-        })
+      authControl.createUserAccountController(user, profile).then((success) => {
+        if (!success) {
+          console.log('Failed to create user: ', 'User already exists')
+        } else {
+          console.log('User created successfully')
+          router.push('/auth/login')
+          form.reset()
+        }
+      })
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error('Failed to create user:', error.context)
@@ -89,17 +87,17 @@ export default function SignupForm() {
   }
 
   return (
-    <div className="w-[300px]">
+    <div className='w-[300px]'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
             control={form.control}
-            name="firstName"
+            name='firstName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="firstName" {...field} />
+                  <Input placeholder='firstName' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,12 +105,12 @@ export default function SignupForm() {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name='lastName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="lastName" {...field} />
+                  <Input placeholder='lastName' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,12 +118,12 @@ export default function SignupForm() {
           />
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" type="email" {...field} />
+                  <Input placeholder='email' type='email' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,18 +131,18 @@ export default function SignupForm() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="password" type="password" {...field} />
+                  <Input placeholder='password' type='password' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type='submit'>Submit</Button>
         </form>
       </Form>
     </div>
