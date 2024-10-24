@@ -1,8 +1,8 @@
-import ViewUserAccountTable from "@/components/Table/ViewUserAccountTable";
+import UserAccountTable from "@/components/Table/UserAccountTable";
 
 class ViewUserAccountUI {
   displayUserAccountsUI() {
-    return <ViewUserAccountTable />;
+    return <UserAccountTable />;
   }
 }
 

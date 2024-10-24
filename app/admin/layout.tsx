@@ -1,16 +1,16 @@
-import type { Metadata } from 'next'
-import { ReactNode } from 'react'
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { Adm, AdminSideBar } from "@/components/SideBar/AdminSideBar"
-import AdminHeader from '@/components/Header/AdminHeader'
+import type { Metadata } from "next";
+import { ReactNode } from "react";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AdminSideBar } from "@/components/SideBar/AdminSideBar";
+import AdminHeader from "@/components/Header/AdminHeader";
 
 export const metadata: Metadata = {
-  title: 'Super Mario',
-  description: 'Used car dealership',
-}
+  title: "Super Mario",
+  description: "Used car dealership",
+};
 type RootLayoutProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -18,12 +18,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <AdminHeader />
       <SidebarProvider>
         <AdminSideBar />
-        <main className='relative container top-20 mx-auto px-2 sm:px-0'>
-            
+        <main className="relative container top-20 mx-auto px-2 sm:px-0">
           {children}
         </main>
       </SidebarProvider>
-      
     </div>
-  )
+  );
 }
