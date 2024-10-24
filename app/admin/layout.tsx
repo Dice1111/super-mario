@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
-import Header from '@/components/Header/Header'
 import { ReactNode } from 'react'
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { Adm, AdminSideBar } from "@/components/SideBar/AdminSideBar"
+import AdminHeader from '@/components/Header/AdminHeader'
 
 export const metadata: Metadata = {
   title: 'Super Mario',
@@ -13,11 +15,14 @@ type RootLayoutProps = {
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <div>
-      <Header />
+      <AdminHeader />
+      <SidebarProvider>
+        <AdminSideBar />
         <main className='relative container top-20 mx-auto px-2 sm:px-0'>
+            
           {children}
         </main>
-    
+      </SidebarProvider>
       
     </div>
   )
