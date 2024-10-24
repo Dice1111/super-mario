@@ -53,7 +53,7 @@ export class UserEntity {
 
       const res = await response.json()
 
-      this.users = res
+      this.users = res.users
       this.usersLoaded = true
     } catch (error) {
       console.error('Failed to load users:', error)
