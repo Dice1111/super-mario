@@ -13,20 +13,23 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  status    Status   @default(active)
 
-  UserProfile UserProfile[]
+  // Define the one-to-one relationship with UserProfile
+  profile UserProfile?
 }
 
 model UserProfile {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  firstName String?
-  lastName  String?
-  imageUrl  String?
-  role      Role[]   @default([buyer])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userEmail    String   @unique // Unique userEmail to ensure one-to-one relationship
+  user         User     @relation(fields: [userEmail], references: [email], onDelete: Cascade, onUpdate: Cascade) // Cascade or other behavior
+  name         String
+  address      String?
+  mobileNumber String?
+  status       Status   @default(active)
+  role         Role     @default(buyer)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum Role {
@@ -34,4 +37,9 @@ enum Role {
   agent
   buyer
   seller
+}
+
+enum Status {
+  active
+  inactive
 }

@@ -1,46 +1,116 @@
-"use client";
+import EditUserProfileUI from "@/app/boundaries/AdminUI/EditUserProfileUI";
+import SuspendUserProfileUI from "@/app/boundaries/AdminUI/SuspendUserProfileUI";
+import ViewUserProfileUI from "@/app/boundaries/AdminUI/ViewUserProfileUI";
+import {
+  createViewProfileControl,
+  createSearchProfileControl,
+} from "@/controls/services/userProfileServices";
+import { Status, UserProfile } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-import React, { useEffect, useState } from "react";
-import UserProfileEditModal from "../Modal/UserProfileEditModal";
-import { createViewAccountControl } from "@/controls/services/viewUserAccountService";
-import { User } from "@prisma/client";
+interface ViewUserProfileProps {
+  obj: ViewUserProfileUI;
+}
 
-const openUserProfileEditModal = () => {
-  const modal = document.getElementById(
-    "user_profile_edit_modal"
-  ) as HTMLDialogElement;
-  if (modal) {
-    modal.showModal();
-  }
-};
+const UserProfileTable = ({ obj }: ViewUserProfileProps) => {
+  const [userProfiles, setUserProfiles] = useState<UserProfile[]>([]);
+  const [modal, setModal] = useState<JSX.Element | null>(null);
+  const hasFetchedRef = useRef<boolean>(false); // Ref to track if fetch has occurred
+  const router = useRouter();
 
-const UserProfileTable = () => {
-  const viewUserAccountsController = createViewAccountControl();
-  const [users, setUsers] = useState<User[]>([]);
+  const viewUserProfileController = createViewProfileControl();
+  const fetchUsers = async () => {
+    try {
+      const data = await viewUserProfileController.viewUserProfileController();
+      setUserProfiles(data);
+      obj.displaySucessUI();
+    } catch (error) {
+      obj.displayErrorUI();
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    if (!hasFetchedRef.current) {
+      fetchUsers();
+      return () => {
+        hasFetchedRef.current = true;
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    const modalId =
+      modal?.props.obj instanceof EditUserProfileUI
+        ? "user_profile_edit_modal"
+        : modal?.props.obj instanceof SuspendUserProfileUI
+        ? "user_profile_suspend_modal"
+        : null;
+
+    if (modalId) {
+      const dialog = document.getElementById(modalId) as HTMLDialogElement;
+      dialog?.showModal();
+    }
+  }, [modal]);
+
+  function handleEditButton(userProfile: UserProfile) {
+    const editUserProfileBoundary = EditUserProfileUI.getInstance();
+    const editModal =
+      editUserProfileBoundary.displayEditUserProfileUI(userProfile);
+    setModal(editModal);
+  }
+
+  function handleSuspenButton(userProfile: UserProfile) {
+    const suspendUserAccountBoundary = SuspendUserProfileUI.getInstance();
+    const suspendModal =
+      suspendUserAccountBoundary.displaySuspendUserProfileUI(userProfile);
+    setModal(suspendModal);
+  }
+
+  async function handleSearchButton(data: string) {
+    if (data) {
+      const SearchUserProfileController = createSearchProfileControl();
       try {
-        const users =
-          await viewUserAccountsController.viewUserAccountsController();
+        const searchResult: UserProfile | null =
+          await SearchUserProfileController.searchUserProfileController(data);
 
-        setUsers(users);
-        console.log(users);
-      } catch (err) {
-        console.error("Error fetching users:", err);
+        if (searchResult) {
+          console.log(true);
+          setUserProfiles([searchResult]);
+        } else {
+          alert("no user found");
+          console.log(false);
+        }
+      } catch (error) {
+        console.error("Error searching for user account:", error);
       }
-    };
+    } else {
+      alert("no user found");
+      return;
+    }
+  }
 
-    fetchUsers();
-  }, [viewUserAccountsController]);
+  function handleCreateButton() {
+    router.push("/auth/create_profile/");
+  }
 
   return (
     <>
       <h1 className="ml-4 mt-10 font-bold text-lg">User Profiles</h1>
       {/* search box */}
+      {/* Search Box */}
       <div className="flex pt-10 pb-10 pl-4 text-slate-300">
         <label className="input input-bordered flex items-center gap-2">
-          <input type="text" className="grow w-56" placeholder="Search" />
+          <input
+            type="text"
+            className="grow w-56"
+            placeholder="Search"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchButton(e.currentTarget.value);
+              }
+            }}
+          />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -54,19 +124,28 @@ const UserProfileTable = () => {
             />
           </svg>
         </label>
+
+        <button
+          onClick={handleCreateButton}
+          className="btn btn-outline btn-success ml-10"
+        >
+          Create New Profile
+        </button>
       </div>
+
       {/* table frame */}
       <div className="overflow-x-auto ">
         <table className="table">
           {/* head */}
           <thead className="text-black">
             <tr>
-              <th>User ID</th>
-              <th>User Name</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone Number</th>
+              <th>No.</th>
+              <th>Profile ID</th>
+              <th>Name</th>
+              <th>Relation To</th>
               <th>Role</th>
+              <th>Mobile Number</th>
+              <th>Address</th>
               <th>Created Date</th>
               <th>Updated Date</th>
               <th>Edit</th>
@@ -75,36 +154,47 @@ const UserProfileTable = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
-            <tr>
-              <td>1</td>
-              <td>Dice</td>
-              <td>Dice@gmail.com</td>
-              <td>Lakeside</td>
-              <td>1212741</td>
-              <td>Admin</td>
-              <td>21.10.2024</td>
-              <td>23.10.2024</td>
-              <th>
-                <button
-                  className="btn btn-xs"
-                  onClick={openUserProfileEditModal}
-                >
-                  details
-                </button>
-              </th>
-              <th>
-                <input
-                  type="checkbox"
-                  className="toggle toggle-success"
-                  defaultChecked
-                />
-              </th>
-            </tr>
+            {userProfiles.map((userProfile, index) => (
+              <tr key={userProfile.id}>
+                <td>{index + 1}</td>
+                <td>{userProfile.id}</td>
+                <td>{userProfile.name}</td>
+                <td>{userProfile.userEmail}</td>
+                <td>{userProfile.role}</td>
+                <td>{userProfile.mobileNumber || ""}</td>
+                <td>{userProfile.address || ""}</td>
+                <td>{new Date(userProfile.createdAt).toLocaleString()}</td>
+                <td>{new Date(userProfile.updatedAt).toLocaleString()}</td>
+                <td>
+                  <button
+                    className="btn btn-xs"
+                    onClick={() => handleEditButton(userProfile)}
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="toggle toggle-success"
+                      checked={userProfile.status === Status.active} // Updated to userProfile
+                      onChange={() => handleSuspenButton(userProfile)} // Updated to userProfile
+                    />
+                    <span className="ml-2">
+                      {userProfile.status === Status.active
+                        ? Status.active
+                        : Status.inactive}
+                    </span>
+                  </label>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-      <UserProfileEditModal />
+
+      {modal}
     </>
   );
 };

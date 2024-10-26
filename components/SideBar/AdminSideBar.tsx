@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 
 import { Calendar, Home, Inbox, Menu, Search, Settings } from "lucide-react";
 import { useState } from "react";
@@ -24,12 +23,12 @@ const items = [
   },
   {
     title: "User Accounts",
-    url: "/admin/user_account",
+    url: "/admin/view/user_account",
     icon: Inbox,
   },
   {
     title: "User Profiles",
-    url: "/admin/user_profile",
+    url: "/admin/view/user_profile",
     icon: Calendar,
   },
 ];
@@ -42,18 +41,19 @@ export function AdminSideBar() {
   };
 
   return (
-    <Sidebar className={`transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}>
+    <Sidebar
+      className={`transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}
+    >
       <SidebarContent>
         {/* Toggle Button */}
-        <button
-          onClick={toggleSidebar}
-          className="p-2 focus:outline-none"
-        >
+        <button onClick={toggleSidebar} className="p-2 focus:outline-none">
           <Menu />
         </button>
 
         <SidebarGroup>
-          <SidebarGroupLabel className={`${collapsed ? "hidden" : ""}`}>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className={`${collapsed ? "hidden" : ""}`}>
+            Application
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -62,7 +62,9 @@ export function AdminSideBar() {
                     <Link href={item.url}>
                       <item.icon className="mr-2" />
                       {/* Hide title if sidebar is collapsed */}
-                      <span className={`${collapsed ? "hidden" : ""}`}>{item.title}</span>
+                      <span className={`${collapsed ? "hidden" : ""}`}>
+                        {item.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -1,51 +1,54 @@
 import { baseUrl } from "@/lib/utils";
-import { Status, User } from "@prisma/client";
+import { Role, Status, UserProfile } from "@prisma/client";
 
-export class UserEntity {
-  [x: string]: any;
+export class UserProfileEntity {
   // Static property to hold the single instance of the class
-  private static instance: UserEntity;
-  private users: User[] = [];
-  private usersLoaded: boolean = false;
+  private static instance: UserProfileEntity;
+  private userProfiles: UserProfile[] = [];
+  private userProfilesLoaded: boolean = false;
 
   // Private constructor to prevent direct instantiation
   private constructor() {
-    this.loadUsers();
+    this.loadUserProfiles();
   }
 
   // Static method to provide access to the single instance of the class
-  public static getInstance(): UserEntity {
-    if (!UserEntity.instance) {
-      UserEntity.instance = new UserEntity();
+  public static getInstance(): UserProfileEntity {
+    if (!UserProfileEntity.instance) {
+      UserProfileEntity.instance = new UserProfileEntity();
     }
-    return UserEntity.instance;
+    return UserProfileEntity.instance;
   }
 
-  public async getUsers(): Promise<User[]> {
-    if (!this.usersLoaded) {
-      await this.loadUsers();
+  public async getUserProfiles(): Promise<UserProfile[]> {
+    if (!this.userProfilesLoaded) {
+      await this.loadUserProfiles();
     }
 
-    return this.users;
+    return this.userProfiles;
   }
 
-  public async viewUserAccountsEntity(): Promise<User[]> {
-    const users = await this.getUsers();
-    return users;
+  public async viewUserProfileEntity(): Promise<UserProfile[]> {
+    const userProfiles = await this.getUserProfiles();
+    return userProfiles;
   }
 
-  public async editUserAccountEntity(
+  public async editUserProfileEntity(
     id: string,
-    email: string,
-    password: string
+    name: string,
+    role: Role,
+    address: string | null,
+    mobileNumber: string | null
   ): Promise<boolean> {
     try {
       const data = {
         id,
-        email,
-        password,
+        name,
+        role,
+        address,
+        mobileNumber,
       };
-      const response = await fetch(`${baseUrl}/api/users`, {
+      const response = await fetch(`${baseUrl}/api/userProfiles`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +61,7 @@ export class UserEntity {
         return false;
       }
       console.log("Entity update success");
-      this.loadUsers();
+      this.loadUserProfiles();
 
       return true;
     } catch (error) {
@@ -67,40 +70,11 @@ export class UserEntity {
     }
   }
 
-  public async suspendUserAccountEntity(
-    id: string,
-    status: Status
-  ): Promise<boolean> {
+  public async searchUserProfileEntity(
+    email: string
+  ): Promise<UserProfile | null> {
     try {
-      const data = {
-        id,
-        status,
-      };
-      console.log("data sending", data);
-      const response = await fetch(`${baseUrl}/api/users`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        console.log("Entity update failed");
-        return false;
-      }
-      console.log("Entity update success");
-      this.loadUsers();
-
-      return true;
-    } catch (error) {
-      console.error("Failed to create user:", error);
-      return false;
-    }
-  }
-  public async searchUserAccountEntity(email: string): Promise<User | null> {
-    try {
-      const response = await fetch(`${baseUrl}/api/users/${email}`, {
+      const response = await fetch(`${baseUrl}/api/userProfiles/${email}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -121,10 +95,42 @@ export class UserEntity {
     }
   }
 
-  // Load users from the API, and cache the result
-  private async loadUsers(): Promise<void> {
+  public async suspendUserProfileEntity(
+    id: string,
+    status: Status
+  ): Promise<boolean> {
     try {
-      const response = await fetch(`${baseUrl}/api/users`, {
+      const data = {
+        id,
+        status,
+      };
+      console.log("data sending", data);
+      const response = await fetch(`${baseUrl}/api/userProfiles`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        console.log("Entity update failed");
+        return false;
+      }
+      console.log("Entity update success");
+      this.loadUserProfiles();
+
+      return true;
+    } catch (error) {
+      console.error("Failed to create user:", error);
+      return false;
+    }
+  }
+
+  // Load userProfiles from the API, and cache the result
+  private async loadUserProfiles(): Promise<void> {
+    try {
+      const response = await fetch(`${baseUrl}/api/userProfiles`, {
         cache: "no-cache",
       });
       if (!response.ok) {
@@ -134,19 +140,19 @@ export class UserEntity {
 
       const res = await response.json();
 
-      this.users = res.users;
-      this.usersLoaded = true;
+      this.userProfiles = res.userProfile;
+      this.userProfilesLoaded = true;
     } catch (error) {
-      console.error("Failed to load users:", error);
+      console.error("Failed to load userProfiles:", error);
     }
   }
 
-  public async createUserAccountEntity(user: User): Promise<boolean> {
+  public async createUserProfileEntity(profile: UserProfile): Promise<boolean> {
     try {
       const data = {
-        ...user,
+        ...profile,
       };
-      const response = await fetch(`${baseUrl}/api/users`, {
+      const response = await fetch(`${baseUrl}/api/userProfiles`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +163,7 @@ export class UserEntity {
         return false;
       }
 
-      this.loadUsers();
+      this.loadUserProfiles();
 
       return true;
     } catch (error) {
@@ -166,7 +172,7 @@ export class UserEntity {
     }
   }
 
-  public async verifyAccount({
+  public async verifyProfile({
     email,
     password,
   }: {

@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const usersWithProfile = await prisma.user.findMany({
       include: {
-        UserProfile: true,
+        profile: true,
       },
     });
 
@@ -20,7 +20,7 @@ export async function GET() {
     );
   }
 }
-export async function PUT(request: NextRequest) {
+export async function PUT(request: Request) {
   const body = await request.json();
   try {
     const userObj = await prisma.user.findUnique({
@@ -32,17 +32,29 @@ export async function PUT(request: NextRequest) {
     if (!userObj)
       return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-    const updatedUser = await prisma.user.update({
-      where: {
-        id: userObj.id,
-      },
-      data: {
-        email: body.email,
-        password: body.password,
-      },
-    });
-
-    return NextResponse.json(updatedUser);
+    if (body.email && body.password) {
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: userObj.id,
+        },
+        data: {
+          email: body.email,
+          password: body.password,
+        },
+      });
+      return NextResponse.json(updatedUser);
+    } else {
+      console.log("Updating Suspend :", body.status);
+      const suspendUser = await prisma.user.update({
+        where: {
+          id: userObj.id,
+        },
+        data: {
+          status: body.status,
+        },
+      });
+      return NextResponse.json(suspendUser);
+    }
   } catch (error) {
     console.error("Error fetching user:", error);
     return NextResponse.json(
@@ -77,20 +89,14 @@ export async function POST(req: Request) {
       },
     });
 
-    const userProfile = await prisma.userProfile.create({
-      data: {
-        userId: newUser.id,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
-    });
+    // const userProfile = await prisma.userProfile.create({
+    //   data: {
+    //     id: newUser.id,
+    //     name: data.name,
+    //   },
+    // });
 
-    const newUserWithProfile = {
-      ...newUser,
-      ...userProfile,
-    };
-
-    return NextResponse.json(newUserWithProfile, { status: 201 });
+    return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong", details: error },

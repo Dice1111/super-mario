@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
+import UserSignupUI from "@/app/boundaries/AdminUI/CreateUserAccountUI";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,9 +11,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Status, User } from "@prisma/client";
+import Error from "next/error";
 import { useRouter } from "next/navigation";
-import { createAuthControl } from "@/controls/services/authService";
-import UserLoginUI from "@/app/boundaries/AdminUI/UserLoginUI";
+import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -27,10 +28,13 @@ const formSchema = z.object({
   }),
 });
 
-interface UserLoginProps {
-  obj: UserLoginUI;
+interface CreateUserAccountFormProps {
+  obj: UserSignupUI;
 }
-export default function LoginForm({ obj }: UserLoginProps) {
+
+import { createUserAccountControl } from "@/controls/services/userAccountService";
+
+const CreateUserAccountForm = ({ obj }: CreateUserAccountFormProps) => {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -41,23 +45,34 @@ export default function LoginForm({ obj }: UserLoginProps) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const authControl = createAuthControl();
+    const user: User = {
+      email: values.email,
+      password: values.password,
+      id: uuidv4(),
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      status: Status.active,
+    };
+    const createUserAccountController = createUserAccountControl();
 
-    authControl
-      .verifyAccount(values.email, values.password)
-      .then((success) => {
-        if (!success) {
-          obj.displayErrorUI();
-        } else {
-          obj.displaySuccessUI();
-
-          form.reset();
-          router.push("/");
-        }
-      })
-      .catch((err) => {
+    try {
+      createUserAccountController
+        .createUserAccountController(user)
+        .then((success: boolean) => {
+          if (!success) {
+            obj.displayErrorUI();
+          } else {
+            obj.displaySuccessUI();
+            router.push("/admin/view/user_account");
+            form.reset();
+          }
+        });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         obj.displayErrorUI();
-      });
+        console.error("Failed to create user:", error.context);
+      }
+    }
   }
 
   return (
@@ -95,4 +110,6 @@ export default function LoginForm({ obj }: UserLoginProps) {
       </Form>
     </div>
   );
-}
+};
+
+export default CreateUserAccountForm;

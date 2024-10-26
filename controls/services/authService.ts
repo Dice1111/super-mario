@@ -1,8 +1,7 @@
-import { UserEntity } from '@/entities/User'
-import { AuthControl } from '../AuthControl'
+import { AuthControl } from "@/controls/Controllers/AuthenticationControllers/AuthControl";
+import { UserEntity } from "@/entities/User";
 
-// Factory function to create an instance of AuthControl with dependencies injected
 export function createAuthControl(): AuthControl {
-  const userEntity = UserEntity.getInstance() // Create the UserEntity instance
-  return new AuthControl(userEntity) // Inject it into AuthControl
+  const userEntity = UserEntity.getInstance();
+  return new AuthControl(userEntity);
 }
