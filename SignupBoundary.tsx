@@ -1,10 +1,10 @@
-import React from 'react'
-import SignupForm from '@/components/Forms/SignupForm'
+import React from "react";
+import SignupForm from "@/components/Forms/CreateUserAccountForm";
 
 class UserSignupUI {
   displayCreateUserUI() {
-    return <SignupForm />
+    return <SignupForm />;
   }
 }
 
-export default UserSignupUI
+export default UserSignupUI;
