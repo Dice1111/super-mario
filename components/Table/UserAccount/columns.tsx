@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,16 +14,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@prisma/client";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+import { User } from "@prisma/client";
+import { useState } from "react";
+import ConfirmStatusDialog from "@/components/Modal/ConfirmModal";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -86,6 +81,45 @@ export const columns: ColumnDef<User>[] = [
           Updated Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+  },
+
+  // Add switch component with dialog confirmation
+  {
+    id: "switch",
+    header: "Active",
+    cell: ({ row }) => {
+      const [isDialogOpen, setIsDialogOpen] = useState(false);
+      const [newStatus, setNewStatus] = useState(false);
+
+      const handleSwitchChange = (checked: boolean) => {
+        setNewStatus(checked);
+        setIsDialogOpen(true);
+      };
+
+      const confirmSwitchChange = () => {
+        setIsDialogOpen(false);
+        console.log("Switch confirmed for user:", row.original.id, newStatus);
+        // Implement status change in backend or local state
+      };
+
+      const cancelSwitchChange = () => {
+        setIsDialogOpen(false);
+      };
+
+      return (
+        <>
+          <Switch
+            checked={row.original.status === "active"}
+            onCheckedChange={handleSwitchChange}
+          />
+          <ConfirmStatusDialog
+            isOpen={isDialogOpen}
+            onConfirm={confirmSwitchChange}
+            onCancel={cancelSwitchChange}
+          />
+        </>
       );
     },
   },
