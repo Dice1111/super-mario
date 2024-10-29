@@ -17,13 +17,14 @@ import {
 
 import { User } from "@prisma/client";
 import { useState } from "react";
-import ConfirmStatusDialog from "@/components/Modal/ConfirmModal";
+import SuspendBoundary from "@/app/boundaries/SuspendBoundary";
+
+enum UserStatus {
+  Active = "active",
+  Inactive = "inactive",
+}
 
 export const columns: ColumnDef<User>[] = [
-  {
-    accessorKey: "no.",
-    header: "No.",
-  },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -89,41 +90,8 @@ export const columns: ColumnDef<User>[] = [
   {
     id: "switch",
     header: "Active",
-    cell: ({ row }) => {
-      const [isDialogOpen, setIsDialogOpen] = useState(false);
-      const [newStatus, setNewStatus] = useState(false);
-
-      const handleSwitchChange = (checked: boolean) => {
-        setNewStatus(checked);
-        setIsDialogOpen(true);
-      };
-
-      const confirmSwitchChange = () => {
-        setIsDialogOpen(false);
-        console.log("Switch confirmed for user:", row.original.id, newStatus);
-        // Implement status change in backend or local state
-      };
-
-      const cancelSwitchChange = () => {
-        setIsDialogOpen(false);
-      };
-
-      return (
-        <>
-          <Switch
-            checked={row.original.status === "active"}
-            onCheckedChange={handleSwitchChange}
-          />
-          <ConfirmStatusDialog
-            isOpen={isDialogOpen}
-            onConfirm={confirmSwitchChange}
-            onCancel={cancelSwitchChange}
-          />
-        </>
-      );
-    },
+    cell: ({ row }) => {},
   },
-
   {
     id: "actions",
     cell: ({ row }) => {

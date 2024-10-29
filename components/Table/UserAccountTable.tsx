@@ -95,7 +95,6 @@ const UserAccountTable = ({ obj }: ViewUserAccountProps) => {
 
   return (
     <>
-      {console.log("final", users)}
       <h1 className="ml-4 mt-10 font-bold text-lg">User Accounts</h1>
 
       {/* Search Box */}

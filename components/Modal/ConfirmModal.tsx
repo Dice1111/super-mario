@@ -1,10 +1,10 @@
-// ConfirmStatusDialog.tsx
+// ConfirmModal.tsx
 
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
-  DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -24,15 +24,20 @@ export default function ConfirmStatusDialog({
     <Dialog open={isOpen} onOpenChange={onCancel}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirm Status Change</DialogTitle>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently change the user
+            status.
+          </DialogDescription>
         </DialogHeader>
-        <p>Are you sure you want to change the status of this user?</p>
-        <DialogFooter>
-          <Button onClick={onConfirm}>Confirm</Button>
+        <div className="flex justify-end space-x-2 mt-4">
           <Button variant="ghost" onClick={onCancel}>
             Cancel
           </Button>
-        </DialogFooter>
+          <Button variant="destructive" onClick={onConfirm}>
+            Confirm
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
