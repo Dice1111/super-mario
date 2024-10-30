@@ -60,8 +60,12 @@ export class UserProfileEntity {
         console.log("Entity update failed");
         return false;
       }
+      await this.loadUserProfiles();
+      
       console.log("Entity update success");
-      this.loadUserProfiles();
+      console.log("entity:",this.userProfiles);
+
+
 
       return true;
     } catch (error) {
@@ -118,7 +122,7 @@ export class UserProfileEntity {
         return false;
       }
       console.log("Entity update success");
-      this.loadUserProfiles();
+      await this.loadUserProfiles();
 
       return true;
     } catch (error) {
@@ -163,7 +167,7 @@ export class UserProfileEntity {
         return false;
       }
 
-      this.loadUserProfiles();
+      await this.loadUserProfiles();
 
       return true;
     } catch (error) {

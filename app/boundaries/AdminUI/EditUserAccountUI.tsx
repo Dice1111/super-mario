@@ -1,9 +1,17 @@
-import UserAccountEditModal from "@/components/Modal/UserAccountEditModal";
-import { User } from "@prisma/client";
+import { UserAccountEditModal } from "@/components/Modal/UserAccountEditModal";
+
+interface ConfirmEditDialogProps {
+  isOpen: boolean;
+  initialEmail: string; // New prop for pre-filling email
+  initialPassword: string; // New prop for pre-filling password
+  onConfirm: (email: string, password: string) => void;
+  onCancel: () => void;
+}
 
 class EditUserAccountUI {
   private static instance: EditUserAccountUI;
   private constructor() {}
+
   public static getInstance(): EditUserAccountUI {
     if (!EditUserAccountUI.instance) {
       EditUserAccountUI.instance = new EditUserAccountUI();
@@ -11,16 +19,16 @@ class EditUserAccountUI {
     return EditUserAccountUI.instance;
   }
 
-  public displayEditUserAccountUI(user: User) {
-    return <UserAccountEditModal data={user} obj={this} />;
+  public displayEditUserAccountUI(props: ConfirmEditDialogProps) {
+    return <UserAccountEditModal {...props} />;
   }
 
-  displaySucessUI() {
+  public displaySuccessUI() {
     alert("User Account Updated Successfully");
   }
 
-  displayErrorUI() {
-    alert("User Account Updated Failed");
+  public displayErrorUI() {
+    alert("User Account Update Failed");
   }
 }
 

@@ -1,6 +1,4 @@
 import Loading from "@/app/Loading";
-import ErrorToast from "@/components/Toast/ErrorToast";
-import SuccessToast from "@/components/Toast/SuccessToast";
 import dynamic from "next/dynamic";
 
 class ViewUserProfileUI {
@@ -17,10 +15,10 @@ class ViewUserProfileUI {
     return ViewUserProfileUI.instance;
   }
 
-  // Method to display the user profile UI
+  // Method to display the user account UI
   public displayUserProfileUI() {
     const UserProfileTable = dynamic(
-      () => import("@/components/Table/UserProfileTable"),
+      () => import("@/components/Table/UserProfile/UserProfileTable"),
       {
         ssr: false,
         loading: () => <Loading />,
@@ -29,13 +27,12 @@ class ViewUserProfileUI {
 
     return <UserProfileTable obj={this} />;
   }
-
-  displaySucessUI() {
-    // alert("User Profile Data Retrival Successful");
+  public displaySucessUI() {
+    alert("User Profile Data Retrival Successful");
   }
 
-  displayErrorUI() {
-    // alert("User Profile Data Retrival failed");
+  public displayErrorUI() {
+    alert("User Profile Data Retrival failed");
   }
 }
 

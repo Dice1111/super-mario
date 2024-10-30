@@ -8,11 +8,6 @@ export class UserEntity {
   private users: User[] = [];
   private usersLoaded: boolean = false;
 
-  // Private constructor to prevent direct instantiation
-  private constructor() {
-    this.loadUsers();
-  }
-
   // Static method to provide access to the single instance of the class
   public static getInstance(): UserEntity {
     if (!UserEntity.instance) {
@@ -25,9 +20,10 @@ export class UserEntity {
     if (!this.usersLoaded) {
       await this.loadUsers();
     }
-
     return this.users;
   }
+
+
 
   public async viewUserAccountsEntity(): Promise<User[]> {
     const users = await this.getUsers();
@@ -58,7 +54,7 @@ export class UserEntity {
         return false;
       }
       console.log("Entity update success");
-      this.loadUsers();
+      await this.loadUsers();
 
       return true;
     } catch (error) {
@@ -90,7 +86,8 @@ export class UserEntity {
         return false;
       }
       console.log("Entity update success");
-      this.loadUsers();
+      await this.loadUsers();
+      console.log("entitySuspend: ", this.users);
 
       return true;
     } catch (error) {
@@ -98,6 +95,8 @@ export class UserEntity {
       return false;
     }
   }
+
+
   public async searchUserAccountEntity(email: string): Promise<User | null> {
     try {
       const response = await fetch(`${baseUrl}/api/users/${email}`, {
@@ -133,8 +132,11 @@ export class UserEntity {
       }
 
       const res = await response.json();
+      
 
       this.users = res.users;
+
+
       this.usersLoaded = true;
     } catch (error) {
       console.error("Failed to load users:", error);

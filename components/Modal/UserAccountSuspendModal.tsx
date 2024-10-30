@@ -1,74 +1,44 @@
-import SuspendUserAccountUI from "@/app/boundaries/AdminUI/SuspendUserAccountUI";
-import { createSuspendAccountControl } from "@/controls/services/userAccountService";
-import { Status, User } from "@prisma/client";
-import { useRouter } from "next/navigation";
+// ConfirmModal.tsx
 
-interface SuspendUserAccountProps {
-  data: User;
-  obj: SuspendUserAccountUI;
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+interface UserAccountSuspendProps {
+  isOpen: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
-const UserAccountSuspendModal = ({ data, obj }: SuspendUserAccountProps) => {
-  const router = useRouter();
-
-  const handleConfirm = async () => {
-    try {
-      const modal = document.getElementById(
-        "user_account_suspend_modal"
-      ) as HTMLDialogElement;
-      const newStatus =
-        data.status === Status.active ? Status.inactive : Status.active;
-      const suspendUserAccountController = createSuspendAccountControl();
-      const result =
-        await suspendUserAccountController.suspendUserAccountController(
-          data.id,
-          newStatus
-        );
-      console.log(result);
-
-      if (result) {
-        obj.displaySucessUI();
-        modal?.close();
-        router.refresh();
-      } else {
-        obj.displayErrorUI();
-      }
-    } catch (error) {
-      console.log(error);
-      obj.displayErrorUI();
-    }
-  };
-
+export default function UserAccountSuspendModal({
+  isOpen,
+  onConfirm,
+  onCancel,
+}: UserAccountSuspendProps) {
   return (
-    <dialog id="user_account_suspend_modal" className="modal">
-      <div className="modal-box text-slate-300">
-        <h3 className="font-bold text-lg mb-4">
-          Change status to{" "}
-          {data.status === Status.active ? Status.inactive : Status.active} for{" "}
-          {data.email}?
-        </h3>
-        <div className="flex justify-end gap-2">
-          <button type="button" className="btn" onClick={handleConfirm}>
-            Confirm
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={() => {
-              const modal = document.getElementById(
-                "user_account_suspend_modal"
-              ) as HTMLDialogElement;
-              if (modal) {
-                modal.close(); // Close the dialog
-              }
-            }}
-          >
+    <Dialog open={isOpen} onOpenChange={onCancel}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently change the user
+            status.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex justify-end space-x-2 mt-4">
+          <Button variant="ghost" onClick={onCancel}>
             Cancel
-          </button>
+          </Button>
+          <Button variant="destructive" onClick={onConfirm}>
+            Confirm
+          </Button>
         </div>
-      </div>
-    </dialog>
+      </DialogContent>
+    </Dialog>
   );
-};
-
-export default UserAccountSuspendModal;
+}

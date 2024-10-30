@@ -1,5 +1,20 @@
-import UserProfileEditModal from "@/components/Modal/UserProfileEditModal";
-import { User, UserProfile } from "@prisma/client";
+import { UserProfileEditModal } from "@/components/Modal/UserProfileEditModal";
+import { Role, UserProfile } from "@prisma/client";
+
+interface ConfirmEditDialogProps {
+  isOpen: boolean;
+  initialName: string;
+  initialAddress: string | null;
+  initialMobileNumber: string | null;
+  initialRole: Role;
+  onConfirm: (
+    name: string,
+    address: string,
+    mobileNumber: string,
+    role: Role
+  ) => void;
+  onCancel: () => void;
+}
 
 class EditUserProfileUI {
   private static instance: EditUserProfileUI;
@@ -11,11 +26,11 @@ class EditUserProfileUI {
     return EditUserProfileUI.instance;
   }
 
-  public displayEditUserProfileUI(UserProfile: UserProfile) {
-    return <UserProfileEditModal data={UserProfile} obj={this} />;
+  public displayEditUserProfileUI(props: ConfirmEditDialogProps) {
+    return <UserProfileEditModal {...props} />;
   }
 
-  displaySucessUI() {
+  displaySuccessUI() {
     alert("User Profile Updated Successfully");
   }
 
