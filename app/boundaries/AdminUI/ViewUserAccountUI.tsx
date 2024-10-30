@@ -18,7 +18,7 @@ class ViewUserAccountUI {
   // Method to display the user account UI
   public displayUserAccountUI() {
     const UserAccountTable = dynamic(
-      () => import("@/components/Table/UserAccountTable"),
+      () => import("@/components/Table/UserAccount/UserAccountTable"),
       {
         ssr: false,
         loading: () => <Loading />,
@@ -28,11 +28,11 @@ class ViewUserAccountUI {
     return <UserAccountTable obj={this} />;
   }
   public displaySucessUI() {
-    //alert("User Account Data Retrival Successful");
+    alert("User Account Data Retrival Successful");
   }
 
   public displayErrorUI() {
-    // alert("User Account Data Retrival failed");
+    alert("User Account Data Retrival failed");
   }
 }
 

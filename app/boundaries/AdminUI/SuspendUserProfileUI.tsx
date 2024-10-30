@@ -1,6 +1,12 @@
 import UserProfileSuspendModal from "@/components/Modal/UserPorfileSuspendModal";
 import { UserProfile } from "@prisma/client";
 
+interface ConfirmStatusDialogProps {
+  isOpen: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
 class SuspendUserProfileUI {
   private static instance: SuspendUserProfileUI;
   private constructor() {}
@@ -11,11 +17,11 @@ class SuspendUserProfileUI {
     return SuspendUserProfileUI.instance;
   }
 
-  public displaySuspendUserProfileUI(userProfile: UserProfile) {
-    return <UserProfileSuspendModal data={userProfile} obj={this} />;
+  public displaySuspendUserProfileUI(props: ConfirmStatusDialogProps) {
+    return <UserProfileSuspendModal {...props} />;
   }
 
-  displaySucessUI() {
+  displaySuccessUI() {
     alert("User Profile Suspended Successfully");
   }
 

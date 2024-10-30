@@ -1,9 +1,17 @@
+// SuspendBoundary.tsx
+
 import UserAccountSuspendModal from "@/components/Modal/UserAccountSuspendModal";
-import { User } from "@prisma/client";
+
+interface ConfirmStatusDialogProps {
+  isOpen: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
 
 class SuspendUserAccountUI {
   private static instance: SuspendUserAccountUI;
   private constructor() {}
+
   public static getInstance(): SuspendUserAccountUI {
     if (!SuspendUserAccountUI.instance) {
       SuspendUserAccountUI.instance = new SuspendUserAccountUI();
@@ -11,16 +19,16 @@ class SuspendUserAccountUI {
     return SuspendUserAccountUI.instance;
   }
 
-  public displaySuspendUserAccountUI(user: User) {
-    return <UserAccountSuspendModal data={user} obj={this} />;
+  public displaySuspendUserAccountUI(props: ConfirmStatusDialogProps) {
+    return <UserAccountSuspendModal {...props} />;
   }
 
-  displaySucessUI() {
+  public displaySuccessUI() {
     alert("User Account Suspended Successfully");
   }
 
-  displayErrorUI() {
-    alert("User Account Suspended Failed");
+  public displayErrorUI() {
+    alert("User Account Suspension Failed");
   }
 }
 

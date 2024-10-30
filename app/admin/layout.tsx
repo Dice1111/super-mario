@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AdminSideBar } from "@/components/SideBar/AdminSideBar";
-import AdminHeader from "@/components/Header/AdminHeader";
+import AdminSideBar from "@/components/SideBar/AdminSideBar";
+
+import * as React from "react";
+
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "Super Mario",
@@ -15,12 +21,17 @@ type RootLayoutProps = {
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <div>
-      <AdminHeader />
+      {/* <AdminHeader /> */}
       <SidebarProvider>
         <AdminSideBar />
-        <main className="relative container top-20 mx-auto px-2 sm:px-0">
-          {children}
-        </main>
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+            </div>
+          </header>
+          <main className="relative container mx-auto sm:px-0">{children}</main>
+        </SidebarInset>
       </SidebarProvider>
     </div>
   );

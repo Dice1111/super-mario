@@ -8,7 +8,7 @@ export class SuspendUserProfileController {
     this.userProfileEntity = userProfileEntity;
   }
 
-  public async suspendUserProfileEntityController(
+  public async suspendUserProfileController(
     id: string,
     status: Status
   ): Promise<boolean> {

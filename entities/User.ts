@@ -54,7 +54,7 @@ export class UserEntity {
         return false;
       }
       console.log("Entity update success");
-      this.loadUsers();
+      await this.loadUsers();
 
       return true;
     } catch (error) {

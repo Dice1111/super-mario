@@ -1,6 +1,6 @@
 "use client";
-import React, { Component } from "react";
 import ViewUserAccountUI from "@/app/boundaries/AdminUI/ViewUserAccountUI";
+import React, { Component } from "react";
 
 class ViewUserAccountPage extends Component {
   render() {
