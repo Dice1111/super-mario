@@ -17,6 +17,7 @@ model User {
 
   // Define the one-to-one relationship with UserProfile
   profile UserProfile?
+  //UsedCarListing UsedCarListing[]
 }
 
 model UserProfile {
@@ -32,12 +33,46 @@ model UserProfile {
   updatedAt    DateTime @updatedAt
 }
 
+// model UsedCarListing {
+//   id               String   @id @default(cuid())
+//   title            String
+//   agentEmail       String
+//   user             Seller     @relation(fields: [agentEmail], references: [email], onDelete: Cascade, onUpdate: Cascade) // Cascade or other behavior
+//   sellerEmail      String
+//   Mileage          Int
+//   color            String
+//   condition        String
+//   imgUrl           String
+//   manufacturedYear Int
+//   price            Float
+//   description      String
+//   createdAt        DateTime @default(now())
+//   updatedAt        DateTime @updatedAt
+// }
+
+// model AgentReview {
+//   id         String @id @default(cuid())
+//   agentEmail String
+//   userEmail  String
+//   comment    String
+//   rating     Int
+// }
+
 enum Role {
   admin
   agent
   buyer
   seller
 }
+
+// enum VehicleType {
+//   sedan
+//   truck
+//   bus
+//   coupe
+//   suv
+//   other
+// }
 
 enum Status {
   active

@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div>
+    <div className="p-3">
       {/* table header */}
       <h1 className="font-bold">User Account Table</h1>
       <div className="flex items-center py-4">

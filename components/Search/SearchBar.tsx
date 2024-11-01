@@ -42,18 +42,18 @@ const SearchBar = ({ handleSearch }: SearchBarProps) => {
 
   return (
     <FormProvider {...form}>
-      <div className="w-[300px]">
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div className="flex items-center space-x-4 w-full">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-row items-center space-x-4"
+        >
           <FormField
             control={form.control}
             name="searchType"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Search Type</FormLabel>
+              <FormItem className="flex items-center">
                 <FormControl>
-                  <Select
-                    onValueChange={(value) => field.onChange(value)} // Update searchType value
-                  >
+                  <Select onValueChange={(value) => field.onChange(value)}>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select Search Type" />
                     </SelectTrigger>
@@ -77,10 +77,14 @@ const SearchBar = ({ handleSearch }: SearchBarProps) => {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
+              <FormItem className="flex items-center">
                 <FormControl>
-                  <Input {...field} type="email" placeholder="Email" />
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="Email"
+                    className="w-[180px]"
+                  />
                 </FormControl>
                 <FormMessage>
                   {form.formState.errors.email?.message}
