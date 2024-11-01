@@ -2,12 +2,10 @@
 import React, { Component } from "react";
 import ViewUserProfileUI from "@/app/boundaries/AdminUI/ViewUserProfileUI";
 
-class ViewUserProfilePage extends Component {
-  render() {
-    const viewUserProfileUI = ViewUserProfileUI.getInstance();
+const ViewUserProfilePage = () => {
+  const viewUserProfileUI = ViewUserProfileUI.getInstance();
 
-    return <>{viewUserProfileUI.displayUserProfileUI()} </>;
-  }
-}
+  return <>{viewUserProfileUI.displayUserProfileUI()} </>;
+};
 
 export default ViewUserProfilePage;

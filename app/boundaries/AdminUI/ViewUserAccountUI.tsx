@@ -1,6 +1,7 @@
 import UserAccountTable from "@/components/Table/UserAccount/UserAccountTable";
 import { ViewUserAccountsController } from "@/controls/Controllers/UserAccountContollers/ViewUserAccountController";
 import { User } from "@prisma/client";
+import { useState } from "react";
 
 class ViewUserAccountUI {
   private static instance: ViewUserAccountUI;
@@ -23,6 +24,7 @@ class ViewUserAccountUI {
       try {
         const users = await controller.viewUserAccountsController();
         this.displaySuccessUI();
+
         return users;
       } catch (error) {
         this.displayErrorUI();
