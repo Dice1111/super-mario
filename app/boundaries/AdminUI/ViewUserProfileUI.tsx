@@ -1,5 +1,6 @@
-import Loading from "@/app/Loading";
-import dynamic from "next/dynamic";
+import UserProfileTable from "@/components/Table/UserProfile/UserProfileTable";
+import { ViewUserProfileController } from "@/controls/Controllers/UserProfileControllers/ViewUserProfileController";
+import { UserProfile } from "@prisma/client";
 
 class ViewUserProfileUI {
   private static instance: ViewUserProfileUI;
@@ -15,24 +16,29 @@ class ViewUserProfileUI {
     return ViewUserProfileUI.instance;
   }
 
-  // Method to display the user account UI
+  // Method to display the user profile UI
   public displayUserProfileUI() {
-    const UserProfileTable = dynamic(
-      () => import("@/components/Table/UserProfile/UserProfileTable"),
-      {
-        ssr: false,
-        loading: () => <Loading />,
+    const loadData = async (): Promise<UserProfile[]> => {
+      const controller = ViewUserProfileController.getInstance();
+      try {
+        const data = await controller.viewUserProfileController();
+        this.displaySuccessUI();
+        return data; // Return the fetched data
+      } catch (error) {
+        this.displayErrorUI();
+        return []; // Return an empty array on error
       }
-    );
+    };
 
-    return <UserProfileTable obj={this} />;
+    return <UserProfileTable loadData={loadData} />; // Pass fetchData to UserProfileTable
   }
-  public displaySucessUI() {
-    alert("User Profile Data Retrival Successful");
+
+  public displaySuccessUI() {
+    alert("User Profile Data Retrieval Successful");
   }
 
   public displayErrorUI() {
-    alert("User Profile Data Retrival failed");
+    alert("User Profile Data Retrieval Failed");
   }
 }
 

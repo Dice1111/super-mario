@@ -13,52 +13,30 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Role } from "@prisma/client";
+import { Role, UserProfile } from "@prisma/client";
+import UserProfileFormSchema, {
+  UserProfileFormSchemaType,
+} from "../Forms/UserProfileFormSchema";
 
-interface ConfirmEditDialogProps {
-  isOpen: boolean;
-  initialName: string;
-  initialAddress: string | null;
-  initialMobileNumber: string | null;
-  initialRole: Role;
-  onConfirm: (
-    name: string,
-    address: string,
-    mobileNumber: string,
-    role: Role
-  ) => void;
-  onCancel: () => void;
+interface UserProfileEditProps {
+  selectedUserProfile: UserProfile;
+  submitEditUserProfile: (values: UserProfileFormSchemaType) => Promise<void>;
+  handleCancel: () => void;
 }
 
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Name is required",
-  }),
-  address: z.string().nullable(),
-  mobileNumber: z.string().nullable(),
-  role: z.nativeEnum(Role, {
-    required_error: "Role is required",
-  }),
-});
-
 export function UserProfileEditModal({
-  isOpen,
-  onConfirm,
-  onCancel,
-  initialName = "",
-  initialAddress = "",
-  initialMobileNumber = "",
-  initialRole = Role.buyer,
-}: ConfirmEditDialogProps) {
+  selectedUserProfile,
+  submitEditUserProfile,
+  handleCancel,
+}: UserProfileEditProps) {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(UserProfileFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      name: initialName,
-      address: initialAddress || "",
-      mobileNumber: initialMobileNumber || "",
-      role: initialRole,
+      name: selectedUserProfile.name,
+      address: selectedUserProfile.address,
+      mobileNumber: selectedUserProfile.mobileNumber,
+      role: selectedUserProfile.role,
+      userEmail: selectedUserProfile.userEmail, //add only to match valuetype
     },
   });
 
@@ -68,12 +46,8 @@ export function UserProfileEditModal({
     formState: { errors },
   } = form;
 
-  const handleConfirm = handleSubmit((data) => {
-    onConfirm(data.name, data.address, data.mobileNumber, data.role);
-  });
-
   return (
-    <Dialog open={isOpen} onOpenChange={onCancel}>
+    <Dialog open onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
@@ -82,7 +56,7 @@ export function UserProfileEditModal({
             done.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleConfirm}>
+        <form onSubmit={handleSubmit(submitEditUserProfile)}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">

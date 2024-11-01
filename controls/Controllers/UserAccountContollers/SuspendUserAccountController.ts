@@ -2,10 +2,20 @@ import { UserEntity } from "@/entities/User";
 import { Status } from "@prisma/client";
 
 export class SuspendUserAccountController {
+  private static instance: SuspendUserAccountController;
   private userEntity: UserEntity;
 
-  constructor(userEntity: UserEntity) {
+  private constructor(userEntity: UserEntity) {
     this.userEntity = userEntity;
+  }
+
+  public static getInstance(): SuspendUserAccountController {
+    if (!SuspendUserAccountController.instance) {
+      SuspendUserAccountController.instance = new SuspendUserAccountController(
+        UserEntity.getInstance()
+      );
+    }
+    return SuspendUserAccountController.instance;
   }
 
   public async suspendUserAccountController(

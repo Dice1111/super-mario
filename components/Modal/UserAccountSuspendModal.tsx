@@ -1,5 +1,3 @@
-// ConfirmModal.tsx
-
 import {
   Dialog,
   DialogContent,
@@ -8,33 +6,37 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Status, User } from "@prisma/client";
 
 interface UserAccountSuspendProps {
-  isOpen: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
+  selectedUser: User;
+  handleConfirm: () => void;
+  handleCancel: () => void;
 }
 
 export default function UserAccountSuspendModal({
-  isOpen,
-  onConfirm,
-  onCancel,
+  selectedUser,
+  handleConfirm,
+  handleCancel,
 }: UserAccountSuspendProps) {
+  const newStatus =
+    selectedUser.status === Status.active ? Status.inactive : Status.active;
+
   return (
-    <Dialog open={isOpen} onOpenChange={onCancel}>
+    <Dialog open onOpenChange={handleCancel}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently change the user
-            status.
+            This action will change user "{selectedUser.email}" to "{newStatus}
+            ".
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end space-x-2 mt-4">
-          <Button variant="ghost" onClick={onCancel}>
+          <Button variant="ghost" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button variant="destructive" onClick={handleConfirm}>
             Confirm
           </Button>
         </div>

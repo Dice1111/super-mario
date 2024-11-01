@@ -1,7 +1,7 @@
-import Loading from "@/app/Loading";
 import CreateUserProfileForm from "@/components/Forms/CreateUserProfileForm";
-import dynamic from "next/dynamic";
-import React from "react";
+import { UserProfileFormSchemaType } from "@/components/Forms/UserProfileFormSchema";
+import { CreateUserProfileController } from "@/controls/Controllers/UserProfileControllers/CreateUserProfileController";
+import { useRouter } from "next/navigation";
 
 class CreateUserProfileUI {
   private static instance: CreateUserProfileUI;
@@ -13,23 +13,39 @@ class CreateUserProfileUI {
     return CreateUserProfileUI.instance;
   }
 
-  public displayCreateUserProfileUI() {
-    const CreateUserProfileForm = dynamic(
-      () => import("@/components/Forms/CreateUserProfileForm"),
-      {
-        ssr: false,
-        loading: () => <Loading />,
-      }
-    );
+  public displayCreateUserProfileUI = (): JSX.Element => {
+    const router = useRouter();
+    const submitUserProfile = async (values: UserProfileFormSchemaType) => {
+      try {
+        const controller = CreateUserProfileController.getInstance();
+        const success = await controller.createUserProfileController(
+          values.name,
+          values.userEmail,
+          values.role,
+          values.address,
+          values.mobileNumber
+        );
 
-    return <CreateUserProfileForm obj={this} />;
-  }
+        if (success) {
+          this.displaySuccessUI();
+          router.push("/admin/view/user_profile");
+        } else {
+          this.displayErrorUI();
+        }
+      } catch (error) {
+        this.displayErrorUI();
+        console.error(error);
+      }
+    };
+
+    return <CreateUserProfileForm submitUserProfile={submitUserProfile} />;
+  };
   public displaySuccessUI() {
-    alert("User Profile Created Successfully");
+    alert("Successfully created user profile");
   }
 
   public displayErrorUI() {
-    alert("User Profile Creation Failed");
+    alert("Failed to create user profile");
   }
 }
 

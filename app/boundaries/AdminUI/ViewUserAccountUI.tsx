@@ -1,5 +1,6 @@
-import Loading from "@/app/Loading";
-import dynamic from "next/dynamic";
+import UserAccountTable from "@/components/Table/UserAccount/UserAccountTable";
+import { ViewUserAccountsController } from "@/controls/Controllers/UserAccountContollers/ViewUserAccountController";
+import { User } from "@prisma/client";
 
 class ViewUserAccountUI {
   private static instance: ViewUserAccountUI;
@@ -16,23 +17,28 @@ class ViewUserAccountUI {
   }
 
   // Method to display the user account UI
-  public displayUserAccountUI() {
-    const UserAccountTable = dynamic(
-      () => import("@/components/Table/UserAccount/UserAccountTable"),
-      {
-        ssr: false,
-        loading: () => <Loading />,
+  public displayUserAccountUI = (): JSX.Element => {
+    const loadData = async (): Promise<User[]> => {
+      const controller = ViewUserAccountsController.getInstance();
+      try {
+        const users = await controller.viewUserAccountsController();
+        this.displaySuccessUI();
+        return users;
+      } catch (error) {
+        this.displayErrorUI();
+        return [];
       }
-    );
+    };
 
-    return <UserAccountTable obj={this} />;
-  }
-  public displaySucessUI() {
-    alert("User Account Data Retrival Successful");
+    return <UserAccountTable loadData={loadData} />;
+  };
+
+  public displaySuccessUI() {
+    alert("User Account Data Retrieval Successful");
   }
 
   public displayErrorUI() {
-    alert("User Account Data Retrival failed");
+    alert("User Account Data Retrieval Failed");
   }
 }
 

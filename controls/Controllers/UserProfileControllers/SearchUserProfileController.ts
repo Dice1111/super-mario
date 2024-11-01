@@ -2,11 +2,19 @@ import { UserProfileEntity } from "@/entities/UserProfile";
 import { UserProfile } from "@prisma/client";
 
 export class SearchUserProfileController {
-  [x: string]: any;
+  private static instance: SearchUserProfileController;
   private userProfileEntity: UserProfileEntity;
 
-  constructor(userProfileEntity: UserProfileEntity) {
+  private constructor(userProfileEntity: UserProfileEntity) {
     this.userProfileEntity = userProfileEntity;
+  }
+  public static getInstance(): SearchUserProfileController {
+    if (!SearchUserProfileController.instance) {
+      SearchUserProfileController.instance = new SearchUserProfileController(
+        UserProfileEntity.getInstance()
+      );
+    }
+    return SearchUserProfileController.instance;
   }
 
   public async searchUserProfileController(
