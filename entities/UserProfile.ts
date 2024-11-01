@@ -1,3 +1,4 @@
+import { UserProfileFormSchemaType } from "@/components/Forms/UserProfileFormSchema";
 import { baseUrl } from "@/lib/utils";
 import { Role, Status, UserProfile } from "@prisma/client";
 
@@ -61,11 +62,9 @@ export class UserProfileEntity {
         return false;
       }
       await this.loadUserProfiles();
-      
+
       console.log("Entity update success");
-      console.log("entity:",this.userProfiles);
-
-
+      console.log("entity:", this.userProfiles);
 
       return true;
     } catch (error) {
@@ -151,10 +150,20 @@ export class UserProfileEntity {
     }
   }
 
-  public async createUserProfileEntity(profile: UserProfile): Promise<boolean> {
+  public async createUserProfileEntity(
+    name: string,
+    userEmail: string,
+    role: Role,
+    address: string,
+    mobileNumber: string
+  ): Promise<boolean> {
     try {
-      const data = {
-        ...profile,
+      const data: UserProfileFormSchemaType = {
+        name,
+        userEmail,
+        role,
+        address,
+        mobileNumber,
       };
       const response = await fetch(`${baseUrl}/api/userProfiles`, {
         method: "POST",

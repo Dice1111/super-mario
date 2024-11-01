@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,39 +9,29 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import UserAccountFormSchema, {
+  UserAccountFormSchemaType,
+} from "../Forms/UserAccountFormSchema";
 
-interface ConfirmEditDialogProps {
-  isOpen: boolean;
-  onConfirm: (email: string, password: string) => void;
-  onCancel: () => void;
-  initialEmail?: string;
-  initialPassword?: string;
+interface UserAccountEditProps {
+  selectedUser: User;
+  submitEditUserAccount: (values: UserAccountFormSchemaType) => Promise<void>;
+  handleCancel: () => void;
 }
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Invalid email address",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters long",
-  }),
-});
-
 export function UserAccountEditModal({
-  isOpen,
-  onConfirm,
-  onCancel,
-  initialEmail = "",
-  initialPassword = "",
-}: ConfirmEditDialogProps) {
+  selectedUser,
+  submitEditUserAccount,
+  handleCancel,
+}: UserAccountEditProps) {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(UserAccountFormSchema),
     defaultValues: {
-      email: initialEmail,
-      password: initialPassword,
+      email: selectedUser.email,
+      password: selectedUser.password,
     },
   });
 
@@ -52,12 +41,8 @@ export function UserAccountEditModal({
     formState: { errors },
   } = form;
 
-  const handleConfirm = handleSubmit((data) => {
-    onConfirm(data.email, data.password);
-  });
-
   return (
-    <Dialog open={isOpen} onOpenChange={onCancel}>
+    <Dialog open onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
@@ -66,7 +51,7 @@ export function UserAccountEditModal({
             done.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleConfirm}>
+        <form onSubmit={handleSubmit(submitEditUserAccount)}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="email" className="text-right">

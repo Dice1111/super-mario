@@ -15,12 +15,6 @@ export class AuthControl {
     return users;
   }
 
-  public async createUserAccountController(user: User): Promise<boolean> {
-    const success = await this.userEntity.createUserAccountEntity(user);
-
-    return success;
-  }
-
   public async verifyAccount(
     email: string,
     password: string

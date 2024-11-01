@@ -1,10 +1,20 @@
 import { UserEntity } from "@/entities/User";
 
 export class EditUserAccountController {
+  private static instance: EditUserAccountController;
   private userEntity: UserEntity;
 
-  constructor(userEntity: UserEntity) {
+  private constructor(userEntity: UserEntity) {
     this.userEntity = userEntity;
+  }
+
+  public static getInstance(): EditUserAccountController {
+    if (!EditUserAccountController.instance) {
+      EditUserAccountController.instance = new EditUserAccountController(
+        UserEntity.getInstance()
+      );
+    }
+    return EditUserAccountController.instance;
   }
 
   public async editUserAccountController(
@@ -12,11 +22,11 @@ export class EditUserAccountController {
     email: string,
     password: string
   ): Promise<boolean> {
-    const users = await this.userEntity.editUserAccountEntity(
+    const success = await this.userEntity.editUserAccountEntity(
       id,
       email,
       password
     );
-    return users;
+    return success;
   }
 }

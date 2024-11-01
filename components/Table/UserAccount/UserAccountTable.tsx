@@ -1,84 +1,29 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import EditUserAccountUI from "@/app/boundaries/AdminUI/EditUserAccountUI";
+import SuspendUserAccountUI from "@/app/boundaries/AdminUI/SuspendUserAccountUI";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Status, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
+import { useEffect, useRef, useState } from "react";
 import { columns as columnDefinitions } from "./columns";
 import { DataTable } from "./data-table";
-import {
-  createEditAccountControl,
-  createSuspendAccountControl,
-  createViewAccountControl,
-} from "@/controls/services/userAccountService";
-import { Status, User } from "@prisma/client";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import SuspendUserAccountUI from "@/app/boundaries/AdminUI/SuspendUserAccountUI";
-import EditUserAccountUI from "@/app/boundaries/AdminUI/EditUserAccountUI";
-import ViewUserAccountUI from "@/app/boundaries/AdminUI/ViewUserAccountUI";
 
 interface ViewUserAccountProps {
-  obj: ViewUserAccountUI;
+  loadData: () => Promise<User[]>;
 }
 
-async function getData(obj: ViewUserAccountUI): Promise<User[]> {
-  const viewUserAccountsController = createViewAccountControl();
-  try {
-    const data = await viewUserAccountsController.viewUserAccountsController();
-    obj.displaySucessUI();
-    return data;
-  } catch (error) {
-    obj.displayErrorUI();
-    return [];
-  }
-}
-
-export default function UserAccountTable({ obj }: ViewUserAccountProps) {
-  const hasFetchedRef = useRef<boolean>(false); // Ref to track if fetch has occurred
+export default function UserAccountTable({ loadData }: ViewUserAccountProps) {
+  const hasFetchedRef = useRef<boolean>(false);
   const [data, setData] = useState<User[]>([]);
   const [modal, setModal] = useState<JSX.Element | null>(null);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [toggleType, setToggleType] = useState<"suspend" | "edit" | null>(null);
 
   const fetchData = async () => {
-    const users = await getData(obj);
-
+    const users = await loadData();
+    setModal(null);
     setData(users);
   };
-
-  const handleStatusToggle = (user: User) => {
-    setSelectedUser(user);
-    setToggleType("suspend");
-  };
-
-  const handleEditToggle = (user: User) => {
-    setSelectedUser(user);
-    setToggleType("edit");
-  };
-
-  useEffect(() => {
-    if (selectedUser && toggleType) {
-      if (toggleType === "suspend") {
-        setModal(
-          SuspendUserAccountUI.getInstance().displaySuspendUserAccountUI({
-            isOpen: true,
-            onConfirm: handleConfirm,
-            onCancel: handleCancel,
-          })
-        );
-      } else if (toggleType === "edit") {
-        setModal(
-          EditUserAccountUI.getInstance().displayEditUserAccountUI({
-            isOpen: true,
-            initialEmail: selectedUser.email, // Pass the email
-            initialPassword: selectedUser.password, // Pass the password
-            onConfirm: (email: string, password: string) =>
-              handleConfirm(email, password),
-            onCancel: handleCancel,
-          })
-        );
-      }
-    }
-  }, [selectedUser, toggleType]);
 
   useEffect(() => {
     if (!hasFetchedRef.current) {
@@ -90,50 +35,25 @@ export default function UserAccountTable({ obj }: ViewUserAccountProps) {
     }
   }, []);
 
-  const handleConfirm = async (email?: string, password?: string) => {
-    if (toggleType === "suspend" && selectedUser) {
-      const newStatus =
-        selectedUser.status === Status.active ? Status.inactive : Status.active;
-
-      const userAccountController = createSuspendAccountControl();
-      const result = await userAccountController.suspendUserAccountController(
-        selectedUser.id,
-        newStatus
+  const showSuspendModal = (selectedUser: User) => {
+    if (!modal) {
+      const boundary = SuspendUserAccountUI.getInstance();
+      const suspendModal = boundary.displaySuspendUserAccountUI(
+        selectedUser!,
+        fetchData
       );
-
-      if (result) {
-        SuspendUserAccountUI.getInstance().displaySuccessUI();
-        await fetchData();
-      } else {
-        SuspendUserAccountUI.getInstance().displayErrorUI();
-      }
-    } else if (toggleType === "edit" && selectedUser && email && password) {
-      const userAccountController = createEditAccountControl();
-      const result = await userAccountController.editUserAccountController(
-        selectedUser.id,
-        email,
-        password
-      );
-
-      if (result) {
-        EditUserAccountUI.getInstance().displaySuccessUI();
-        await fetchData();
-      } else {
-        EditUserAccountUI.getInstance().displayErrorUI();
-      }
+      setModal(suspendModal);
     }
-
-    setModal(null);
-    setSelectedUser(null);
-    setToggleType(null);
   };
 
-  const handleCancel = () => {
-    setModal(null);
-    setSelectedUser(null);
-    setToggleType(null);
-  };
+  const showEditModal = (selectedUser: User) => {
+    if (!modal) {
+      const boundary = EditUserAccountUI.getInstance();
+      const modal = boundary.displayEditUserAccountUI(selectedUser!, fetchData);
 
+      setModal(modal);
+    }
+  };
   const columns: ColumnDef<User>[] = columnDefinitions.map((column) => {
     if (column.id === "switch") {
       return {
@@ -143,7 +63,7 @@ export default function UserAccountTable({ obj }: ViewUserAccountProps) {
           return (
             <Switch
               checked={isUserActive}
-              onClick={() => handleStatusToggle(row.original)}
+              onClick={() => showSuspendModal(row.original)}
             />
           );
         },
@@ -156,7 +76,7 @@ export default function UserAccountTable({ obj }: ViewUserAccountProps) {
         cell: ({ row }) => (
           <Button
             className="rounded-lg"
-            onClick={() => handleEditToggle(row.original)}
+            onClick={() => showEditModal(row.original)}
           >
             Edit
           </Button>

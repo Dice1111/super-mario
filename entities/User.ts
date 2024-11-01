@@ -1,3 +1,4 @@
+import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { baseUrl } from "@/lib/utils";
 import { Status, User } from "@prisma/client";
 
@@ -22,8 +23,6 @@ export class UserEntity {
     }
     return this.users;
   }
-
-
 
   public async viewUserAccountsEntity(): Promise<User[]> {
     const users = await this.getUsers();
@@ -96,7 +95,6 @@ export class UserEntity {
     }
   }
 
-
   public async searchUserAccountEntity(email: string): Promise<User | null> {
     try {
       const response = await fetch(`${baseUrl}/api/users/${email}`, {
@@ -132,10 +130,8 @@ export class UserEntity {
       }
 
       const res = await response.json();
-      
 
       this.users = res.users;
-
 
       this.usersLoaded = true;
     } catch (error) {
@@ -143,10 +139,14 @@ export class UserEntity {
     }
   }
 
-  public async createUserAccountEntity(user: User): Promise<boolean> {
+  public async createUserAccountEntity(
+    email: string,
+    password: string
+  ): Promise<boolean> {
     try {
-      const data = {
-        ...user,
+      const data: UserAccountFormSchemaType = {
+        email,
+        password,
       };
       const response = await fetch(`${baseUrl}/api/users`, {
         method: "POST",

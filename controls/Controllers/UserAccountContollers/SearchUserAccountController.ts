@@ -3,9 +3,19 @@ import { User } from "@prisma/client";
 
 export class SearchUserAccountController {
   private userEntity: UserEntity;
+  private static instance: SearchUserAccountController;
 
-  constructor(userEntity: UserEntity) {
+  private constructor(userEntity: UserEntity) {
     this.userEntity = userEntity;
+  }
+
+  public static getInstance(): SearchUserAccountController {
+    if (!SearchUserAccountController.instance) {
+      SearchUserAccountController.instance = new SearchUserAccountController(
+        UserEntity.getInstance()
+      );
+    }
+    return SearchUserAccountController.instance;
   }
 
   public async SearchUserAccountController(
