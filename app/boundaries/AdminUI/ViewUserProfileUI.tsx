@@ -1,5 +1,5 @@
 import UserProfileTable from "@/components/Table/UserProfile/UserProfileTable";
-import { ViewUserProfileController } from "@/controls/Controllers/UserProfileControllers/ViewUserProfileController";
+import { ViewUserProfileController } from "@/controls/UserProfileControllers/ViewUserProfileController";
 import { UserProfile } from "@prisma/client";
 
 class ViewUserProfileUI {

@@ -1,5 +1,5 @@
 import UserAccountSuspendModal from "@/components/Modal/UserAccountSuspendModal";
-import { SuspendUserAccountController } from "@/controls/Controllers/UserAccountContollers/SuspendUserAccountController";
+import { SuspendUserAccountController } from "@/controls/UserAccountContollers/SuspendUserAccountController";
 import { Status, User } from "@prisma/client";
 
 class SuspendUserAccountUI {

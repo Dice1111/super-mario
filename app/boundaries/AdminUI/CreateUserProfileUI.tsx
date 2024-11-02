@@ -1,6 +1,6 @@
 import CreateUserProfileForm from "@/components/Forms/CreateUserProfileForm";
 import { UserProfileFormSchemaType } from "@/components/Forms/UserProfileFormSchema";
-import { CreateUserProfileController } from "@/controls/Controllers/UserProfileControllers/CreateUserProfileController";
+import { CreateUserProfileController } from "@/controls/UserProfileControllers/CreateUserProfileController";
 import { useRouter } from "next/navigation";
 
 class CreateUserProfileUI {

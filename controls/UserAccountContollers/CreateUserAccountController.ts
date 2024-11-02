@@ -1,5 +1,5 @@
 // controllers/CreateUserAccountControllers.ts
-import { UserEntity } from "../../../entities/User";
+import { UserEntity } from "../../entities/User";
 
 export class CreateUserAccountControllers {
   private static instance: CreateUserAccountControllers;

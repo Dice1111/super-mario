@@ -1,5 +1,5 @@
 import UserProfileSuspendModal from "@/components/Modal/UserPorfileSuspendModal";
-import { SuspendUserProfileController } from "@/controls/Controllers/UserProfileControllers/SuspendUserProfileController";
+import { SuspendUserProfileController } from "@/controls/UserProfileControllers/SuspendUserProfileController";
 import { Status, UserProfile } from "@prisma/client";
 
 class SuspendUserProfileUI {
