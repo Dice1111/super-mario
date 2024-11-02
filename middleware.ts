@@ -12,7 +12,7 @@ export default withAuth(
 
     // Check if user is not authenticated
     if (!request.nextauth.token) {
-      return NextResponse.rewrite(new URL("/auth/login", request.url));
+      return NextResponse.rewrite(new URL("/auth/adm", request.url));
     }
 
     // Check user role for specific routes
@@ -41,7 +41,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token,
+      authorized: ({ token }) => true,
     },
   }
 );
