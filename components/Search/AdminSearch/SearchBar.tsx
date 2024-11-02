@@ -12,7 +12,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, UserProfile } from "@prisma/client";
 import { useForm, FormProvider } from "react-hook-form";
-import searchSchema, { searchSchemaType } from "./SearchSchema";
+
 import {
   FormField,
   FormItem,
@@ -20,23 +20,24 @@ import {
   FormMessage,
   FormLabel,
 } from "@/components/ui/form"; // Import necessary components
+import AdminSearchSchema, { AdminSearchSchemaType } from "./AdminSearchSchema";
 
 interface SearchBarProps {
   handleSearch: (
-    values: searchSchemaType
+    values: AdminSearchSchemaType
   ) => Promise<User | UserProfile | null>;
 }
 
-const SearchBar = ({ handleSearch }: SearchBarProps) => {
-  const form = useForm<searchSchemaType>({
-    resolver: zodResolver(searchSchema),
+const AdminSearchBar = ({ handleSearch }: SearchBarProps) => {
+  const form = useForm<AdminSearchSchemaType>({
+    resolver: zodResolver(AdminSearchSchema),
     defaultValues: {
       searchType: "",
       email: "",
     },
   });
 
-  const onSubmit = async (data: searchSchemaType) => {
+  const onSubmit = async (data: AdminSearchSchemaType) => {
     await handleSearch(data);
   };
 
@@ -100,4 +101,4 @@ const SearchBar = ({ handleSearch }: SearchBarProps) => {
   );
 };
 
-export default SearchBar;
+export default AdminSearchBar;
