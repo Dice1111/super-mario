@@ -3,7 +3,7 @@ import { baseUrl } from "@/lib/utils";
 import { Status, UsedCarListing } from "@prisma/client";
 
 export class UsedCarListingEntity {
-  [x: string]: any;
+
   // Static property to hold the single instance of the class
   private static instance: UsedCarListingEntity
   private usedCarListings: UsedCarListing[] = [];
@@ -70,7 +70,7 @@ export class UsedCarListingEntity {
         return false;
       }
       console.log("Entity update success");
-      await this.loadUsers();
+      await this.loadUsedCarListings();
 
       return true;
     } catch (error) {
