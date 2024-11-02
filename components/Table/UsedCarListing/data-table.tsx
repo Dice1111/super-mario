@@ -67,25 +67,25 @@ export function DataTable<TData, TValue>({
   });
 
   function handleCreateButton() {
-    router.push("/auth/create_account/");
+    router.push("/used_car_agent/view/create_car_listing/");
   }
 
   return (
     <div className="p-3">
       {/* table header */}
-      <h1 className="font-bold">User Account Table</h1>
+      <h1 className="font-bold">Used Car Listings Table</h1>
       <div className="flex items-center py-4">
         {/* search */}
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Flter Title..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <Button onClick={handleCreateButton} className="ml-10">
-          Create User Account
+          Create Used Car listing
         </Button>
         {/* choose visible column */}
         <DropdownMenu>

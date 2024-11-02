@@ -1,10 +1,9 @@
-import SearchBar from "@/components/Search/SearchBar";
-import { searchSchemaType } from "@/components/Search/SearchSchema";
+import { AdminSearchSchemaType } from "@/components/Search/AdminSearch/AdminSearchSchema";
+import AdminSearchBar from "@/components/Search/AdminSearch/SearchBar";
 import { SearchUserAccountController } from "@/controls/Controllers/UserAccountContollers/SearchUserAccountController";
 import { SearchUserProfileController } from "@/controls/Controllers/UserProfileControllers/SearchUserProfileController";
 import { User, UserProfile } from "@prisma/client";
 import { useState } from "react";
-import { set } from "zod";
 
 class SearchUI {
   private static instance: SearchUI;
@@ -24,7 +23,7 @@ class SearchUI {
     );
     const [searchType, setSearchType] = useState<string>("");
     const handleSearch = async (
-      values: searchSchemaType
+      values: AdminSearchSchemaType
     ): Promise<User | UserProfile | null> => {
       console.log(values.email, values.searchType);
 
@@ -203,7 +202,7 @@ class SearchUI {
 
     return (
       <>
-        <SearchBar handleSearch={handleSearch} />
+        <AdminSearchBar handleSearch={handleSearch} />
         {renderSearchResult()}
       </>
     );

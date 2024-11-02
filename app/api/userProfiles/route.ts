@@ -31,7 +31,7 @@ interface suspendProfileProps {
 }
 
 export async function PUT(request: Request) {
-  const body: EditProfileProps | suspendProfileProps = await request.json();
+  const body = await request.json();
 
   try {
     const userObj = await prisma.userProfile.findUnique({

@@ -49,18 +49,18 @@ const data = {
   navMain: [
     {
       title: "DashBoard",
-      url: "/usedCarAgent",
+      url: "/used_car_agent",
       icon: SquareTerminal,
       isActive: true,
     },
     {
       title: "Used Car Listings",
-      url: "/usedCarAgent/view/used_car_listings",
+      url: "/used_car_agent/view/used_car_listing",
       icon: Bot,
     },
     {
       title: "User Reviews",
-      url: "/usedCarAgent/view/user_reviews",
+      url: "/used_car_agent/view/user_review",
       icon: BookOpen,
     },
   ],
