@@ -1,4 +1,3 @@
-
 import prisma from "@/lib/db";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -18,9 +17,6 @@ export async function GET() {
   }
 }
 
-
-
-
 export async function PUT(request: Request) {
   const body = await request.json();
   try {
@@ -30,17 +26,18 @@ export async function PUT(request: Request) {
       },
     });
 
-    if (!carListingObj){
-        
-        return NextResponse.json({ error: "Car Listing not found" }, { status: 404 });
+    if (!carListingObj) {
+      return NextResponse.json(
+        { error: "Car Listing not found" },
+        { status: 404 }
+      );
     }
 
-  
     const updatedCarListing = await prisma.usedCarListing.update({
-    where: {
+      where: {
         id: carListingObj.id,
-    },
-    data: {
+      },
+      data: {
         title: body.title,
         agentEmail: body.agentEmail,
         sellerEmail: body.sellerEmail,
@@ -50,13 +47,12 @@ export async function PUT(request: Request) {
         imgUrl: body.imgUrl,
         manufacturedYear: body.manufacturedYear,
         price: body.price,
-        description: body.description
-    },
+        description: body.description,
+      },
     });
 
-      return NextResponse.json(updatedCarListing);
-    }
-    catch (error) {
+    return NextResponse.json(updatedCarListing);
+  } catch (error) {
     console.error("Error fetching user:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -66,43 +62,42 @@ export async function PUT(request: Request) {
 }
 
 export async function POST(req: Request) {
-    // Get the used car listing data from the request body
-    const body = await req.json();
-  
-    try {
-      // Check if the used car listing already exists
-      const existingUsedCarListing = await prisma.usedCarListing.findFirst({
-        where: { id: body.id },
-      });
-  
-      if (existingUsedCarListing) {
-        return NextResponse.json(
-          { error: "Used car listing already exists" },
-          { status: 400 }
-        );
-      }
-  
-      // Create a new used car listing in the bodybase
-      const newUsedCarListing = await prisma.usedCarListing.create({
-        data: {
-          title: body.title,
-          agentEmail: body.agentEmail,
-          sellerEmail: body.sellerEmail,
-          mileage: body.mileage,
-          color: body.color,
-          condition: body.condition,
-          imgUrl: body.imgUrl,
-          manufacturedYear: body.manufacturedYear,
-          price: body.price,
-          description: body.description
-        },
-      });
-  
-      return NextResponse.json(newUsedCarListing, { status: 201 });
-    } catch (error) {
+  const body = await req.json();
+
+  try {
+    // Check if the used car listing already exists
+    const existingUsedCarListing = await prisma.usedCarListing.findFirst({
+      where: { id: body.id },
+    });
+
+    if (existingUsedCarListing) {
       return NextResponse.json(
-        { error: "Something went wrong", details: error },
-        { status: 500 }
+        { error: "Used car listing already exists" },
+        { status: 400 }
       );
     }
+
+    // Create a new used car listing in the bodybase
+    const newUsedCarListing = await prisma.usedCarListing.create({
+      data: {
+        title: body.title,
+        agentEmail: body.agentEmail,
+        sellerEmail: body.sellerEmail,
+        mileage: body.mileage,
+        color: body.color,
+        condition: body.condition,
+        imgUrl: body.imgUrl,
+        manufacturedYear: body.manufacturedYear,
+        price: body.price,
+        description: body.description,
+      },
+    });
+
+    return NextResponse.json(newUsedCarListing, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Something went wrong", details: error },
+      { status: 500 }
+    );
   }
+}

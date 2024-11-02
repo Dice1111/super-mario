@@ -3,9 +3,7 @@ import { baseUrl } from "@/lib/utils";
 import { Status, UsedCarListing } from "@prisma/client";
 
 export class UsedCarListingEntity {
-  [x: string]: any;
-  // Static property to hold the single instance of the class
-  private static instance: UsedCarListingEntity
+  private static instance: UsedCarListingEntity;
   private usedCarListings: UsedCarListing[] = [];
   private listingLoaded: boolean = false;
 
@@ -26,22 +24,22 @@ export class UsedCarListingEntity {
 
   public async viewUsedCarListingEntity(): Promise<UsedCarListing[]> {
     const usedCarListings = await this.getUsedCarListing();
+    console.log(usedCarListings);
     return usedCarListings;
   }
 
   public async editUsedCarListingEntity(
-    id             :String,
-  title            :String,
-  agentEmail       :String,     
-  sellerEmail      :String, 
-  mileage          :Number,
-  color            :String,
-  condition        :String,
-  imgUrl           :String,
-  manufacturedYear :Number,
-  price            :Number,
-  description      :String,
- 
+    id: String,
+    title: String,
+    agentEmail: String,
+    sellerEmail: String,
+    mileage: Number,
+    color: String,
+    condition: String,
+    imgUrl: String,
+    manufacturedYear: Number,
+    price: Number,
+    description: String
   ): Promise<boolean> {
     try {
       const data = {
@@ -70,7 +68,7 @@ export class UsedCarListingEntity {
         return false;
       }
       console.log("Entity update success");
-      await this.loadUsers();
+      await this.loadUsedCarListings();
 
       return true;
     } catch (error) {
@@ -87,15 +85,15 @@ export class UsedCarListingEntity {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (!response.ok) {
         console.log("Entity deletion failed");
         return false;
       }
-  
+
       console.log("Entity deletion success");
       await this.loadUsedCarListings();
-  
+
       return true;
     } catch (error) {
       console.error("Failed to delete usedCarlisting:", error);
@@ -103,7 +101,9 @@ export class UsedCarListingEntity {
     }
   }
 
-  public async searchUsedCarListingEntity(title: string): Promise<UsedCarListing | null> {
+  public async searchUsedCarListingEntity(
+    title: string
+  ): Promise<UsedCarListing | null> {
     try {
       const response = await fetch(`${baseUrl}/api/usedCarListing/${title}`, {
         method: "GET",
@@ -126,9 +126,18 @@ export class UsedCarListingEntity {
     }
   }
 
-  
   public async createUsedCarListingEntity(
-title: string, agentEmail:string, sellerEmail: string, mileage: number, color: string, condition: string, imgUrl: string, manufacturedYear: number, price: number, description: string  ): Promise<boolean> {
+    title: string,
+    agentEmail: string,
+    sellerEmail: string,
+    mileage: number,
+    color: string,
+    condition: string,
+    imgUrl: string,
+    manufacturedYear: number,
+    price: number,
+    description: string
+  ): Promise<boolean> {
     try {
       const data = {
         title,
@@ -169,15 +178,14 @@ title: string, agentEmail:string, sellerEmail: string, mileage: number, color: s
         console.error(`Error: Received status ${response.status}`);
         return;
       }
-  
+
       const res = await response.json();
-  
+
       this.usedCarListings = res.usedCarListings;
-  
+
       this.listingLoaded = true;
     } catch (error) {
       console.error("Failed to load users:", error);
     }
   }
-  
 }

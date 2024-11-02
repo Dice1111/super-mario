@@ -90,7 +90,11 @@ const UsedCarListingForm = ({
               <FormItem>
                 <FormLabel>Mileage</FormLabel>
                 <FormControl>
-                  <Input placeholder="Mileage" type="number" {...field} />
+                  <Input
+                    placeholder="Mileage"
+                    type="number"
+                    {...form.register("mileage", { valueAsNumber: true })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -129,7 +133,7 @@ const UsedCarListingForm = ({
               <FormItem>
                 <FormLabel>Image URL</FormLabel>
                 <FormControl>
-                  <Input placeholder="Image URL" type="url" {...field} />
+                  <Input placeholder="Image URL" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -145,7 +149,7 @@ const UsedCarListingForm = ({
                   <Input
                     placeholder="Manufactured Year"
                     type="number"
-                    {...field}
+                    {...form.register("mileage", { valueAsNumber: true })}
                   />
                 </FormControl>
                 <FormMessage />
@@ -159,7 +163,11 @@ const UsedCarListingForm = ({
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="Price" type="number" {...field} />
+                  <Input
+                    placeholder="Price"
+                    type="number"
+                    {...form.register("mileage", { valueAsNumber: true })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

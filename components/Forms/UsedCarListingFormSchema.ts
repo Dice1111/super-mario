@@ -19,7 +19,7 @@ const UsedCarListingFormSchema = z.object({
   condition: z.string().min(3, {
     message: "Condition must be at least 3 characters long",
   }),
-  imgUrl: z.string().url({
+  imgUrl: z.string().min(1, {
     message: "Invalid image URL",
   }),
   manufacturedYear: z
@@ -32,10 +32,12 @@ const UsedCarListingFormSchema = z.object({
     message: "Price must be a positive number",
   }),
   description: z.string().min(3, {
-    message: "Description must be at least 3 characters long"
-  })
+    message: "Description must be at least 3 characters long",
+  }),
 });
 
 export default UsedCarListingFormSchema;
 
-export type UsedCarListingFormSchemaType = z.infer<typeof UsedCarListingFormSchema>;
+export type UsedCarListingFormSchemaType = z.infer<
+  typeof UsedCarListingFormSchema
+>;
