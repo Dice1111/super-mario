@@ -17,28 +17,15 @@ model User {
 
   // Define the one-to-one relationship with UserProfile
   profile        UserProfile?
-  UsedCarListing UsedCarListing[]
-}
-
-model UserProfile {
-  id           String   @id @default(cuid())
-  userEmail    String   @unique // Unique userEmail to ensure one-to-one relationship
-  user         User     @relation(fields: [userEmail], references: [email], onDelete: Cascade, onUpdate: Cascade) // Cascade or other behavior
-  name         String
-  address      String
-  mobileNumber String
-  status       Status   @default(active)
-  role         Role     @default(buyer)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  agentListings  UsedCarListing[] @relation("AgentListings")
+  sellerListings UsedCarListing[] @relation("SellerListings")
 }
 
 model UsedCarListing {
   id               String   @id @default(cuid())
   title            String
-  agentEmail       String // Foreign key for agent
-  user             User     @relation(fields: [agentEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
-  sellerEmail      String // Foreign key for seller
+  agentEmail       String
+  sellerEmail      String
   mileage          Int
   color            String
   condition        String
@@ -48,15 +35,33 @@ model UsedCarListing {
   description      String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+  // Define separate relationships for agent and seller using agentID and sellerID
+  agent  User @relation("AgentListings", fields: [agentEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+  seller User @relation("SellerListings", fields: [sellerEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model UserProfile {
+  id           String   @id @default(cuid())
+  userEmail    String   @unique // Unique userEmail to ensure one-to-one relationship
+  user         User     @relation(fields: [userEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+  name         String
+  address      String
+  mobileNumber String
+  status       Status   @default(active)
+  role         Role     @default(buyer)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model AgentReview {
-  id         String @id @default(cuid())
+  id         String   @id @default(cuid())
   agentEmail String
   userEmail  String
   comment    String
   rating     Int
-  createdAt        DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 enum Role {

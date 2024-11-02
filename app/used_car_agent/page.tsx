@@ -1,15 +1,17 @@
+"use client";
 import React from "react";
+import UserLogoutUI from "../boundaries/AdminUI/UserLogoutUI";
 
 const page = () => {
+  const boundary = UserLogoutUI.getInstance();
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div>
         <h1 className="text-2xl font-bold">
           Welcome to the Used Car Listings!
         </h1>
-        <button className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          Logout
-        </button>
+        {boundary.displayLogoutUI()}
       </div>
     </div>
   );
