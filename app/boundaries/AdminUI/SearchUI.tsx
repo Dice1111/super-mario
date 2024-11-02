@@ -1,10 +1,9 @@
 import SearchBar from "@/components/Search/SearchBar";
 import { searchSchemaType } from "@/components/Search/SearchSchema";
-import { SearchUserAccountController } from "@/controls/Controllers/UserAccountContollers/SearchUserAccountController";
-import { SearchUserProfileController } from "@/controls/Controllers/UserProfileControllers/SearchUserProfileController";
+import { SearchUserAccountController } from "@/controls/UserAccountContollers/SearchUserAccountController";
+import { SearchUserProfileController } from "@/controls/UserProfileControllers/SearchUserProfileController";
 import { User, UserProfile } from "@prisma/client";
 import { useState } from "react";
-import { set } from "zod";
 
 class SearchUI {
   private static instance: SearchUI;

@@ -1,5 +1,5 @@
 import UserAccountTable from "@/components/Table/UserAccount/UserAccountTable";
-import { ViewUserAccountsController } from "@/controls/Controllers/UserAccountContollers/ViewUserAccountController";
+import { ViewUserAccountsController } from "@/controls/UserAccountContollers/ViewUserAccountController";
 import { User } from "@prisma/client";
 import { useState } from "react";
 

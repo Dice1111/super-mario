@@ -1,28 +1,30 @@
-'use client'
+"use client";
 
+import UserLogoutUI from "@/app/boundaries/AdminUI/UserLogoutUI";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { MenuItems } from '@/lib/utils'
-import Link from 'next/link'
-import { useState } from 'react'
-import { RxHamburgerMenu } from 'react-icons/rx'
-import { CiShoppingCart } from 'react-icons/ci'
-import { Button } from '../ui/button'
-import { Badge } from '../ui/badge'
+} from "@/components/ui/dropdown-menu";
+import { MenuItems } from "@/lib/utils";
+import Link from "next/link";
+import { useState } from "react";
+import { CiShoppingCart } from "react-icons/ci";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 export default function Header() {
-  const [isNav, setNav] = useState<boolean>(false) // keep track of the nav state on mobile
+  const [isNav, setNav] = useState<boolean>(false); // keep track of the nav state on mobile
 
   return (
-    <header className={'bg-primary fixed z-10 w-full font-bold'}>
+    <header className={"bg-primary fixed z-10 w-full font-bold"}>
       <ul className="text-secondary container mx-auto flex items-center justify-between px-2 py-4 sm:px-0">
         <li>
           <h1 className="text-2xl">Super Mario</h1>
         </li>
+        <li>{UserLogoutUI.getInstance().displayLogoutUI()}</li>
         <li>
           <ul className="hidden items-center justify-center gap-8 md:flex">
             {MenuItems.map((item, index) => (
@@ -55,15 +57,15 @@ export default function Header() {
         <li>
           <ul className="flex items-center justify-center gap-8">
             <li>
-              <Link href={'/auth/login'}>
-                <Button variant={'secondary'}>Login</Button>
+              <Link href={"/auth/login"}>
+                <Button variant={"secondary"}>Login</Button>
               </Link>
             </li>
             <li>
-              <Link href={'/cart'} className="relative">
+              <Link href={"/cart"} className="relative">
                 <CiShoppingCart className="text-3xl" />
                 <Badge
-                  variant={'secondary'}
+                  variant={"secondary"}
                   className="absolute -right-2 -top-3 grid h-5 w-5 place-items-center rounded-full p-0"
                 >
                   {0}
@@ -74,5 +76,5 @@ export default function Header() {
         </li>
       </ul>
     </header>
-  )
+  );
 }

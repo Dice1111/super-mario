@@ -1,6 +1,6 @@
 import { UserProfileFormSchemaType } from "@/components/Forms/UserProfileFormSchema";
 import { UserProfileEditModal } from "@/components/Modal/UserProfileEditModal";
-import { EditUserProfileController } from "@/controls/Controllers/UserProfileControllers/EditUserProfileController";
+import { EditUserProfileController } from "@/controls/UserProfileControllers/EditUserProfileController";
 import { UserProfile } from "@prisma/client";
 
 class EditUserProfileUI {
