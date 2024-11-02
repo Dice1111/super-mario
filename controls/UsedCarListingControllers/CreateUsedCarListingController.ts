@@ -1,4 +1,4 @@
-import { UsedCarListingEntity } from "../../../entities/UsedCarListing";
+import { UsedCarListingEntity } from "../../entities/UsedCarListing";
 
 export class CreateUsedCarListingController {
   private static instance: CreateUsedCarListingController;

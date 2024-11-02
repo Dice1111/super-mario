@@ -1,5 +1,5 @@
 import UsedCarListingDeleteModal from "@/components/Modal/UsedCarListingDeleteModal";
-import { DeleteUsedCarListingController } from "@/controls/Controllers/UsedCarListingControllers/DeleteUsedCarListingController";
+import { DeleteUsedCarListingController } from "@/controls/UsedCarListingControllers/DeleteUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
 
 class DeleteUsedCarListingUI {
