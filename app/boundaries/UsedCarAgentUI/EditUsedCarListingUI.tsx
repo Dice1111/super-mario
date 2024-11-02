@@ -1,6 +1,6 @@
 import { UsedCarListingFormSchemaType } from "@/components/Forms/UsedCarListingFormSchema";
 import { UsedCarListingEditModal } from "@/components/Modal/UsedCarListingEditModal";
-import { EditUsedCarListingController } from "@/controls/Controllers/UsedCarListingControllers/EditUsedCarListingController";
+import { EditUsedCarListingController } from "@/controls/UsedCarListingControllers/EditUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
 
 class EditUsedCarListingUI {

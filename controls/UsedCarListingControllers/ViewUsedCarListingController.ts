@@ -1,5 +1,5 @@
 import { UsedCarListing } from "@prisma/client";
-import { UsedCarListingEntity } from "../../../entities/UsedCarListing";
+import { UsedCarListingEntity } from "../../entities/UsedCarListing";
 
 export class ViewUsedCarListingController {
   private static instance: ViewUsedCarListingController;

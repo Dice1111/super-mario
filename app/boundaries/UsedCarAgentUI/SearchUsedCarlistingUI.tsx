@@ -1,7 +1,7 @@
 import SearchBar from "@/components/Search/AdminSearch/SearchBar";
 import { AgentSearchSchemaType } from "@/components/Search/AgentSearch/AgentSearchSchema";
 import AgentSearchBar from "@/components/Search/AgentSearch/SearchBar";
-import { SearchUsedCarListingController } from "@/controls/Controllers/UsedCarListingControllers/SearchUsedCarListingController";
+import { SearchUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchUsedCarListingController";
 
 import { UsedCarListing, User, UserProfile } from "@prisma/client";
 import { useState } from "react";

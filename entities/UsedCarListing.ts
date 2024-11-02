@@ -7,7 +7,7 @@ export class UsedCarListingEntity {
   // Static property to hold the single instance of the class
   private static instance: UsedCarListingEntity
   private usedCarListings: UsedCarListing[] = [];
-  private usersLoaded: boolean = false;
+  private listingLoaded: boolean = false;
 
   // Static method to provide access to the single instance of the class
   public static getInstance(): UsedCarListingEntity {
@@ -18,7 +18,7 @@ export class UsedCarListingEntity {
   }
 
   public async getUsedCarListing(): Promise<UsedCarListing[]> {
-    if (!this.usersLoaded) {
+    if (!this.listingLoaded) {
       await this.loadUsedCarListings();
     }
     return this.usedCarListings;
@@ -172,9 +172,9 @@ title: string, agentEmail:string, sellerEmail: string, mileage: number, color: s
   
       const res = await response.json();
   
-      this.users = res.users;
+      this.usedCarListings = res.usedCarListings;
   
-      this.usersLoaded = true;
+      this.listingLoaded = true;
     } catch (error) {
       console.error("Failed to load users:", error);
     }
