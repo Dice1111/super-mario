@@ -1,5 +1,5 @@
 import { UsedCarListingFormSchemaType } from "@/components/Forms/UsedCarListingFormSchema";
-import { CreateUsedCarListingController } from "@/controls/Controllers/UsedCarListingControllers/CreateUsedCarListingController";
+import { CreateUsedCarListingController } from "@/controls/UsedCarListingControllers/CreateUsedCarListingController";
 import { useRouter } from "next/navigation";
 import CreateUsedCarListingForm from "@/components/Forms/CreateUsedCarListingForm";
 
