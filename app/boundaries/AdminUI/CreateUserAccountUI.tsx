@@ -1,6 +1,6 @@
 import CreateUserAccountForm from "@/components/Forms/CreateUserAccountForm";
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
-import { CreateUserAccountControllers } from "@/controls/Controllers/UserAccountContollers/CreateUserAccountController";
+import { CreateUserAccountControllers } from "@/controls/UserAccountContollers/CreateUserAccountController";
 import { useRouter } from "next/navigation";
 
 class CreateUserAccountUI {

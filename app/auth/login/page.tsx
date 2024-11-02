@@ -1,18 +1,14 @@
 "use client";
-
-import React, { Component } from "react";
 import UserLoginUI from "@/app/boundaries/AdminUI/UserLoginUI";
 
-class LoginPage extends Component {
-  render() {
-    const userLoginClass = new UserLoginUI();
+const LoginPage = () => {
+  const boundary = UserLoginUI.getInstance();
 
-    return (
-      <div className="container mx-auto flex h-screen w-full items-center justify-center">
-        {userLoginClass.displayLoginUI()}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="container mx-auto flex h-screen w-full items-center justify-center">
+      {boundary.displayLoginUI()}
+    </div>
+  );
+};
 
 export default LoginPage;

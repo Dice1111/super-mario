@@ -1,6 +1,6 @@
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { UserAccountEditModal } from "@/components/Modal/UserAccountEditModal";
-import { EditUserAccountController } from "@/controls/Controllers/UserAccountContollers/EditUserAccountController";
+import { EditUserAccountController } from "@/controls/UserAccountContollers/EditUserAccountController";
 import { User } from "@prisma/client";
 
 class EditUserAccountUI {

@@ -1,9 +1,9 @@
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { baseUrl } from "@/lib/utils";
 import { Status, User } from "@prisma/client";
+import { signIn, signOut } from "next-auth/react";
 
 export class UserEntity {
-  [x: string]: any;
   // Static property to hold the single instance of the class
   private static instance: UserEntity;
   private users: User[] = [];
@@ -168,6 +168,15 @@ export class UserEntity {
     }
   }
 
+  public logoutAccountEntity = async (): Promise<boolean> => {
+    try {
+      await signOut({ redirect: false });
+    } catch (error) {
+      return false;
+    }
+    return true;
+  };
+
   public async verifyAccount({
     email,
     password,
@@ -176,16 +185,15 @@ export class UserEntity {
     password: string;
   }): Promise<boolean> {
     try {
-      const response = await fetch(`${baseUrl}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await signIn("credentials", {
+        email: email,
+        password: password,
+        redirect: false,
       });
+      console.log(response);
 
       // Check if the response is not successful (status 200-299)
-      if (!response.ok) {
+      if (!response?.ok) {
         return false;
       }
 
@@ -196,3 +204,32 @@ export class UserEntity {
     }
   }
 }
+
+//   public async verifyAccount({
+//     email,
+//     password,
+//   }: {
+//     email: string;
+//     password: string;
+//   }): Promise<boolean> {
+//     try {
+//       const response = await fetch(`${baseUrl}/api/login`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ email, password }),
+//       });
+
+//       // Check if the response is not successful (status 200-299)
+//       if (!response.ok) {
+//         return false;
+//       }
+
+//       return true;
+//     } catch (error) {
+//       console.error("Failed to authenticate user:", error);
+//       return false;
+//     }
+//   }
+// }
