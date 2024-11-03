@@ -19,7 +19,7 @@ export class ViewUsedCarListingController {
   }
 
   public async viewUsedCarListingController(): Promise<UsedCarListing[]> {
-    const result = await this.usedCarListingEntity.getUsedCarListingEntity();
+    const result = await this.usedCarListingEntity.viewUsedCarListingEntity();
     return result;
   }
 }

@@ -11,15 +11,18 @@ export class SearchUsedCarListingController {
 
   public static getInstance(): SearchUsedCarListingController {
     if (!SearchUsedCarListingController.instance) {
-      SearchUsedCarListingController.instance = new SearchUsedCarListingController(
-        UsedCarListingEntity.getInstance()
-      );
+      SearchUsedCarListingController.instance =
+        new SearchUsedCarListingController(UsedCarListingEntity.getInstance());
     }
     return SearchUsedCarListingController.instance;
   }
 
-  public async searchUsedCarListingController(title: string): Promise<UsedCarListing | null> {
-    const result = await this.usedCarListingEntity.searchUserAccountEntity(title);
+  public async searchUsedCarListingController(
+    title: string
+  ): Promise<UsedCarListing | null> {
+    const result = await this.usedCarListingEntity.searchUsedCarListingEntity(
+      title
+    );
     return result;
   }
 }

@@ -1,30 +1,36 @@
-import prisma from '@/lib/db'
-import { NextResponse } from 'next/server'
+// Currently using NextAuth for authentication.
+// code can be found under auth/authOptions.ts
 
-export async function POST(req: Request) {
-  try {
-    const data = await req.json()
+// import prisma from "@/lib/db";
+// import { NextResponse } from "next/server";
 
-    const existingUser = await prisma.user.findFirst({
-      where: { email: data.email },
-    })
+// export async function POST(req: Request) {
+//   try {
+//     const data = await req.json();
 
-    if (!existingUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
-    }
+//     const existingUser = await prisma.user.findUnique({
+//       where: { email: data.email },
+//     });
 
-    if (data.password != existingUser.password) {
-      return NextResponse.json(
-        { error: 'Incorrect email or password.' },
-        { status: 401 }
-      )
-    }
+//     if (!existingUser) {
+//       return NextResponse.json({ error: "User not found" }, { status: 404 });
+//     }
 
-    return NextResponse.json({ success: 'Login Successfully' }, { status: 200 })
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Something went wrong', details: error },
-      { status: 500 }
-    )
-  }
-}
+//     if (data.password != existingUser.password) {
+//       return NextResponse.json(
+//         { error: "Incorrect email or password." },
+//         { status: 401 }
+//       );
+//     }
+
+//     return NextResponse.json(
+//       { success: "Login Successfully" },
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     return NextResponse.json(
+//       { error: "Something went wrong", details: error },
+//       { status: 500 }
+//     );
+//   }
+// }

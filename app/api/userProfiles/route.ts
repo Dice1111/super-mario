@@ -82,7 +82,7 @@ export async function POST(req: Request) {
   const data: UserProfile = await req.json();
 
   try {
-    const existingUser = await prisma.user.findFirst({
+    const existingUser = await prisma.user.findUnique({
       where: { email: data.userEmail },
     });
 

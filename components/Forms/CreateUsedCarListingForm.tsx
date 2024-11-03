@@ -13,6 +13,14 @@ import { useForm } from "react-hook-form";
 import UsedCarListingFormSchema, {
   UsedCarListingFormSchemaType,
 } from "./UsedCarListingFormSchema";
+import { useState } from "react";
+
+import {
+  CldImage,
+  CldUploadWidget,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
+import ImageUploadButton from "../ImageUI/ImageUploadButton";
 
 interface UsedCarListingFormProps {
   submitUsedCarListing: (values: UsedCarListingFormSchemaType) => Promise<void>;
@@ -36,6 +44,24 @@ const UsedCarListingForm = ({
       description: "",
     },
   });
+
+  interface CloudinaryResult {
+    public_id: string;
+  }
+
+  const [publicId, setPublicId] = useState<string>("");
+
+  const onUpload = (result: CloudinaryUploadWidgetResults) => {
+    if (result.event !== "success") {
+      form.setValue("imgUrl", "");
+      return;
+    } else {
+      const info = result.info as CloudinaryResult;
+      console.log(result);
+      form.setValue("imgUrl", info.public_id);
+      setPublicId(info.public_id);
+    }
+  };
 
   return (
     <div className="w-[300px]">
@@ -90,7 +116,11 @@ const UsedCarListingForm = ({
               <FormItem>
                 <FormLabel>Mileage</FormLabel>
                 <FormControl>
-                  <Input placeholder="Mileage" type="number" {...field} />
+                  <Input
+                    placeholder="Mileage"
+                    type="number"
+                    {...form.register("mileage", { valueAsNumber: true })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -127,10 +157,20 @@ const UsedCarListingForm = ({
             name="imgUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image URL</FormLabel>
+                <FormLabel>Image Upload</FormLabel>
                 <FormControl>
-                  <Input placeholder="Image URL" type="url" {...field} />
+                  <ImageUploadButton onUpload={onUpload} />
                 </FormControl>
+                {publicId && (
+                  <CldImage
+                    src={publicId}
+                    width={150}
+                    height={150}
+                    alt="Preview"
+                    style={{ objectFit: "contain" }} // Maintain aspect ratio
+                  />
+                )}
+                <input type="hidden" {...form.register("imgUrl")} />
                 <FormMessage />
               </FormItem>
             )}
@@ -145,7 +185,7 @@ const UsedCarListingForm = ({
                   <Input
                     placeholder="Manufactured Year"
                     type="number"
-                    {...field}
+                    {...form.register("mileage", { valueAsNumber: true })}
                   />
                 </FormControl>
                 <FormMessage />
@@ -159,7 +199,11 @@ const UsedCarListingForm = ({
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="Price" type="number" {...field} />
+                  <Input
+                    placeholder="Price"
+                    type="number"
+                    {...form.register("price", { valueAsNumber: true })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
