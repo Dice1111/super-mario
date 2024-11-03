@@ -19,7 +19,7 @@ const UsedCarListingFormSchema = z.object({
   condition: z.string().min(3, {
     message: "Condition must be at least 3 characters long",
   }),
-  imgUrl: z.string().min(1, {
+  imgUrl: z.string().min(0, {
     message: "Invalid image URL",
   }),
   manufacturedYear: z

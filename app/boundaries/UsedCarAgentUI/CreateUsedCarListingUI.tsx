@@ -36,7 +36,7 @@ class CreateUsedCarListingUI {
 
         if (success) {
           this.displaySuccessUI();
-          router.push("/used_car_listing/view/used_car_listing");
+          router.push("/used_car_agent/view/used_car_listing");
         } else {
           this.displayErrorUI();
         }

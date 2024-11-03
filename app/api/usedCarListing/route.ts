@@ -39,7 +39,7 @@ export async function PUT(request: Request) {
       },
       data: {
         title: body.title,
-        agentEmail: body.agentEmail,
+        //not changing agentEmail
         sellerEmail: body.sellerEmail,
         mileage: body.mileage,
         color: body.color,
@@ -65,14 +65,20 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   try {
-    // Check if the used car listing already exists
-    const existingUsedCarListing = await prisma.usedCarListing.findFirst({
-      where: { id: body.id },
+    // Check if the used car agent already exists
+    const existingUsedCarAgent = await prisma.user.findUnique({
+      where: { email: body.agentEmail },
     });
 
-    if (existingUsedCarListing) {
+    // Check if the used seller already exists
+    const existingSeller = await prisma.user.findUnique({
+      where: { email: body.sellerEmail },
+    });
+
+    // handle if they are not already exists
+    if (existingUsedCarAgent === null || !existingSeller === null) {
       return NextResponse.json(
-        { error: "Used car listing already exists" },
+        { error: "Used Car Agent or Seller not exists" },
         { status: 400 }
       );
     }
