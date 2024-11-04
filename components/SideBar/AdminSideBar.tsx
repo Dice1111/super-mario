@@ -1,5 +1,6 @@
 "use client";
 
+import UserLogoutUI from "@/app/boundaries/AdminUI/UserLogoutUI";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible } from "@/components/ui/collapsible";
 import {
@@ -26,18 +27,18 @@ import {
   Bot,
   ChevronsUpDown,
   GalleryVerticalEnd,
-  LogOut,
   SquareTerminal,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import * as React from "react";
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    email: "no session",
+    role: "unknown",
+    avatar: "unknown",
   },
   teams: [
     {
@@ -72,7 +73,9 @@ const data = {
 };
 
 export default function Page() {
+  const boundary = UserLogoutUI.getInstance();
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const { status, data: session } = useSession();
 
   return (
     <Sidebar collapsible="icon">
@@ -132,14 +135,20 @@ export default function Page() {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={data.user.avatar} alt={data.user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    <AvatarImage src={data.user.avatar} alt={data.user.role} />
+                    <AvatarFallback className="rounded-lg">A</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                      {data.user.name}
+                      {status === "authenticated" && session
+                        ? session.user.email
+                        : "Unknown User"}
                     </span>
-                    <span className="truncate text-xs">{data.user.email}</span>
+                    <span className="truncate text-xs">
+                      {status === "authenticated" && session
+                        ? session.user.role
+                        : "Unknown Role"}
+                    </span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -155,23 +164,27 @@ export default function Page() {
                     <Avatar className="h-8 w-8 rounded-lg">
                       <AvatarImage
                         src={data.user.avatar}
-                        alt={data.user.name}
+                        alt={data.user.role}
                       />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      <AvatarFallback className="rounded-lg">A</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
-                        {data.user.name}
+                        {status === "authenticated" && session
+                          ? session.user.email
+                          : "Unknown User"}
                       </span>
                       <span className="truncate text-xs">
-                        {data.user.email}
+                        {" "}
+                        {status === "authenticated" && session
+                          ? session.user.role
+                          : "Unknown Role"}
                       </span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuItem>
-                  <LogOut />
-                  Log out
+                  {boundary.displayLogoutUI()}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

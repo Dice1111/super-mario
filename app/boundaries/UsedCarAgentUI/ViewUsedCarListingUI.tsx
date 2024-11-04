@@ -1,6 +1,7 @@
 import UsedCarListingTable from "@/components/Table/UsedCarListing/UsedCarListingTable";
 import { ViewUsedCarListingController } from "@/controls/UsedCarListingControllers/ViewUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 class ViewUsedCarListingUI {
   private static instance: ViewUsedCarListingUI;
@@ -18,6 +19,8 @@ class ViewUsedCarListingUI {
 
   // Method to display the used car listing UI
   public displayUsedCarListingUI = (): JSX.Element => {
+    const { status, data: session } = useSession();
+
     const loadData = async (): Promise<UsedCarListing[]> => {
       const controller = ViewUsedCarListingController.getInstance();
       try {

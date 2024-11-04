@@ -23,9 +23,7 @@ import {
 import AdminSearchSchema, { AdminSearchSchemaType } from "./AdminSearchSchema";
 
 interface SearchBarProps {
-  handleSearch: (
-    values: AdminSearchSchemaType
-  ) => Promise<User | UserProfile | null>;
+  handleSearch: (values: AdminSearchSchemaType) => Promise<void>;
 }
 
 const AdminSearchBar = ({ handleSearch }: SearchBarProps) => {

@@ -39,6 +39,7 @@ class ViewRatingAndReviewUI {
           comment: "The agent provided excellent service and was very helpful.",
           rating: 5,
           createdAt: new Date("2024-11-02T10:15:30.000Z"),
+          updatedAt: new Date("2024-11-02T10:15:30.000Z"),
         },
         {
           id: "ckxyz1234567890abcdeg",
@@ -47,6 +48,7 @@ class ViewRatingAndReviewUI {
           comment: "Quick response and very polite.",
           rating: 4,
           createdAt: new Date("2024-11-02T10:15:30.000Z"),
+          updatedAt: new Date("2024-11-02T10:15:30.000Z"),
         },
         {
           id: "ckxyz1234567890abcdeh",
@@ -55,6 +57,7 @@ class ViewRatingAndReviewUI {
           comment: "Helpful, but could improve on follow-up.",
           rating: 3,
           createdAt: new Date("2024-11-02T10:15:30.000Z"),
+          updatedAt: new Date("2024-11-02T10:15:30.000Z"),
         },
         {
           id: "ckxyz1234567890abcdei",
@@ -64,6 +67,7 @@ class ViewRatingAndReviewUI {
             "The agent was knowledgeable and resolved my issue efficiently.",
           rating: 5,
           createdAt: new Date("2024-11-02T10:15:30.000Z"),
+          updatedAt: new Date("2024-11-02T10:15:30.000Z"),
         },
         {
           id: "ckxyz1234567890abcdej",
@@ -72,6 +76,7 @@ class ViewRatingAndReviewUI {
           comment: "Friendly agent but took a bit long to respond.",
           rating: 4,
           createdAt: new Date("2024-11-02T10:15:30.000Z"),
+          updatedAt: new Date("2024-11-02T10:15:30.000Z"),
         },
       ];
     };
