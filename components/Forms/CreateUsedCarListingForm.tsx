@@ -21,6 +21,7 @@ import {
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
 import ImageUploadButton from "../ImageUI/ImageUploadButton";
+import { useSession } from "next-auth/react";
 
 interface UsedCarListingFormProps {
   submitUsedCarListing: (values: UsedCarListingFormSchemaType) => Promise<void>;
@@ -29,11 +30,13 @@ interface UsedCarListingFormProps {
 const UsedCarListingForm = ({
   submitUsedCarListing,
 }: UsedCarListingFormProps) => {
+  const { status, data: session } = useSession();
+
   const form = useForm({
     resolver: zodResolver(UsedCarListingFormSchema),
     defaultValues: {
       title: "",
-      agentEmail: "",
+      agentEmail: session?.user.email || "",
       sellerEmail: "",
       mileage: 0,
       color: "",
@@ -90,7 +93,12 @@ const UsedCarListingForm = ({
               <FormItem>
                 <FormLabel>Agent Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Agent Email" type="email" {...field} />
+                  <Input
+                    disabled
+                    placeholder="Agent Email"
+                    type="email"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

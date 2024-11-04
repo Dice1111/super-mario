@@ -45,7 +45,7 @@ export function UserAccountEditModal({
     <Dialog open onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Edit Account</DialogTitle>
           <DialogDescription>
             Make changes to your account details here. Click save when you're
             done.
@@ -58,6 +58,7 @@ export function UserAccountEditModal({
                 Email
               </Label>
               <Input
+                disabled
                 id="email"
                 type="email"
                 {...register("email")}
@@ -71,7 +72,7 @@ export function UserAccountEditModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="password" className="text-right">
-                Password
+                New Password
               </Label>
               <Input
                 id="password"

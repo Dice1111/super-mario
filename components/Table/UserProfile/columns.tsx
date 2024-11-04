@@ -79,6 +79,9 @@ export const columns: ColumnDef<UserProfile>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return new Date(row.original.createdAt).toLocaleString();
+    },
   },
   {
     accessorKey: "updatedAt",
@@ -92,6 +95,9 @@ export const columns: ColumnDef<UserProfile>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return new Date(row.original.updatedAt).toLocaleString();
     },
   },
 

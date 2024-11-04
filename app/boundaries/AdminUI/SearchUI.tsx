@@ -23,10 +23,9 @@ class SearchUI {
       null
     );
     const [searchType, setSearchType] = useState<string>("");
-    const handleSearch = async (
-      values: AdminSearchSchemaType
-    ): Promise<User | UserProfile | null> => {
-      console.log(values.email, values.searchType);
+
+    const handleSearch = async (values: AdminSearchSchemaType) => {
+      setSearchResult(null);
 
       if (values.searchType === "account") {
         setSearchType(values.searchType);
@@ -35,13 +34,13 @@ class SearchUI {
           const searchedUser = await controller.SearchUserAccountController(
             values.email
           );
-          console.log(searchedUser);
+          if (!searchedUser) {
+            throw new Error("User not found");
+          }
           setSearchResult(searchedUser);
           this.displaySuccessUI();
-          return searchedUser;
         } catch (error) {
           this.displayErrorUI();
-          return null;
         }
       } else if (values.searchType === "profile") {
         setSearchType(values.searchType);
@@ -50,17 +49,16 @@ class SearchUI {
           const searchedProfile = await controller.searchUserProfileController(
             values.email
           );
-          console.log(searchedProfile);
+          if (!searchedProfile) {
+            throw new Error("User Profile not found");
+          }
           setSearchResult(searchedProfile);
           this.displaySuccessUI();
-          return searchedProfile;
         } catch (error) {
           this.displayErrorUI();
-          return null;
         }
       } else {
         this.displayErrorUI();
-        return null;
       }
     };
 
@@ -204,7 +202,7 @@ class SearchUI {
     return (
       <>
         <AdminSearchBar handleSearch={handleSearch} />
-        {renderSearchResult()}
+        {searchResult && renderSearchResult()}
       </>
     );
   };

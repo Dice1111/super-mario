@@ -1,22 +1,34 @@
 import prisma from "@/lib/db";
+import { getServerSession } from "next-auth";
 
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/authOptions";
+import { Role } from "@prisma/client";
 
 export async function GET() {
   try {
-    const carListings = await prisma.usedCarListing.findMany();
+    const session = await getServerSession(authOptions);
+
+    if (!session && session!.user.role !== Role.agent) {
+      return NextResponse.json({ error: "No Session" }, { status: 401 });
+    }
+
+    const carListings = await prisma.usedCarListing.findMany({
+      where: {
+        agentEmail: session?.user.email!,
+      },
+    });
 
     return NextResponse.json({ usedCarListings: carListings }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching carlistings:", error);
+    console.error("Error fetching car listings:", error);
 
     return NextResponse.json(
-      { error: "Failed to get carlistings", details: error },
+      { error: "Failed to get car listings" },
       { status: 500 }
     );
   }
 }
-
 export async function PUT(request: Request) {
   const body = await request.json();
   try {
