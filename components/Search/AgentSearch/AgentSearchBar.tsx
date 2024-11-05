@@ -14,9 +14,7 @@ import { UsedCarListing } from "@prisma/client";
 import AgentSearchSchema, { AgentSearchSchemaType } from "./AgentSearchSchema";
 
 interface SearchBarProps {
-  handleSearch: (
-    values: AgentSearchSchemaType
-  ) => Promise<UsedCarListing | null>;
+  handleSearch: (values: AgentSearchSchemaType) => Promise<void>;
 }
 
 const AgentSearchBar = ({ handleSearch }: SearchBarProps) => {
@@ -44,7 +42,7 @@ const AgentSearchBar = ({ handleSearch }: SearchBarProps) => {
             render={({ field }) => (
               <FormItem className="flex items-center">
                 <FormControl>
-                  <Input {...field} placeholder="Email" className="w-[180px]" />
+                  <Input {...field} placeholder="title" className="w-[180px]" />
                 </FormControl>
                 <FormMessage>
                   {form.formState.errors.title?.message}

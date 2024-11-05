@@ -2,13 +2,13 @@ import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
-  params: { id: string };
+  params: { title: string, id: string };
 }
 
-export async function GET(request: NextRequest, { params: { id } }: Props) {
+export async function GET(request: NextRequest, { params: { title } }: Props) {
   try {
-    const usedCarlistingObj = await prisma.usedCarListing.findUnique({
-      where: { id: id },
+    const usedCarlistingObj = await prisma.usedCarListing.findMany({
+      where: { title: title },
     });
 
     if (!usedCarlistingObj) {
