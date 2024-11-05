@@ -1,11 +1,9 @@
 "use client";
-import SearchUI from "@/app/boundaries/AdminUI/SearchUI";
-import { Component } from "react";
-
+import AdminSearchUI from "@/app/boundaries/AdminUI/AdminSearchUI";
 const SearchPage = () => {
-  const boundary = SearchUI.getInstance();
+  const boundary = AdminSearchUI.getInstance();
 
-  return <>{boundary.displaySearchUI()} </>;
+  return <>{boundary.displayAdminSearchUI()} </>;
 };
 
 export default SearchPage;

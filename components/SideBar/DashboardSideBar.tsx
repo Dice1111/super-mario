@@ -104,11 +104,12 @@ const routeToDataMap = {
       },
       {
         title: "Search Listing",
-        url: "/used_car_agent/view/user_review",
+        url: "/used_car_agent/view/search",
         icon: BookOpen,
       },
     ],
   },
+
   // Add more routes and their data configurations as needed
 };
 
