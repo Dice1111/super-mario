@@ -6,10 +6,9 @@ import { UserProfile } from "@prisma/client";
 export const columns: ColumnDef<UserProfile>[] = [
   {
     id: "number",
-    header: "#",
-    cell: ({ row }) => row.index + 1, // Display row number
+    header: () => <div className="text-center">#</div>,
+    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>, // Display row number
   },
-
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -17,12 +16,14 @@ export const columns: ColumnDef<UserProfile>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-center w-full"
         >
           User ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    cell: ({ row }) => <div className="text-center">{row.getValue("id")}</div>,
   },
   {
     accessorKey: "name",
@@ -31,14 +32,17 @@ export const columns: ColumnDef<UserProfile>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-center w-full"
         >
           Username
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("name")}</div>
+    ),
   },
-
   {
     accessorKey: "userEmail",
     header: ({ column }) => {
@@ -46,25 +50,37 @@ export const columns: ColumnDef<UserProfile>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-center w-full"
         >
           Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("userEmail")}</div>
+    ),
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: () => <div className="text-center">Address</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("address")}</div>
+    ),
   },
   {
     accessorKey: "role",
-    header: "Role",
+    header: () => <div className="text-center">Role</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("role")}</div>
+    ),
   },
-
   {
     accessorKey: "mobileNumber",
-    header: "Mobile Number",
+    header: () => <div className="text-center">Mobile Number</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("mobileNumber")}</div>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -73,15 +89,18 @@ export const columns: ColumnDef<UserProfile>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-center w-full"
         >
           Created Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return new Date(row.original.createdAt).toLocaleString();
-    },
+    cell: ({ row }) => (
+      <div className="text-center">
+        {new Date(row.original.createdAt).toLocaleString()}
+      </div>
+    ),
   },
   {
     accessorKey: "updatedAt",
@@ -90,26 +109,25 @@ export const columns: ColumnDef<UserProfile>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-center w-full"
         >
           Updated Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return new Date(row.original.updatedAt).toLocaleString();
-    },
+    cell: ({ row }) => (
+      <div className="text-center">
+        {new Date(row.original.updatedAt).toLocaleString()}
+      </div>
+    ),
   },
-
-  // Add switch component with dialog confirmation
   {
     id: "switch",
-    header: "Active",
-    cell: ({ row }) => {},
+    header: () => <div>Active</div>,
   },
   {
     id: "edit",
-    header: "Edit",
-    cell: ({ row }) => {},
+    header: () => <div>Edit</div>,
   },
 ];

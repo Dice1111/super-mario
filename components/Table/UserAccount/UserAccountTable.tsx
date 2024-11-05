@@ -54,6 +54,7 @@ export default function UserAccountTable({ loadData }: ViewUserAccountProps) {
       setModal(modal);
     }
   };
+
   const columns: ColumnDef<User>[] = columnDefinitions.map((column) => {
     if (column.id === "switch") {
       return {
