@@ -32,6 +32,7 @@ export class ReviewAndRatingEntity {
   }
 
   
+  
   private async loadReviewAndRating(): Promise<void> {
     try {
       const response = await fetch(`${baseUrl}/api/reviewAndRating`, {
