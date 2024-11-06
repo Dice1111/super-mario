@@ -109,6 +109,38 @@ const routeToDataMap = {
       },
     ],
   },
+  "/seller": {
+    user: {
+      email: "no session",
+      role: "Agent",
+      avatar: "unknown",
+    },
+    teams: [
+      {
+        name: "Super Mario Kart",
+        logo: GalleryVerticalEnd,
+        plan: "Used Car Agent Dashboard",
+      },
+    ],
+    navMain: [
+      {
+        title: "DashBoard",
+        url: "/seller",
+        icon: SquareTerminal,
+        isActive: true,
+      },
+      {
+        title: "Seller Car Listings",
+        url: "/seller/view/seller_car_listing",
+        icon: Bot,
+      },
+      {
+        title: "Used Car Agent Profiles",
+        url: "/seller/view/used_car_agent_profile",
+        icon: BookOpen,
+      },
+    ],
+  },
   // Add more routes and their data configurations as needed
 };
 

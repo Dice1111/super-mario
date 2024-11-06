@@ -26,6 +26,8 @@ model UsedCarListing {
   title            String
   agentEmail       String
   sellerEmail      String
+  viewCount        Int      @default(0)
+  shortlistCount   Int      @default(0)
   mileage          Int
   color            String
   condition        String

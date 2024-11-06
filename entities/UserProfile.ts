@@ -34,6 +34,18 @@ export class UserProfileEntity {
     return userProfiles;
   }
 
+  public async viewUsedCarAgentProfileEntity(): Promise<UserProfile[]> {
+    const userProfiles = await this.getUserProfiles();
+
+    // Filter user profiles to include only those with role 'agent' and status 'active'
+    const filteredProfiles = userProfiles.filter(
+      (profile) =>
+        profile.role === Role.agent && profile.status === Status.active
+    );
+
+    return filteredProfiles;
+  }
+
   public async editUserProfileEntity(
     id: string,
     name: string,
