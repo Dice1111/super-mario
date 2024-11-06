@@ -9,17 +9,40 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MenuItems } from "@/lib/utils";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 export default function Header() {
-  const [isNav, setNav] = useState<boolean>(false); // keep track of the nav state on mobile
+  const [isNav, setNav] = useState<boolean>(false); // Track nav state on mobile
+  const [scrolled, setScrolled] = useState(false); // Track scroll state
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    // Attach scroll listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up listener on unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <header className={"bg-primary fixed z-10 w-full font-bold"}>
+    <header
+      className={`fixed z-10 w-full font-bold transition-all duration-300 ${
+        scrolled ? "bg-primary" : ""
+      }`}
+    >
       <ul className="text-secondary container mx-auto flex items-center justify-between px-2 py-4 sm:px-0">
         <li>
           <h1 className="text-2xl">Super Mario</h1>
