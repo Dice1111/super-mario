@@ -31,6 +31,50 @@ export class ReviewAndRatingEntity {
     return reviews;
   }
 
+  public async viewSpecificReviewAndRatingEntity(email: string): Promise<AgentReview[]> {
+    const reviews = await this.getReviewAndRating();
+    const filteredReviews = reviews.filter(review => review.agentEmail === email || review.userEmail === email);
+    return filteredReviews;
+  }
+
+
+  public async createReviewAndRatingEntity(
+    comment: string,
+    rating: number,
+    userEmail: string,
+    agentEmail: string
+  ): Promise<boolean> {
+    try {
+      const data = {
+        comment,
+        rating,
+        userEmail,
+        agentEmail
+      };
+
+      const response = await fetch(`${baseUrl}/api/reviewAndRating`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        console.log("Failed to create listing");
+        return false;
+      }
+
+      console.log("Listing created successfully");
+      await this.loadReviewAndRating(); // Refresh cached listings
+
+      return true;
+    } catch (error) {
+      console.error("Failed to create used car listing:", error);
+      return false;
+    }
+  }
+
   
   
   private async loadReviewAndRating(): Promise<void> {

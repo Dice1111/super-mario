@@ -1,23 +1,21 @@
-import UsedCarListingTable from "@/components/Table/UsedCarListing/UsedCarListingTable";
+import CarListing from "@/components/Lists/CarListing/CarListing";
 import { ViewUsedCarListingController } from "@/controls/UsedCarListingControllers/ViewUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
 
-class ViewUsedCarListingUI {
-  private static instance: ViewUsedCarListingUI;
+class ViewUsedCarListingHomeUI {
+  private static instance: ViewUsedCarListingHomeUI;
 
-  // Private constructor to prevent instantiation
   private constructor() {}
 
-  // Static method to get the singleton instance
-  public static getInstance(): ViewUsedCarListingUI {
-    if (!ViewUsedCarListingUI.instance) {
-      ViewUsedCarListingUI.instance = new ViewUsedCarListingUI();
+  public static getInstance(): ViewUsedCarListingHomeUI {
+    if (!ViewUsedCarListingHomeUI.instance) {
+      ViewUsedCarListingHomeUI.instance = new ViewUsedCarListingHomeUI();
     }
-    return ViewUsedCarListingUI.instance;
+    return ViewUsedCarListingHomeUI.instance;
   }
 
   // Method to display the used car listing UI
-  public displayUsedCarListingUI = (): JSX.Element => {
+  public displayUsedCarListingHomeUI = (): JSX.Element => {
     const loadData = async (): Promise<UsedCarListing[]> => {
       const controller = ViewUsedCarListingController.getInstance();
       try {
@@ -29,7 +27,7 @@ class ViewUsedCarListingUI {
         return [];
       }
     };
-    return <UsedCarListingTable loadData={loadData} />;
+    return <CarListing loadData={loadData} />;
   };
 
   public displaySuccessUI() {
@@ -41,4 +39,4 @@ class ViewUsedCarListingUI {
   }
 }
 
-export default ViewUsedCarListingUI;
+export default ViewUsedCarListingHomeUI;

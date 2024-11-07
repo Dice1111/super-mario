@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MenuItems } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -16,10 +17,18 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 export default function Header() {
+  const router = useRouter();
   const [isNav, setNav] = useState<boolean>(false); // Track nav state on mobile
   const [scrolled, setScrolled] = useState(false); // Track scroll state
 
+  const isHomePage = usePathname() === "/";
+
   useEffect(() => {
+    if (!isHomePage) {
+      setScrolled(true);
+      return;
+    }
+
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setScrolled(true);
@@ -35,7 +44,7 @@ export default function Header() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isHomePage]);
 
   return (
     <header

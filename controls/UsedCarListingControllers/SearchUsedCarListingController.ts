@@ -19,7 +19,7 @@ export class SearchUsedCarListingController {
 
   public async searchUsedCarListingController(
     title: string
-  ): Promise<UsedCarListing | null> {
+  ): Promise<UsedCarListing[] | null> {
     const result = await this.usedCarListingEntity.searchUsedCarListingEntity(
       title
     );

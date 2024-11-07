@@ -15,7 +15,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <div>
       <Header />
-      <Landing />
       <main className="relative container top-40 mx-auto">{children}</main>
     </div>
   );

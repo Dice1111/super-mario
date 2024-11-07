@@ -1,11 +1,12 @@
 "use client";
 
-import ViewUsedCarListingUI from "@/app/boundaries/UsedCarAgentUI/ViewUsedCarListingUI";
+import ViewAgentUsedCarListingUI from "@/app/boundaries/UsedCarAgentUI/ViewAgentUsedCarListingUI";
+
 import React from "react";
 
 const ViewUsedCarListingPage = () => {
-  const viewUsedCarListingsUIInstance = ViewUsedCarListingUI.getInstance();
-  return <>{viewUsedCarListingsUIInstance.displayUsedCarListingUI()}</>;
+  const viewUsedCarListingsUIInstance = ViewAgentUsedCarListingUI.getInstance();
+  return <>{viewUsedCarListingsUIInstance.displayAgentUsedCarListingUI()}</>;
 };
 
 export default ViewUsedCarListingPage;

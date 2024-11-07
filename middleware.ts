@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 const isDisabled = process.env.MIDDLEWARE_DISABLED === "true";
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
+    console.log(isDisabled);
     if (isDisabled) {
       return NextResponse.next(); // Skip all checks
     }
