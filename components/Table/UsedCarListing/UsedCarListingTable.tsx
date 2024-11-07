@@ -7,7 +7,6 @@ import { UsedCarListing } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import DeleteUsedCarListingUI from "@/app/boundaries/UsedCarAgentUI/DeleteUsedCarListingUI";
-import { Edit } from "lucide-react";
 import EditUsedCarListingUI from "@/app/boundaries/UsedCarAgentUI/EditUsedCarListingUI";
 
 interface ViewUsedCarListingProps {

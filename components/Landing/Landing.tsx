@@ -3,7 +3,7 @@ import bgCar from "@/public/images/white-car.jpg";
 const Landing = () => {
   return (
     <div
-      className=" relative bg-red-500 h-screen flex items-start justify-start -ml-4"
+      className=" relative bg-red-500 h-screen w-w-full flex items-start justify-start -ml-4"
       style={{
         backgroundImage: `url(${bgCar.src})`,
         backgroundSize: "cover",

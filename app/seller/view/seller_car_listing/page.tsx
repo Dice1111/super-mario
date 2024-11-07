@@ -1,11 +1,10 @@
 "use client";
 
-import ViewSellerCarListingUI from "@/app/boundaries/SellerUI/ViewSellerCarListingUI";
-import React from "react";
+import ViewSellerUsedCarListingUI from "@/app/boundaries/SellerUI/ViewSellerUsedCarListingUI";
 
 const ViewUsedCarListingPage = () => {
-  const boundary = ViewSellerCarListingUI.getInstance();
-  return <>{boundary.displaySellerCarListingUI()}</>;
+  const boundary = ViewSellerUsedCarListingUI.getInstance();
+  return <>{boundary.displaySellerUsedCarListingUI()}</>;
 };
 
 export default ViewUsedCarListingPage;

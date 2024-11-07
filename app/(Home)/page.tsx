@@ -1,28 +1,8 @@
-import Card from "@/components/Card/Card";
-import BuyerSearchBar from "@/components/Search/BuyerSearch/BuyerSearchBar";
-import { relative } from "path";
+"use client";
+import ViewUsedCarListingHomeUI from "../boundaries/HomeUI/ViewUsedCarListingHomeUI";
 
 export default async function Home() {
-  // const session = await getServerSession(authOptions);
-  return (
-    <main>
-      <div>
-        <BuyerSearchBar />
-      </div>
+  const viewUsedCarListing = ViewUsedCarListingHomeUI.getInstance();
 
-      <br />
-      <br />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-10 ">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-      </div>
-    </main>
-  );
+  return <>{viewUsedCarListing.displayUsedCarListingHomeUI()}</>;
 }

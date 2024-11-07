@@ -1,6 +1,6 @@
 "use client";
 import ViewUserAccountUI from "@/app/boundaries/AdminUI/ViewUserAccountUI";
-import React, { Component } from "react";
+import React from "react";
 
 const ViewUserAccountPage = () => {
   const viewUserAccountUI = ViewUserAccountUI.getInstance();

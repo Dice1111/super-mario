@@ -1,5 +1,5 @@
 import UsedCarAgentProfileTable from "@/components/Table/UsedCarAgentProfile/UsedCarAgentProfileTable";
-import { ViewUsedCarAgentProfileController } from "@/controls/SellerCarListingControllers/ViewUsedCarAgentProfileController";
+import { ViewUsedCarAgentProfileController } from "@/controls/UsedCarListingControllers/ViewUsedCarAgentProfileController";
 
 import { UserProfile } from "@prisma/client";
 

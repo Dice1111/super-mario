@@ -1,13 +1,15 @@
-import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { baseUrl } from "@/lib/utils";
-import { Status, UsedCarListing } from "@prisma/client";
+import { UsedCarListing } from "@prisma/client";
+
+
 
 export class UsedCarListingEntity {
   private static instance: UsedCarListingEntity;
   private usedCarListings: UsedCarListing[] = [];
   private listingLoaded: boolean = false;
+ 
 
-  // Static method to provide access to the single instance of the class
+  // Singleton instance access
   public static getInstance(): UsedCarListingEntity {
     if (!UsedCarListingEntity.instance) {
       UsedCarListingEntity.instance = new UsedCarListingEntity();
@@ -24,22 +26,45 @@ export class UsedCarListingEntity {
 
   public async viewUsedCarListingEntity(): Promise<UsedCarListing[]> {
     const usedCarListings = await this.getUsedCarListing();
-    console.log(usedCarListings);
+    console.log("Loaded used car listings:", usedCarListings);
     return usedCarListings;
   }
 
+  public async viewUsedCarListingForAgentEntity(email: string): Promise<UsedCarListing[]> {
+  
+    const useCarListings = await this.getUsedCarListing();
+    // Filter listings by agent email
+    const result = useCarListings.filter((car) => car.agentEmail === email);
+    return result;
+  }
+
+
+  public async viewUsedCarListingForSellerEntity(email: string): Promise<UsedCarListing[]> {
+  
+    const useCarListings = await this.getUsedCarListing();
+    // Filter listings by agent email
+    const result = useCarListings.filter((car) => car.sellerEmail === email);
+    return result;
+  }
+
+
+
+
+
+
+
   public async editUsedCarListingEntity(
-    id: String,
-    title: String,
-    agentEmail: String,
-    sellerEmail: String,
-    mileage: Number,
-    color: String,
-    condition: String,
-    imgUrl: String,
-    manufacturedYear: Number,
-    price: Number,
-    description: String
+    id: string,
+    title: string,
+    agentEmail: string,
+    sellerEmail: string,
+    mileage: number,
+    color: string,
+    condition: string,
+    imgUrl: string,
+    manufacturedYear: number,
+    price: number,
+    description: string
   ): Promise<boolean> {
     try {
       const data = {
@@ -55,6 +80,7 @@ export class UsedCarListingEntity {
         price,
         description,
       };
+
       const response = await fetch(`${baseUrl}/api/usedCarListing`, {
         method: "PUT",
         headers: {
@@ -64,20 +90,21 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.log("Entity update failed");
+        console.log("Failed to update listing");
         return false;
       }
-      console.log("Entity update success");
-      await this.loadUsedCarListings();
+
+      console.log("Listing updated successfully");
+      await this.loadUsedCarListings(); // Refresh cached listings
 
       return true;
     } catch (error) {
-      console.error("Failed to create usedCarlisting:", error);
+      console.error("Failed to update used car listing:", error);
       return false;
     }
   }
 
-  public async deleteUsedCarListingEntity(id: String): Promise<boolean> {
+  public async deleteUsedCarListingEntity(id: string): Promise<boolean> {
     try {
       const response = await fetch(`${baseUrl}/api/usedCarListing/${id}`, {
         method: "DELETE",
@@ -87,23 +114,21 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.log("Entity deletion failed");
+        console.log("Failed to delete listing");
         return false;
       }
 
-      console.log("Entity deletion success");
-      await this.loadUsedCarListings();
+      console.log("Listing deleted successfully");
+      await this.loadUsedCarListings(); // Refresh cached listings
 
       return true;
     } catch (error) {
-      console.error("Failed to delete usedCarlisting:", error);
+      console.error("Failed to delete used car listing:", error);
       return false;
     }
   }
 
-  public async searchUsedCarListingEntity(
-    title: string
-  ): Promise<UsedCarListing | null> {
+  public async searchUsedCarListingEntity(title: string): Promise<UsedCarListing | null> {
     try {
       const response = await fetch(`${baseUrl}/api/usedCarListing/${title}`, {
         method: "GET",
@@ -113,15 +138,14 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.error("Error fetching usedcarlisting:", response.statusText);
+        console.error("Error fetching used car listing:", response.statusText);
         return null;
       }
 
-      const res = await response.json();
-
+      const res: UsedCarListing = await response.json();
       return res;
     } catch (error) {
-      console.error("Failed to fetch usedcarlisting:", error);
+      console.error("Failed to fetch used car listing:", error);
       return null;
     }
   }
@@ -151,6 +175,7 @@ export class UsedCarListingEntity {
         price,
         description,
       };
+
       const response = await fetch(`${baseUrl}/api/usedCarListing`, {
         method: "POST",
         headers: {
@@ -158,34 +183,38 @@ export class UsedCarListingEntity {
         },
         body: JSON.stringify(data),
       });
+
       if (!response.ok) {
+        console.log("Failed to create listing");
         return false;
       }
-      this.loadUsedCarListings();
+
+      console.log("Listing created successfully");
+      await this.loadUsedCarListings(); // Refresh cached listings
+
       return true;
     } catch (error) {
       console.error("Failed to create used car listing:", error);
       return false;
     }
   }
-  // Load users from the API, and cache the result
+
   private async loadUsedCarListings(): Promise<void> {
     try {
       const response = await fetch(`${baseUrl}/api/usedCarListing`, {
         cache: "no-cache",
       });
+
       if (!response.ok) {
         console.error(`Error: Received status ${response.status}`);
         return;
       }
 
       const res = await response.json();
-
       this.usedCarListings = res.usedCarListings;
-
       this.listingLoaded = true;
     } catch (error) {
-      console.error("Failed to load users:", error);
+      console.error("Failed to load car listings:", error);
     }
   }
 }

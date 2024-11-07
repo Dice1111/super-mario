@@ -1,7 +1,5 @@
 import prisma from "@/lib/db";
 import { getServerSession } from "next-auth";
-
-import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/authOptions";
 
@@ -9,18 +7,18 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
-    if (
-      (!session && session!.user.role !== Role.seller) ||
-      (!session && session!.user.role !== Role.agent)
-    ) {
-      return NextResponse.json({ error: "No Session" }, { status: 401 });
-    }
+    // if (
+    //   (!session && session!.user.role !== Role.seller) ||
+    //   (!session && session!.user.role !== Role.agent)
+    // ) {
+    //   return NextResponse.json({ error: "No Session" }, { status: 401 });
+    // }
 
-    const isAgent = session!.user.role === Role.agent;
+    // const isAgent = session!.user.role === Role.agent;
     const carListings = await prisma.usedCarListing.findMany({
-      where: {
-        [isAgent ? "agentEmail" : "sellerEmail"]: session!.user.email!,
-      },
+      // where: {
+      //   [isAgent ? "agentEmail" : "sellerEmail"]: session!.user.email!,
+      // },
     });
 
     return NextResponse.json({ usedCarListings: carListings }, { status: 200 });
