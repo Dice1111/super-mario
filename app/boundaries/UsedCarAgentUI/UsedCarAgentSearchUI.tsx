@@ -1,15 +1,10 @@
-import { AdminSearchSchemaType } from "@/components/Search/AdminSearch/AdminSearchSchema";
-import AdminSearchBar from "@/components/Search/AdminSearch/AdminSearchBar";
 import AgentSearchBar from "@/components/Search/AgentSearch/AgentSearchBar";
 import SearchOutputFrame from "@/components/Search/SearchOutputFrame";
-import { SearchUserAccountController } from "@/controls/UserAccountContollers/SearchUserAccountController";
-import { SearchUserProfileController } from "@/controls/UserProfileControllers/SearchUserProfileController";
 
-import { UsedCarListing, User, UserProfile } from "@prisma/client";
-import { useState } from "react";
 import { AgentSearchSchemaType } from "@/components/Search/AgentSearch/AgentSearchSchema";
 import { SearchUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchUsedCarListingController";
-import { ClientRequest } from "http";
+import { UsedCarListing } from "@prisma/client";
+import { useState } from "react";
 
 class UsedCarAgentSearchUI {
   private static instance: UsedCarAgentSearchUI;
@@ -24,7 +19,7 @@ class UsedCarAgentSearchUI {
   }
 
   public displayUsedCarAgentSearchUI = (): JSX.Element => {
-    const [searchResult, setSearchResult] = useState<UsedCarListing | null>(
+    const [searchResult, setSearchResult] = useState<UsedCarListing[] | null>(
       null
     );
     const searchType = "used_car_listing";

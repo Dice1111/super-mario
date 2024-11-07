@@ -22,8 +22,8 @@ export class ViewRatingAndReviewListController {
   }
 
 
-  public async viewRatingAndReviewListController(): Promise<AgentReview[]> {
-    const result = await this.reviewAndRatingEntity.viewReviewAndRatingEntity();
+  public async viewRatingAndReviewListController(email:string): Promise<AgentReview[]> {
+    const result = await this.reviewAndRatingEntity.viewSpecificReviewAndRatingEntity(email);
     return result;
   }
 }

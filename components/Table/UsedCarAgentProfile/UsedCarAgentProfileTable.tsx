@@ -1,8 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { UsedCarListing, UserProfile } from "@prisma/client";
+import { UserProfile } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { columns as columnDefinitions } from "./columns";
 import { DataTable } from "./data-table";
@@ -13,6 +14,7 @@ interface ViewUsedCarAgentProfileProps {
 export default function UsedCarAgentProfileTable({
   loadData,
 }: ViewUsedCarAgentProfileProps) {
+  const router = useRouter(); // Initialize router
   const hasFetchedRef = useRef<boolean>(false);
   const [data, setData] = useState<UserProfile[]>([]);
 
@@ -31,8 +33,8 @@ export default function UsedCarAgentProfileTable({
   }, []);
 
   const handleReivewButton = (selectedProfile: UserProfile) => {
-    //add review section here
-    //use router and call route
+    const agentEmail = selectedProfile.userEmail;
+    router.push(`/product/user_review/${agentEmail}`);
   };
 
   const columns: ColumnDef<UserProfile>[] = columnDefinitions.map((column) => {

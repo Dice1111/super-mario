@@ -10,7 +10,6 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form"; // Import necessary components
-import { UsedCarListing } from "@prisma/client";
 import AgentSearchSchema, { AgentSearchSchemaType } from "./AgentSearchSchema";
 
 interface SearchBarProps {

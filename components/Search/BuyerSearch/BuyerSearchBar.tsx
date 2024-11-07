@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface SearchBarProps {
-  onSearch?: (query: string) => void;
+  onSearch?: (title: string) => void;
 }
 
 export default function BuyerSearchBar({ onSearch }: SearchBarProps) {

@@ -1,17 +1,23 @@
 "use client";
 
-import React, { use } from "react";
 import ViewUsedCarDetailUI from "@/app/boundaries/UserUI/ViewUsedCarDetailUI";
+import { UsedCarListing } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 
-interface Props {
-  params: Promise<{ id: string }>;
-}
+const UsedCarDetailPage = () => {
+  const searchParams = useSearchParams();
+  const carData = searchParams.get("carData");
 
-const UsedCarDetailPage = ({ params }: Props) => {
-  const unwrappedParams = use(params);
-  const boundary = ViewUsedCarDetailUI.getInstance();
+  // Parse the car data if it exists
+  const car: UsedCarListing | null = carData
+    ? JSON.parse(decodeURIComponent(carData))
+    : null;
 
-  return <>{boundary.displayUsedCarDetailUI(unwrappedParams.id)} </>;
+  if (!car) {
+    return <p>Car details not available.</p>;
+  }
+
+  return <>{ViewUsedCarDetailUI.getInstance().displayUsedCarDetailUI(car)}</>;
 };
 
 export default UsedCarDetailPage;

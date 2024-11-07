@@ -3,13 +3,13 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 
 interface ReviewAndRatingListProps {
-  email: string;
+  agentEmail: string;
   loadData: () => Promise<AgentReview[]>;
   onAddReview: (comment: string, rating: number) => Promise<void>;
 }
 
 const ReviewAndRatingList = ({
-  email,
+  agentEmail,
   loadData,
   onAddReview,
 }: ReviewAndRatingListProps) => {
@@ -62,7 +62,7 @@ const ReviewAndRatingList = ({
 
   return (
     <>
-      <h1>User Reviews for {email}</h1>
+      <h1>User Reviews for {agentEmail}</h1>
       <br />
 
       {/* Only show the review input section if the user is logged in and not an admin */}

@@ -1,9 +1,11 @@
 "use client";
+
 import React, { useState } from "react";
 import { UsedCarListing } from "@prisma/client";
 import { FaUser, FaEye, FaHeart, FaRegHeart } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { CldImage } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 
 interface CardProps {
   car: UsedCarListing;
@@ -11,9 +13,16 @@ interface CardProps {
 
 const Card = ({ car }: CardProps) => {
   const [isFavorited, setIsFavorited] = useState(false);
+  const router = useRouter();
 
   const handleFavoriteClick = () => {
     setIsFavorited(!isFavorited);
+  };
+
+  const handleShowDetails = () => {
+    // Encode the car data as a JSON string in the query
+    const carData = encodeURIComponent(JSON.stringify(car));
+    router.push(`/product/used_car_detail/${car.id}?carData=${carData}`);
   };
 
   return (
@@ -70,7 +79,10 @@ const Card = ({ car }: CardProps) => {
 
         {/* Show Details Button */}
         <div className="flex justify-end">
-          <Button className="px-4 py-2 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200">
+          <Button
+            onClick={handleShowDetails}
+            className="px-4 py-2 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200"
+          >
             Show Details
           </Button>
         </div>

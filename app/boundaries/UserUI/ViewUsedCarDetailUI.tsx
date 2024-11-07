@@ -1,4 +1,5 @@
 import UsedCarDetail from "@/components/UsedCarDetail/UsedCarDetail";
+import { UsedCarListing } from "@prisma/client";
 
 class ViewUsedCarDetailUI {
   private static instance: ViewUsedCarDetailUI;
@@ -13,8 +14,8 @@ class ViewUsedCarDetailUI {
   }
 
   // Update here: id is now a string parameter
-  public displayUsedCarDetailUI(id: string): JSX.Element {
-    return <UsedCarDetail id={id} />;
+  public displayUsedCarDetailUI(car: UsedCarListing): JSX.Element {
+    return <UsedCarDetail car={car} />;
   }
 
   public displaySuccessUI() {

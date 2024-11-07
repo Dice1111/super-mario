@@ -128,7 +128,7 @@ export class UsedCarListingEntity {
     }
   }
 
-  public async searchUsedCarListingEntity(title: string): Promise<UsedCarListing | null> {
+  public async searchUsedCarListingEntity(title: string): Promise<UsedCarListing[] | null> {
     try {
       const response = await fetch(`${baseUrl}/api/usedCarListing/${title}`, {
         method: "GET",
@@ -142,8 +142,9 @@ export class UsedCarListingEntity {
         return null;
       }
 
-      const res: UsedCarListing = await response.json();
-      return res;
+      const res = await response.json();
+      console.log(res.usedCarListings);
+      return res.usedCarListings;
     } catch (error) {
       console.error("Failed to fetch used car listing:", error);
       return null;
