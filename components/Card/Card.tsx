@@ -6,6 +6,7 @@ import { FaUser, FaEye, FaHeart, FaRegHeart } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
+import { AddNumberOfViewController } from "@/controls/ViewControllers/AddNumberOfViewController";
 
 interface CardProps {
   car: UsedCarListing;
@@ -19,9 +20,16 @@ const Card = ({ car }: CardProps) => {
     setIsFavorited(!isFavorited);
   };
 
-  const handleShowDetails = () => {
+  const handleShowDetails = async () => {
+    car.viewCount++;
     // Encode the car data as a JSON string in the query
     const carData = encodeURIComponent(JSON.stringify(car));
+
+    //add number of views
+    const viewController = AddNumberOfViewController.getInstance();
+
+    const result = await viewController.addNumberOfViewController(car.id);
+
     router.push(`/product/used_car_detail/${car.id}?carData=${carData}`);
   };
 

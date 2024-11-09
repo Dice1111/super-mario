@@ -1,6 +1,6 @@
 "use client";
 
-import ViewUsedCarDetailUI from "@/app/boundaries/UserUI/ViewUsedCarDetailUI";
+import ViewUsedCarDetailUI from "@/app/boundaries/BuyerUI/ViewUsedCarDetailUI";
 import { UsedCarListing } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 
