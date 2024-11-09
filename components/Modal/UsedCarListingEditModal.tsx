@@ -11,10 +11,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UsedCarListing } from "@prisma/client";
+import { CldImage, CloudinaryUploadWidgetResults } from "next-cloudinary";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import UsedCarListingFormSchema, {
   UsedCarListingFormSchemaType,
 } from "../Forms/UsedCarListingFormSchema";
+import ImageUploadButton from "../ImageUI/ImageUploadButton";
 
 interface UsedCarListingEditProps {
   selectedUsedCarListing: UsedCarListing;
@@ -51,9 +54,34 @@ export function UsedCarListingEditModal({
     formState: { errors },
   } = form;
 
+  interface CloudinaryResult {
+    public_id: string;
+  }
+
+  useEffect(() => {
+    setPublicId(selectedUsedCarListing.imgUrl);
+  }, []);
+
+  const [publicId, setPublicId] = useState<string>("");
+
+  const onUpload = (result: CloudinaryUploadWidgetResults) => {
+    if (result.event !== "success") {
+      form.setValue("imgUrl", "");
+      return;
+    } else {
+      const info = result.info as CloudinaryResult;
+      console.log(result);
+      form.setValue("imgUrl", info.public_id);
+      setPublicId(info.public_id);
+    }
+  };
+
   return (
-    <Dialog open onOpenChange={handleCancel}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open onOpenChange={handleCancel} modal={false}>
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onInteractOutside={(event) => event.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>Edit used car listing</DialogTitle>
           <DialogDescription>
@@ -163,12 +191,19 @@ export function UsedCarListingEditModal({
               <Label htmlFor="imgUrl" className="text-right">
                 Image URL
               </Label>
-              <Input
-                id="imgUrl"
-                type="text"
-                {...register("imgUrl")}
-                className="col-span-3"
-              />
+              {publicId && (
+                <CldImage
+                  src={publicId}
+                  width={150}
+                  height={150}
+                  alt="Preview"
+                  style={{ objectFit: "contain" }} // Maintain aspect ratio
+                />
+              )}
+              <div>
+                <ImageUploadButton onUpload={onUpload} />
+              </div>
+              <input type="hidden" {...form.register("imgUrl")} />
               {errors.imgUrl && (
                 <p className="col-span-4 text-red-500 text-sm">
                   {errors.imgUrl.message}

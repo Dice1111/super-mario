@@ -10,15 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User, UserProfile } from "@prisma/client";
-import { useForm, FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import {
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
   FormMessage,
-  FormLabel,
 } from "@/components/ui/form"; // Import necessary components
 import AdminSearchSchema, { AdminSearchSchemaType } from "./AdminSearchSchema";
 
