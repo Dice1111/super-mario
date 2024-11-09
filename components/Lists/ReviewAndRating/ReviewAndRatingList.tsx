@@ -35,7 +35,6 @@ const ReviewAndRatingList = ({ loadData }: ReviewAndRatingListProps) => {
 
   return (
     <>
-      <h1>User Reviews</h1>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {data.map((review) => (
           <li

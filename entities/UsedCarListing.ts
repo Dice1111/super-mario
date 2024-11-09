@@ -47,6 +47,28 @@ export class UsedCarListingEntity {
     return result;
   }
 
+  public async addNumberOfViewEntity(id: string): Promise<boolean> {
+    try {
+      const response = await fetch(`${baseUrl}/api/usedCarListing/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        console.log("Failed to increment view count");
+        return false;
+      }
+  
+      console.log("View count incremented successfully");
+      await this.loadUsedCarListings();
+      return true;
+    } catch (error) {
+      console.error("Failed to increment view count:", error);
+      return false;
+    }
+  }
 
 
 
@@ -106,6 +128,7 @@ export class UsedCarListingEntity {
 
   public async deleteUsedCarListingEntity(id: string): Promise<boolean> {
     try {
+      console.log(id);
       const response = await fetch(`${baseUrl}/api/usedCarListing/${id}`, {
         method: "DELETE",
         headers: {
