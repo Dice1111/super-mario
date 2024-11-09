@@ -1,6 +1,6 @@
 "use client";
 
-import UserLogoutUI from "@/app/boundaries/AdminUI/UserLogoutUI";
+import UserLogoutUI from "@/app/boundaries/UserUI/UserLogoutUI";
 import {
   DropdownMenu,
   DropdownMenuContent,

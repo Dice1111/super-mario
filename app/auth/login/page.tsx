@@ -1,5 +1,6 @@
 "use client";
-import UserLoginUI from "@/app/boundaries/AdminUI/UserLoginUI";
+
+import UserLoginUI from "@/app/boundaries/UserUI/UserLoginUI";
 
 const LoginPage = () => {
   const boundary = UserLoginUI.getInstance();

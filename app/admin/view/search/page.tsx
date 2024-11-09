@@ -1,9 +1,11 @@
 "use client";
-import AdminSearchUI from "@/app/boundaries/AdminUI/AdminSearchUI";
-const SearchPage = () => {
-  const boundary = AdminSearchUI.getInstance();
 
-  return <>{boundary.displayAdminSearchUI()} </>;
+import SearchAdminUI from "@/app/boundaries/AdminUI/SearchAdminUI";
+
+const SearchPage = () => {
+  const boundary = SearchAdminUI.getInstance();
+
+  return <>{boundary.displaySearchAdminUI()} </>;
 };
 
 export default SearchPage;
