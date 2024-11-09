@@ -32,8 +32,10 @@ export class ReviewAndRatingEntity {
   }
 
   public async viewSpecificReviewAndRatingEntity(email: string): Promise<AgentReview[]> {
+   
     const reviews = await this.getReviewAndRating();
     const filteredReviews = reviews.filter(review => review.agentEmail === email || review.userEmail === email);
+    console.log("filteredReviews:", filteredReviews);
     return filteredReviews;
   }
 
