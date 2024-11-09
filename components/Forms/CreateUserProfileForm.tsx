@@ -10,7 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Role } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import UserProfileFormSchema, {
   UserProfileFormSchemaType,
@@ -23,7 +22,6 @@ interface CreateUserProfileFormProps {
 const CreateUserProfileForm = ({
   submitUserProfile,
 }: CreateUserProfileFormProps) => {
-  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(UserProfileFormSchema),
     defaultValues: {
@@ -37,6 +35,7 @@ const CreateUserProfileForm = ({
 
   return (
     <div className="w-[300px]">
+      <h1 className="font-bold text-2xl mb-5">Create User Profile</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(submitUserProfile)}

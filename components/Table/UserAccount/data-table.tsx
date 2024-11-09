@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
   });
 
   function handleCreateButton() {
-    router.push("/auth/create_account/");
+    router.push("/admin/view/create_account/");
   }
 
   return (

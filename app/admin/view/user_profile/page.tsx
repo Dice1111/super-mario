@@ -1,5 +1,4 @@
 "use client";
-import React, { Component } from "react";
 import ViewUserProfileUI from "@/app/boundaries/AdminUI/ViewUserProfileUI";
 
 const ViewUserProfilePage = () => {

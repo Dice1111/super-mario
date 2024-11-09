@@ -31,6 +31,7 @@ const CreateUserAccountForm = ({
 
   return (
     <div className="w-[300px]">
+      <h1 className="font-bold text-2xl mb-5">Create User Account</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(submitUserAccount)}
@@ -43,7 +44,7 @@ const CreateUserAccountForm = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" type="email" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
