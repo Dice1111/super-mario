@@ -159,7 +159,7 @@ export class UserEntity {
         return false;
       }
 
-      this.loadUsers();
+      await this.loadUsers();
 
       return true;
     } catch (error) {

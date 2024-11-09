@@ -10,13 +10,17 @@ import { AddNumberOfViewController } from "@/controls/ViewControllers/AddNumberO
 
 interface CardProps {
   car: UsedCarListing;
+  openModal: () => void;
 }
 
-const Card = ({ car }: CardProps) => {
+const Card = ({ car, openModal }: CardProps) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const router = useRouter();
 
   const handleFavoriteClick = () => {
+    console.log("m", car.id);
+
+    openModal();
     setIsFavorited(!isFavorited);
   };
 
@@ -24,7 +28,6 @@ const Card = ({ car }: CardProps) => {
     car.viewCount++;
     // Encode the car data as a JSON string in the query
     const carData = encodeURIComponent(JSON.stringify(car));
-
     //add number of views
     const viewController = AddNumberOfViewController.getInstance();
 
