@@ -1,7 +1,5 @@
 "use client";
 
-import Landing from "@/components/Landing/Landing";
-
 const Page = () => {
   return (
     <>

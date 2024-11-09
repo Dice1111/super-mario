@@ -94,6 +94,7 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Montserrat', sans-serif;
+    font-display: swap;
   }
 
   * {

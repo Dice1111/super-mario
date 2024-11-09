@@ -21,6 +21,7 @@ const ImageUploadButton = ({ onUpload }: ImageUploadButtonProps) => {
       {({ open }) => {
         return (
           <button
+            type="button"
             className="w-full justify-start text-left font-normal"
             onClick={() => open?.()}
           >

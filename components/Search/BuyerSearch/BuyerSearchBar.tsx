@@ -1,45 +1,61 @@
-"use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
+import { useForm, FormProvider } from "react-hook-form";
+import BuyerSearchSchema, { BuyerSearchSchemaType } from "./BuyerSearchSchema";
+import { UsedCarListing } from "@prisma/client";
 
 interface SearchBarProps {
-  onSearch?: (title: string) => void;
+  handleSearch: (values: BuyerSearchSchemaType) => Promise<void>;
 }
 
-export default function BuyerSearchBar({ onSearch }: SearchBarProps) {
-  const [query, setQuery] = useState("");
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearch) {
-      onSearch(query);
-    }
-  };
+const BuyerSearchBar = ({ handleSearch }: SearchBarProps) => {
+  const form = useForm<BuyerSearchSchemaType>({
+    resolver: zodResolver(BuyerSearchSchema),
+    defaultValues: {
+      title: "",
+    },
+  });
 
   return (
-    <div className="flex items-center justify-center ">
-      <div className="text-center">
-        <h1 className="font-bold text-2xl mb-4">Explore.</h1>
+    <FormProvider {...form}>
+      <div className="flex items-center space-x-4 w-full">
         <form
-          onSubmit={handleSearch}
-          className=" flex items-center justify-center p-4"
+          onSubmit={form.handleSubmit(handleSearch)}
+          className="flex flex-row items-center space-x-4"
         >
-          <Input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for car"
-            className="px-4 py-2 w-full max-w-xs border rounded-md"
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="flex items-center">
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Search by title"
+                    className="w-[180px] border border-gray-300 rounded-md p-2"
+                  />
+                </FormControl>
+                {/* Error message display */}
+                {form.formState.errors.title && (
+                  <FormMessage className="text-red-500">
+                    {form.formState.errors.title?.message}
+                  </FormMessage>
+                )}
+              </FormItem>
+            )}
           />
-          <Button
-            type="submit"
-            className="px-4 py-2 ml-2 bg-red-500 text-white rounded-md"
-          >
-            Search
-          </Button>
+          <Button type="submit">Search</Button>
         </form>
       </div>
-    </div>
+    </FormProvider>
   );
-}
+};
+
+export default BuyerSearchBar;
