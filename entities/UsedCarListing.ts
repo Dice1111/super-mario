@@ -1,13 +1,10 @@
 import { baseUrl } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
 
-
-
 export class UsedCarListingEntity {
   private static instance: UsedCarListingEntity;
   private usedCarListings: UsedCarListing[] = [];
   private listingLoaded: boolean = false;
- 
 
   // Singleton instance access
   public static getInstance(): UsedCarListingEntity {
@@ -30,17 +27,18 @@ export class UsedCarListingEntity {
     return usedCarListings;
   }
 
-  public async viewUsedCarListingForAgentEntity(email: string): Promise<UsedCarListing[]> {
-  
+  public async viewUsedCarListingForAgentEntity(
+    email: string
+  ): Promise<UsedCarListing[]> {
     const useCarListings = await this.getUsedCarListing();
     // Filter listings by agent email
     const result = useCarListings.filter((car) => car.agentEmail === email);
     return result;
   }
 
-
-  public async viewUsedCarListingForSellerEntity(email: string): Promise<UsedCarListing[]> {
-  
+  public async viewUsedCarListingForSellerEntity(
+    email: string
+  ): Promise<UsedCarListing[]> {
     const useCarListings = await this.getUsedCarListing();
     // Filter listings by agent email
     const result = useCarListings.filter((car) => car.sellerEmail === email);
@@ -55,12 +53,12 @@ export class UsedCarListingEntity {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (!response.ok) {
         console.log("Failed to increment view count");
         return false;
       }
-  
+
       console.log("View count incremented successfully");
       await this.loadUsedCarListings();
       return true;
@@ -69,11 +67,6 @@ export class UsedCarListingEntity {
       return false;
     }
   }
-
-
-
-
-
 
   public async editUsedCarListingEntity(
     id: string,
@@ -151,27 +144,29 @@ export class UsedCarListingEntity {
     }
   }
 
-  public async searchUsedCarListingEntity(title: string): Promise<UsedCarListing[] | null> {
-    try {
-      const response = await fetch(`${baseUrl}/api/usedCarListing/${title}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  public async searchAgentSpecificUsedCarListingEntity(
+    email: string,
+    title: string
+  ): Promise<UsedCarListing[] | null> {
+    const useCarListings = await this.getUsedCarListing();
+    const searchTerm = title.toLowerCase();
+    const result = useCarListings.filter(
+      (car) =>
+        car.agentEmail === email && car.title.toLowerCase().includes(searchTerm)
+    );
 
-      if (!response.ok) {
-        console.error("Error fetching used car listing:", response.statusText);
-        return null;
-      }
+    return result.length > 0 ? result : null;
+  }
 
-      const res = await response.json();
-      console.log(res.usedCarListings);
-      return res.usedCarListings;
-    } catch (error) {
-      console.error("Failed to fetch used car listing:", error);
-      return null;
-    }
+  public async searchUsedCarListingEntity(
+    title: string
+  ): Promise<UsedCarListing[] | null> {
+    const useCarListings = await this.getUsedCarListing();
+    const searchTerm = title.toLowerCase();
+    const result = useCarListings.filter((car) =>
+      car.title.toLowerCase().includes(searchTerm)
+    );
+    return result.length > 0 ? result : null;
   }
 
   public async createUsedCarListingEntity(

@@ -19,14 +19,9 @@ export class EditUserAccountController {
 
   public async editUserAccountController(
     id: string,
-    email: string,
     password: string
   ): Promise<boolean> {
-    const success = await this.userEntity.editUserAccountEntity(
-      id,
-      email,
-      password
-    );
+    const success = await this.userEntity.editUserAccountEntity(id, password);
     return success;
   }
 }

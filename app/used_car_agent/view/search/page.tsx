@@ -1,11 +1,11 @@
 "use client";
 
-import UsedCarAgentSearchUI from "@/app/boundaries/UsedCarAgentUI/UsedCarAgentSearchUI";
+import SearchAgentUsedCarListingUI from "@/app/boundaries/UsedCarAgentUI/SearchAgentUsedCarListingUI";
 
 const SearchPage = () => {
-  const boundary = UsedCarAgentSearchUI.getInstance();
+  const boundary = SearchAgentUsedCarListingUI.getInstance();
 
-  return <>{boundary.displayUsedCarAgentSearchUI()} </>;
+  return <>{boundary.displaySearchAgentUsedCarListingUI()} </>;
 };
 
 export default SearchPage;
