@@ -3,10 +3,12 @@
 import LoginForm from "@/components/Forms/LoginForm";
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { AuthControl } from "@/controls/AuthenticationControllers/AuthControl";
+import { successToast, errorToast } from "@/lib/utils";
 import { Role } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 class UserLoginUI {
   private static instance: UserLoginUI;
@@ -54,12 +56,13 @@ class UserLoginUI {
 
     return <LoginForm handleLogin={handleLogin} />;
   }
+
   public displaySuccessUI() {
-    alert("Login Successful");
+    toast.success("Login Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Login failed");
+    toast.error("Login Failed", errorToast);
   }
 }
 

@@ -3,9 +3,11 @@ import { AdminSearchSchemaType } from "@/components/Search/AdminSearch/AdminSear
 import SearchOutputFrame from "@/components/Search/SearchOutputFrame";
 import { SearchUserAccountController } from "@/controls/UserAccountContollers/SearchUserAccountController";
 import { SearchUserProfileController } from "@/controls/UserProfileControllers/SearchUserProfileController";
+import { errorToast, successToast } from "@/lib/utils";
 import { User, UserProfile } from "@prisma/client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 class SearchAdminUI {
   private static instance: SearchAdminUI;
@@ -50,8 +52,8 @@ class SearchAdminUI {
           const searchedProfile = await controller.searchUserProfileController(
             values.email
           );
-          console.log(searchedProfile);
           setSearchResult(searchedProfile);
+          searchedProfile ? this.displaySuccessUI() : this.displayErrorUI();
           this.displaySuccessUI();
         } catch (error) {
           this.displayErrorUI();
@@ -79,11 +81,11 @@ class SearchAdminUI {
   };
 
   public displaySuccessUI() {
-    alert("Data Found Successfully");
+    toast.success("Data Found Successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("Data Not Found");
+    toast.error("Data Not Found", errorToast);
   }
 }
 

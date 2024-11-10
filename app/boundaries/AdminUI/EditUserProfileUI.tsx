@@ -1,7 +1,9 @@
 import { UserProfileFormSchemaType } from "@/components/Forms/UserProfileFormSchema";
 import { UserProfileEditModal } from "@/components/Modal/UserProfileEditModal";
 import { EditUserProfileController } from "@/controls/UserProfileControllers/EditUserProfileController";
+import { errorToast, successToast } from "@/lib/utils";
 import { UserProfile } from "@prisma/client";
+import { toast } from "sonner";
 
 class EditUserProfileUI {
   private static instance: EditUserProfileUI;
@@ -52,12 +54,12 @@ class EditUserProfileUI {
     );
   };
 
-  displaySuccessUI() {
-    alert("User Profile Updated Successfully");
+  public displaySuccessUI() {
+    toast.success("User Profile Updated Successfully", successToast);
   }
 
-  displayErrorUI() {
-    alert("User Profile Updated Failed");
+  public displayErrorUI() {
+    toast.error("User Profile Updated Failed", errorToast);
   }
 }
 

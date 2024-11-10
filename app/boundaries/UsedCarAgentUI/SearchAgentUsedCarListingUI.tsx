@@ -2,11 +2,12 @@ import AgentSearchBar from "@/components/Search/AgentSearch/AgentSearchBar";
 import SearchOutputFrame from "@/components/Search/SearchOutputFrame";
 
 import { AgentSearchSchemaType } from "@/components/Search/AgentSearch/AgentSearchSchema";
-import { SearchUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchUsedCarListingController";
-import { UsedCarListing } from "@prisma/client";
-import { useState } from "react";
 import { SearchAgentSpecificUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchAgentSpecificUsedCarListingController";
+import { errorToast, successToast } from "@/lib/utils";
+import { UsedCarListing } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 class SearchAgentUsedCarListingUI {
   private static instance: SearchAgentUsedCarListingUI;
@@ -73,11 +74,11 @@ class SearchAgentUsedCarListingUI {
   };
 
   public displaySuccessUI() {
-    alert("Data Found Successfully");
+    toast.success("Data Found Successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("Data Not Found");
+    toast.error("Data Not Found", errorToast);
   }
 }
 

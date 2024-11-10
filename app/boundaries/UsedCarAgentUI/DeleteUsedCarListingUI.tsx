@@ -1,6 +1,8 @@
 import UsedCarListingDeleteModal from "@/components/Modal/UsedCarListingDeleteModal";
 import { DeleteUsedCarListingController } from "@/controls/UsedCarListingControllers/DeleteUsedCarListingController";
+import { successToast, errorToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
+import { toast } from "sonner";
 
 class DeleteUsedCarListingUI {
   private static instance: DeleteUsedCarListingUI;
@@ -49,11 +51,11 @@ class DeleteUsedCarListingUI {
   };
 
   public displaySuccessUI() {
-    alert("Used Car Listing Deleted Successfully");
+    toast.success("Used Car Listing Deleted Successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("Used Car Listing Deletion Failed");
+    toast.error("Used Car Listing Deletion Failed", errorToast);
   }
 }
 

@@ -1,6 +1,8 @@
 import CarListing from "@/components/Lists/CarListing/CarListing";
 import { ViewShortlistController } from "@/controls/ShortlistControllers/ViewShortlistController";
-import { Shortlist, UsedCarListing } from "@prisma/client";
+import { errorToast, successToast } from "@/lib/utils";
+import { UsedCarListing } from "@prisma/client";
+import { toast } from "sonner";
 
 class ViewShortlistUI {
   private static instance: ViewShortlistUI;
@@ -28,11 +30,11 @@ class ViewShortlistUI {
   }
 
   public displaySuccessUI() {
-    alert("Review and Rating Data Retrieval Successful");
+    toast.success("Shortlist Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Review and Rating Data Retrieval Failed");
+    toast.error("Shortlist Data Retrieval Failed", errorToast);
   }
 }
 

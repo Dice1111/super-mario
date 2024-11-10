@@ -2,6 +2,8 @@ import { UsedCarListingFormSchemaType } from "@/components/Forms/UsedCarListingF
 import { CreateUsedCarListingController } from "@/controls/UsedCarListingControllers/CreateUsedCarListingController";
 import { useRouter } from "next/navigation";
 import CreateUsedCarListingForm from "@/components/Forms/CreateUsedCarListingForm";
+import { successToast, errorToast } from "@/lib/utils";
+import { toast } from "sonner";
 
 class CreateUsedCarListingUI {
   private static instance: CreateUsedCarListingUI;
@@ -51,12 +53,12 @@ class CreateUsedCarListingUI {
     );
   };
 
-  public displaySuccessUI(): void {
-    alert("Successfully created used car listing");
+  public displaySuccessUI() {
+    toast.success("Successfully created used car listing", successToast);
   }
 
-  public displayErrorUI(): void {
-    alert("Failed to create used car listing");
+  public displayErrorUI() {
+    toast.error("Failed to create used car listing", errorToast);
   }
 }
 

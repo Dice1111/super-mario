@@ -15,14 +15,6 @@ class LoanCalculatorUI {
   public displayLoanCalculatorUI(): JSX.Element {
     return <LoanCalculatorForm />;
   }
-
-  public displaySuccessUI() {
-    alert("Loan Calculator Data Retrieval Successful");
-  }
-
-  public displayErrorUI() {
-    alert("Loan Calculator Data Retrieval Failed");
-  }
 }
 
 export default LoanCalculatorUI;

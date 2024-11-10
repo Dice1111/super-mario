@@ -10,25 +10,27 @@ export class CreateReviewAndRatingController {
 
   public static getInstance(): CreateReviewAndRatingController {
     if (!CreateReviewAndRatingController.instance) {
-      CreateReviewAndRatingController.instance = new CreateReviewAndRatingController(
-        ReviewAndRatingEntity.getInstance()
-      );
+      CreateReviewAndRatingController.instance =
+        new CreateReviewAndRatingController(
+          ReviewAndRatingEntity.getInstance()
+        );
     }
     return CreateReviewAndRatingController.instance;
   }
 
-  public async CreateReviewAndRatingController(
+  public async createReviewAndRatingController(
     comment: string,
     rating: number,
     userEmail: string,
     agentEmail: string
   ): Promise<boolean> {
-    const success = await this.reviewAndRatingEntity.createReviewAndRatingEntity(
-      comment,
-      rating,
-      userEmail,
-      agentEmail
-    )
+    const success =
+      await this.reviewAndRatingEntity.createReviewAndRatingEntity(
+        comment,
+        rating,
+        userEmail,
+        agentEmail
+      );
     return success;
   }
 }

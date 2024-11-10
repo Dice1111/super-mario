@@ -1,7 +1,9 @@
 import LogoutForm from "@/components/Forms/LogoutForm";
 import { AuthControl } from "@/controls/AuthenticationControllers/AuthControl";
+import { successToast, errorToast } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 class UserLogoutUI {
   private static instance: UserLogoutUI;
@@ -41,11 +43,11 @@ class UserLogoutUI {
   };
 
   public displaySuccessUI() {
-    alert("Logout Successful");
+    toast.success("Logout Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Logout failed");
+    toast.error("Logout Failed", errorToast);
   }
 }
 

@@ -9,19 +9,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import UsedCarListingFormSchema, {
   UsedCarListingFormSchemaType,
 } from "./UsedCarListingFormSchema";
-import { useState } from "react";
 
-import {
-  CldImage,
-  CldUploadWidget,
-  CloudinaryUploadWidgetResults,
-} from "next-cloudinary";
-import ImageUploadButton from "../ImageUI/ImageUploadButton";
 import { useSession } from "next-auth/react";
+import { CldImage, CloudinaryUploadWidgetResults } from "next-cloudinary";
+import ImageUploadButton from "../ImageUI/ImageUploadButton";
 
 interface UsedCarListingFormProps {
   submitUsedCarListing: (values: UsedCarListingFormSchemaType) => Promise<void>;

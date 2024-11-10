@@ -1,10 +1,7 @@
-import prisma from "@/lib/db";
 import { baseUrl } from "@/lib/utils";
-import { Shortlist, UsedCarListing } from "@prisma/client";
-
+import { UsedCarListing, Shortlist } from "@prisma/client";
 
 export class ShortlistEntity {
-
   private static instance: ShortlistEntity;
   private shortlists: Shortlist[] = [];
   private shortlistLoaded: boolean = false;
@@ -45,7 +42,9 @@ export class ShortlistEntity {
     }
   }
 
-  public async viewBuyerSpecificShortlistEntity(email: string): Promise<UsedCarListing[]> {
+  public async viewBuyerSpecificShortlistEntity(
+    email: string
+  ): Promise<UsedCarListing[]> {
     try {
       // Fetch shortlist and car listings for the specified email
       const response = await fetch(`${baseUrl}/api/shortlists/${email}`, {
@@ -54,16 +53,16 @@ export class ShortlistEntity {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (!response.ok) {
         console.error("Failed to fetch shortlist entries");
         return [];
       }
-  
+
       // Parse the response JSON to get the car listings
       const data = await response.json();
       const usedCarListings: UsedCarListing[] = data.usedCarListings;
-  
+
       // Optionally, cache the car listings here if needed
       return usedCarListings;
     } catch (error) {
@@ -71,7 +70,6 @@ export class ShortlistEntity {
       return [];
     }
   }
-  
 
   public async createShortlistEntity(
     car_id: string,
@@ -82,7 +80,7 @@ export class ShortlistEntity {
         car_id,
         userEmail,
       };
-      console.log("entity",data);
+      console.log("entity", data);
       const response = await fetch(`${baseUrl}/api/shortlists`, {
         method: "POST",
         headers: {
@@ -127,8 +125,4 @@ export class ShortlistEntity {
       return false;
     }
   }
-  
-
-
 }
-

@@ -1,5 +1,7 @@
 import AddToShotListModal from "@/components/Modal/AddToShortListModal";
 import { CreateShortlistController } from "@/controls/ShortlistControllers/CreateShortlistController";
+import { errorToast, successToast } from "@/lib/utils";
+import { toast } from "sonner";
 
 class CreateShortlistUI {
   private static instance: CreateShortlistUI;
@@ -36,11 +38,11 @@ class CreateShortlistUI {
   }
 
   public displaySuccessUI() {
-    alert("Review and Rating Creation Successful");
+    toast.success("Shortlist has been made successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("Review and Rating Creation Failed");
+    toast.error("Failed to add Shortlist", errorToast);
   }
 }
 

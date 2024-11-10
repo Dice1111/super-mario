@@ -1,7 +1,9 @@
 import CreateUserProfileForm from "@/components/Forms/CreateUserProfileForm";
 import { UserProfileFormSchemaType } from "@/components/Forms/UserProfileFormSchema";
 import { CreateUserProfileController } from "@/controls/UserProfileControllers/CreateUserProfileController";
+import { errorToast, successToast } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 class CreateUserProfileUI {
   private static instance: CreateUserProfileUI;
@@ -40,12 +42,13 @@ class CreateUserProfileUI {
 
     return <CreateUserProfileForm submitUserProfile={submitUserProfile} />;
   };
+
   public displaySuccessUI() {
-    alert("Successfully created user profile");
+    toast.success("Successfully created user profile", successToast);
   }
 
   public displayErrorUI() {
-    alert("Failed to create user profile");
+    toast.error("Failed to create user profile", errorToast);
   }
 }
 

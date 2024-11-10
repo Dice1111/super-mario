@@ -1,6 +1,8 @@
 import UserProfileSuspendModal from "@/components/Modal/UserPorfileSuspendModal";
 import { SuspendUserProfileController } from "@/controls/UserProfileControllers/SuspendUserProfileController";
+import { errorToast, successToast } from "@/lib/utils";
 import { Status, UserProfile } from "@prisma/client";
+import { toast } from "sonner";
 
 class SuspendUserProfileUI {
   private static instance: SuspendUserProfileUI;
@@ -53,12 +55,12 @@ class SuspendUserProfileUI {
     );
   };
 
-  displaySuccessUI() {
-    alert("User Profile Suspended Successfully");
+  public displaySuccessUI() {
+    toast.success("User Profile Suspended Successfully", successToast);
   }
 
-  displayErrorUI() {
-    alert("User Profile Suspended Failed");
+  public displayErrorUI() {
+    toast.error("User Profile Suspended Failed", errorToast);
   }
 }
 

@@ -1,6 +1,8 @@
 import UserAccountTable from "@/components/Table/UserAccount/UserAccountTable";
 import { ViewUserAccountsController } from "@/controls/UserAccountContollers/ViewUserAccountController";
+import { toast } from "sonner";
 import { User } from "@prisma/client";
+import { errorToast, successToast } from "@/lib/utils";
 
 class ViewUserAccountUI {
   private static instance: ViewUserAccountUI;
@@ -35,11 +37,11 @@ class ViewUserAccountUI {
   };
 
   public displaySuccessUI() {
-    alert("User Account Data Retrieval Successful");
+    toast.success("Data retrieved successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Account Data Retrieval Failed");
+    toast.error("Data retrieved failed", errorToast);
   }
 }
 

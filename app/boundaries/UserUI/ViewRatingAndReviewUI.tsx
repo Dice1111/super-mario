@@ -2,6 +2,8 @@ import { ViewRatingAndReviewListController } from "@/controls/ReviewAndRatingCon
 import { AgentReview } from "@prisma/client";
 
 import ReviewAndRatingList from "@/components/Lists/ReviewAndRating/ReviewAndRatingList";
+import { successToast, errorToast } from "@/lib/utils";
+import { toast } from "sonner";
 
 class ViewRatingAndReviewUI {
   private static instance: ViewRatingAndReviewUI;
@@ -32,13 +34,12 @@ class ViewRatingAndReviewUI {
 
     return <ReviewAndRatingList loadData={loadData} />;
   }
-
   public displaySuccessUI() {
-    alert("Review and Rating Data Retrieval Successful");
+    toast.success("Review and Rating Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Review and Rating Data Retrieval Failed");
+    toast.error("Review and Rating Data Retrieval Failed", errorToast);
   }
 }
 

@@ -1,4 +1,6 @@
 import React from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 interface messageProps {
   message: string;
@@ -6,11 +8,11 @@ interface messageProps {
 
 const SuccessToast = ({ message }: messageProps) => {
   return (
-    <div className="toast">
-      <div className="alert alert-success">
-        <span>{message}</span>
-      </div>
-    </div>
+    <Alert>
+      <Terminal className="h-4 w-4" />
+      <AlertTitle>Success</AlertTitle>
+      <AlertDescription>{message}</AlertDescription>
+    </Alert>
   );
 };
 

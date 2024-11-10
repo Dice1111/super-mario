@@ -1,5 +1,5 @@
 "use client";
-import CreateReviewAndRatingUI from "@/app/boundaries/BuyerUI/CreateReviewAndRatingUI";
+import CreateReviewAndRatingUI from "@/app/boundaries/UserUI/CreateReviewAndRatingUI";
 import ViewRatingAndReviewUI from "@/app/boundaries/UserUI/ViewRatingAndReviewUI";
 import { use } from "react";
 

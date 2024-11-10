@@ -1,7 +1,9 @@
 import SellerCarListingTable from "@/components/Table/SellerCarListing/SellerCarListingTable";
 import { ViewSellerSpecificUsedCarListingController } from "@/controls/UsedCarListingControllers/ViewSellerSpecificUsedCarListingController";
+import { successToast, errorToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 class ViewSellerUsedCarListing {
   private static instance: ViewSellerUsedCarListing;
@@ -46,11 +48,11 @@ class ViewSellerUsedCarListing {
   };
 
   public displaySuccessUI() {
-    alert("User Account Data Retrieval Successful");
+    toast.success("Car Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Account Data Retrieval Failed");
+    toast.error("Car Data Retrieval Failed", errorToast);
   }
 }
 
