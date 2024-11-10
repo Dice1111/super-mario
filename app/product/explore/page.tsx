@@ -1,6 +1,6 @@
 "use client";
 
-import SearchBuyerUsedCarListingUI from "@/app/boundaries/UserUI/SearchBuyerUsedCarListingUI";
+import SearchBuyerUsedCarListingUI from "@/app/boundaries/BuyerUI/SearchBuyerUsedCarListingUI";
 
 const ExploreProductPage = () => {
   const boundary = SearchBuyerUsedCarListingUI.getInstance();

@@ -21,6 +21,18 @@ export class UsedCarListingEntity {
     return this.usedCarListings;
   }
 
+  public async viewTopFourUsedCarListingsByViewCount(): Promise<UsedCarListing[]> {
+    // Ensure listings are loaded
+    const usedCarListings = await this.getUsedCarListing();
+    
+    // Sort by viewCount in descending order and get the top 4
+    const topFourListings = usedCarListings
+      .sort((a, b) => b.viewCount - a.viewCount)
+      .slice(0, 4);
+  
+    return topFourListings;
+  }
+
   public async viewUsedCarListingEntity(): Promise<UsedCarListing[]> {
     const usedCarListings = await this.getUsedCarListing();
     return usedCarListings;

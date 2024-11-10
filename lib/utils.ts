@@ -24,8 +24,8 @@ export const MenuItems: MenuType[] = [
     link: "/product/loan_calculator",
   },
   {
-    name: "Contact",
-    link: "/contact",
+    name: "Popular Cars",
+    link: "/product/popular",
   },
 ];
 

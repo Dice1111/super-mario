@@ -7,6 +7,33 @@ interface Props {
 
 
 
+export async function GET(request: NextRequest, { params: { id } }: Props) {
+  try {
+    // Get shortlist entries for the specified user
+    const shortlists = await prisma.shortlist.findMany({
+      where: { userEmail: id },
+    });
+
+    // Extract listing IDs from the shortlist entries
+    const listingIds = shortlists.map((shortlist) => shortlist.listingId);
+
+    // Fetch car listings with matching listing IDs from usedCarListing
+    const usedCarListings = await prisma.usedCarListing.findMany({
+      where: {
+        id: { in: listingIds },
+      },
+    });
+
+    return NextResponse.json({ usedCarListings }, { status: 200 });
+  } catch (error) {
+    console.error("Failed to fetch shortlist and car listings:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch shortlist and car listings" },
+      { status: 500 }
+    );
+  }
+}
+
 
 export async function DELETE(request: NextRequest, { params: { id } }: Props) {
     try {
