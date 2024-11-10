@@ -34,7 +34,7 @@ export default function UsedCarAgentProfileTable({
 
   const handleReivewButton = (selectedProfile: UserProfile) => {
     const agentEmail = selectedProfile.userEmail;
-    router.push(`/product/user_review/${agentEmail}`);
+    router.push(`/seller/view/agent_review/${agentEmail}`);
   };
 
   const columns: ColumnDef<UserProfile>[] = columnDefinitions.map((column) => {
