@@ -18,10 +18,6 @@ class CreateShortlistUI {
     car_id: string,
     userEmail: string
   ): JSX.Element {
-    const handleCancel = () => {
-      fetchData();
-    };
-
     const handleConfirm = async () => {
       const createShortlistController = CreateShortlistController.getInstance();
       const result = await createShortlistController.createShortlistController(
@@ -36,12 +32,7 @@ class CreateShortlistUI {
       fetchData();
     };
 
-    return (
-      <AddToShotListModal
-        handleCancel={handleCancel}
-        handleConfirm={handleConfirm}
-      />
-    );
+    return <AddToShotListModal handleConfirm={handleConfirm} />;
   }
 
   public displaySuccessUI() {

@@ -1,5 +1,6 @@
+import prisma from "@/lib/db";
 import { baseUrl } from "@/lib/utils";
-import { Shortlist } from "@prisma/client";
+import { Shortlist, UsedCarListing } from "@prisma/client";
 
 
 export class ShortlistEntity {
@@ -16,16 +17,11 @@ export class ShortlistEntity {
     return ShortlistEntity.instance;
   }
 
-  public async getShotlist(): Promise<Shortlist[]> {
+  public async getShortlist(): Promise<Shortlist[]> {
     if (!this.shortlistLoaded) {
       await this.loadShotlists();
     }
     return this.shortlists;
-  }
-
-  public async viewUserAccountsEntity(): Promise<Shortlist[]> {
-    const users = await this.getShotlist();
-    return users;
   }
 
   // Load users from the API, and cache the result
@@ -48,6 +44,26 @@ export class ShortlistEntity {
       console.error("Failed to load users:", error);
     }
   }
+
+  public async viewBuyerSpecificShortlistEntity(email: string): Promise<UsedCarListing[]> {
+    // Get all shortlist entries and filter by user email
+    const shortlists = await this.getShortlist();
+    const filteredListings = shortlists.filter((listing) => listing.userEmail === email);
+  
+    // Extract car_ids from the filtered listings
+    const carIds = filteredListings.map((listing) => listing.listingId);
+  
+    // Query the UsedCarListing table to get details of all cars in the shortlist
+    const usedCarListings = await prisma.usedCarListing.findMany({
+      where: {
+        id: { in: carIds },
+      },
+    });
+  
+    return usedCarListings;
+  }
+  
+  
 
   public async createShortlistEntity(
     car_id: string,

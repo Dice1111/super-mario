@@ -94,7 +94,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href={"/cart"} className="relative">
+              <Link href={"/product/shortlist"} className="relative">
                 <CiShoppingCart className="text-3xl" />
                 <Badge
                   variant={"secondary"}

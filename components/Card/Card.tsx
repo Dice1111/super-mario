@@ -1,37 +1,45 @@
 "use client";
 
-import React, { useState } from "react";
+import { AddNumberOfViewController } from "@/controls/ViewControllers/AddNumberOfViewController";
 import { UsedCarListing } from "@prisma/client";
-import { FaUser, FaEye, FaHeart, FaRegHeart } from "react-icons/fa";
-import { Button } from "../ui/button";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
-import { AddNumberOfViewController } from "@/controls/ViewControllers/AddNumberOfViewController";
+import { useEffect, useState } from "react";
+import { FaEye, FaHeart, FaRegHeart, FaUser } from "react-icons/fa";
+import { Button } from "../ui/button";
+import { checkCarInShortList } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 interface CardProps {
   car: UsedCarListing;
-  openModal: () => void;
+  setCarID: () => void;
+  setOpenModal: () => void;
 }
 
-const Card = ({ car, openModal }: CardProps) => {
+const Card = ({ car, setCarID, setOpenModal }: CardProps) => {
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email;
   const [isFavorited, setIsFavorited] = useState(false);
   const router = useRouter();
+  const fetchFavoriteStatus = async () => {
+    const exists = await checkCarInShortList(car.id, userEmail ?? ""); // Assuming agentEmail is userEmail
+    setIsFavorited(exists);
+  };
+  useEffect(() => {
+    fetchFavoriteStatus();
+  }, []);
 
   const handleFavoriteClick = () => {
-    console.log("m", car.id);
-
-    openModal();
-    setIsFavorited(!isFavorited);
+    setCarID();
+    setOpenModal();
+    setIsFavorited(!isFavorited); // Toggle favorite state after modal opens
   };
 
   const handleShowDetails = async () => {
     car.viewCount++;
-    // Encode the car data as a JSON string in the query
     const carData = encodeURIComponent(JSON.stringify(car));
-    //add number of views
     const viewController = AddNumberOfViewController.getInstance();
-
-    const result = await viewController.addNumberOfViewController(car.id);
+    await viewController.addNumberOfViewController(car.id);
 
     router.push(`/product/used_car_detail/${car.id}?carData=${carData}`);
   };
