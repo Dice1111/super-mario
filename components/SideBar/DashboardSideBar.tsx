@@ -119,7 +119,7 @@ const routeToDataMap = {
       {
         name: "Super Mario Kart",
         logo: GalleryVerticalEnd,
-        plan: "Used Car Agent Dashboard",
+        plan: "Seller Dashboard",
       },
     ],
     navMain: [

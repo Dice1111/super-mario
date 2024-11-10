@@ -31,13 +31,11 @@ export class UserEntity {
 
   public async editUserAccountEntity(
     id: string,
-    email: string,
     password: string
   ): Promise<boolean> {
     try {
       const data = {
         id,
-        email,
         password,
       };
       const response = await fetch(`${baseUrl}/api/users`, {
@@ -105,7 +103,7 @@ export class UserEntity {
       });
 
       if (!response.ok) {
-        console.error("Error fetching user:", response.statusText);
+        //console.error("Error fetching user:", response.statusText);
         return null;
       }
 
@@ -113,7 +111,7 @@ export class UserEntity {
 
       return res;
     } catch (error) {
-      console.error("Failed to fetch user account:", error);
+      //console.error("Failed to fetch user account:", error);
       return null;
     }
   }
@@ -204,32 +202,3 @@ export class UserEntity {
     }
   }
 }
-
-//   public async verifyAccount({
-//     email,
-//     password,
-//   }: {
-//     email: string;
-//     password: string;
-//   }): Promise<boolean> {
-//     try {
-//       const response = await fetch(`${baseUrl}/api/login`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ email, password }),
-//       });
-
-//       // Check if the response is not successful (status 200-299)
-//       if (!response.ok) {
-//         return false;
-//       }
-
-//       return true;
-//     } catch (error) {
-//       console.error("Failed to authenticate user:", error);
-//       return false;
-//     }
-//   }
-// }

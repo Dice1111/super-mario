@@ -20,8 +20,8 @@ export const MenuItems: MenuType[] = [
     link: "/product/explore",
   },
   {
-    name: "Services",
-    link: "/services",
+    name: "Loan Calculator",
+    link: "/product/loan_calculator",
   },
   {
     name: "Contact",

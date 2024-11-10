@@ -1,25 +1,25 @@
-import { AdminSearchSchemaType } from "@/components/Search/AdminSearch/AdminSearchSchema";
 import AdminSearchBar from "@/components/Search/AdminSearch/AdminSearchBar";
+import { AdminSearchSchemaType } from "@/components/Search/AdminSearch/AdminSearchSchema";
 import SearchOutputFrame from "@/components/Search/SearchOutputFrame";
 import { SearchUserAccountController } from "@/controls/UserAccountContollers/SearchUserAccountController";
 import { SearchUserProfileController } from "@/controls/UserProfileControllers/SearchUserProfileController";
-
 import { User, UserProfile } from "@prisma/client";
+
 import { useState } from "react";
 
-class AdminSearchUI {
-  private static instance: AdminSearchUI;
+class SearchAdminUI {
+  private static instance: SearchAdminUI;
 
   private constructor() {}
 
-  public static getInstance(): AdminSearchUI {
-    if (!AdminSearchUI.instance) {
-      AdminSearchUI.instance = new AdminSearchUI();
+  public static getInstance(): SearchAdminUI {
+    if (!SearchAdminUI.instance) {
+      SearchAdminUI.instance = new SearchAdminUI();
     }
-    return AdminSearchUI.instance;
+    return SearchAdminUI.instance;
   }
 
-  public displayAdminSearchUI = (): JSX.Element => {
+  public displaySearchAdminUI = (): JSX.Element => {
     const [searchResult, setSearchResult] = useState<User | UserProfile | null>(
       null
     );
@@ -35,12 +35,11 @@ class AdminSearchUI {
         setSearchType(values.searchType);
         const controller = SearchUserAccountController.getInstance();
         try {
-          const searchedUser = await controller.SearchUserAccountController(
+          const searchedUser = await controller.searchUserAccountController(
             values.email
           );
-          console.log(searchedUser);
           setSearchResult(searchedUser);
-          this.displaySuccessUI();
+          searchedUser ? this.displaySuccessUI() : this.displayErrorUI();
         } catch (error) {
           this.displayErrorUI();
         }
@@ -88,4 +87,4 @@ class AdminSearchUI {
   }
 }
 
-export default AdminSearchUI;
+export default SearchAdminUI;
