@@ -23,7 +23,6 @@ class EditUserAccountUI {
         const controller = EditUserAccountController.getInstance();
         const success = await controller.editUserAccountController(
           selectedUser.id,
-          values.email,
           values.password
         );
 

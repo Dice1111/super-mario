@@ -32,13 +32,12 @@ export async function PUT(request: Request) {
     if (!userObj)
       return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-    if (body.email && body.password) {
+    if (body.password) {
       const updatedUser = await prisma.user.update({
         where: {
           id: userObj.id,
         },
         data: {
-          email: body.email,
           password: body.password,
         },
       });

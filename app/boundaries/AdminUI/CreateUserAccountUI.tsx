@@ -1,6 +1,6 @@
 import CreateUserAccountForm from "@/components/Forms/CreateUserAccountForm";
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
-import { CreateUserAccountControllers } from "@/controls/UserAccountContollers/CreateUserAccountController";
+import { CreateUserAccountController } from "@/controls/UserAccountContollers/CreateUserAccountController";
 import { useRouter } from "next/navigation";
 
 class CreateUserAccountUI {
@@ -18,7 +18,7 @@ class CreateUserAccountUI {
 
     const submitUserAccount = async (values: UserAccountFormSchemaType) => {
       try {
-        const controller = CreateUserAccountControllers.getInstance();
+        const controller = CreateUserAccountController.getInstance();
         const success = await controller.createUserAccountController(
           values.email,
           values.password

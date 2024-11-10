@@ -1,21 +1,21 @@
-// controllers/CreateUserAccountControllers.ts
+// controllers/CreateUserAccountController.ts
 import { UserEntity } from "../../entities/User";
 
-export class CreateUserAccountControllers {
-  private static instance: CreateUserAccountControllers;
+export class CreateUserAccountController {
+  private static instance: CreateUserAccountController;
   private userEntity: UserEntity;
 
   private constructor(userEntity: UserEntity) {
     this.userEntity = userEntity;
   }
 
-  public static getInstance(): CreateUserAccountControllers {
-    if (!CreateUserAccountControllers.instance) {
-      CreateUserAccountControllers.instance = new CreateUserAccountControllers(
+  public static getInstance(): CreateUserAccountController {
+    if (!CreateUserAccountController.instance) {
+      CreateUserAccountController.instance = new CreateUserAccountController(
         UserEntity.getInstance()
       );
     }
-    return CreateUserAccountControllers.instance;
+    return CreateUserAccountController.instance;
   }
 
   public async createUserAccountController(

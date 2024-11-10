@@ -15,7 +15,7 @@ class ViewUsedCarListingHomeUI {
   }
 
   // Method to display the used car listing UI
-  public displayUsedCarListingHomeUI = (): JSX.Element => {
+  public displayViewUsedCarListingHomeUI = (): JSX.Element => {
     const loadData = async (): Promise<UsedCarListing[]> => {
       const controller = ViewUsedCarListingController.getInstance();
       try {

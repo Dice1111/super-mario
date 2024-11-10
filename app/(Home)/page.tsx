@@ -4,5 +4,5 @@ import ViewUsedCarListingHomeUI from "../boundaries/HomeUI/ViewUsedCarListingHom
 export default function Home() {
   const viewUsedCarListing = ViewUsedCarListingHomeUI.getInstance();
 
-  return <>{viewUsedCarListing.displayUsedCarListingHomeUI()}</>;
+  return <>{viewUsedCarListing.displayViewUsedCarListingHomeUI()}</>;
 }

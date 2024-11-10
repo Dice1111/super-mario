@@ -18,7 +18,7 @@ export class SearchUserAccountController {
     return SearchUserAccountController.instance;
   }
 
-  public async SearchUserAccountController(
+  public async searchUserAccountController(
     email: string
   ): Promise<User | null> {
     const users = await this.userEntity.searchUserAccountEntity(email);
