@@ -52,7 +52,7 @@ const LoanCalculatorForm = () => {
           <FormField
             control={form.control}
             name="loanAmount"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Loan Amount</FormLabel>
                 <FormControl>
@@ -70,7 +70,7 @@ const LoanCalculatorForm = () => {
           <FormField
             control={form.control}
             name="interestRate"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Interest Rate (%)</FormLabel>
                 <FormControl>
@@ -88,7 +88,7 @@ const LoanCalculatorForm = () => {
           <FormField
             control={form.control}
             name="loanTerm"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Loan Term (Years)</FormLabel>
                 <FormControl>

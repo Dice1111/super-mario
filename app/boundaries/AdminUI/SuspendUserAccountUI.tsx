@@ -36,6 +36,7 @@ class SuspendUserAccountUI {
         }
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
       }
       await fetchData();
     };

@@ -29,6 +29,7 @@ class ViewUsedCarAgentProfileUI {
         this.displaySuccessUI();
         return usedCarlisting;
       } catch (error) {
+        console.error(error);
         this.displayErrorUI();
         return [];
       }

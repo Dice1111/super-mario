@@ -33,6 +33,7 @@ class DeleteUsedCarListingUI {
         }
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
       }
       await fetchData();
     };

@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import Link from "next/link";
-import { UsedCarListing } from "@prisma/client";
-import { CldImage } from "next-cloudinary";
-import { checkCarInShortList } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 import CreateShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
-import { set } from "zod";
+import { Button } from "@/components/ui/button";
+import { checkCarInShortList } from "@/lib/utils";
+import { UsedCarListing } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { CldImage } from "next-cloudinary";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface UsedCarDetailProps {
   car: UsedCarListing;

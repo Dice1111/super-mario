@@ -44,6 +44,7 @@ class SearchAdminUI {
           searchedUser ? this.displaySuccessUI() : this.displayErrorUI();
         } catch (error) {
           this.displayErrorUI();
+          console.error(error);
         }
       } else if (values.searchType === "profile") {
         setSearchType(values.searchType);
@@ -57,6 +58,7 @@ class SearchAdminUI {
           this.displaySuccessUI();
         } catch (error) {
           this.displayErrorUI();
+          console.error(error);
         }
       } else {
         this.displayErrorUI();

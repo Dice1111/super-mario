@@ -53,6 +53,7 @@ class SearchAgentUsedCarListingUI {
         setSearchResult(searchedListing);
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
       }
     };
 

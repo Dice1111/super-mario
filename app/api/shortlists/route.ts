@@ -1,12 +1,10 @@
 import prisma from "@/lib/db";
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const shortlists = await prisma.shortlist.findMany({
-
-    });
+    const shortlists = await prisma.shortlist.findMany({});
 
     return NextResponse.json({ shortlists: shortlists }, { status: 200 });
   } catch (error) {
@@ -40,7 +38,10 @@ export async function POST(req: Request) {
           id: existingEntry.id,
         },
       });
-      return NextResponse.json({ message: "Removed from shortlist" }, { status: 200 });
+      return NextResponse.json(
+        { message: "Removed from shortlist" },
+        { status: 200 }
+      );
     } else {
       // If it doesn't exist, create a new shortlist entry
       const newUser = await prisma.shortlist.create({

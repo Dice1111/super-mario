@@ -43,6 +43,7 @@ class ViewAgentUsedCarListingUI {
         return usedCarlisting;
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
         return [];
       }
     };

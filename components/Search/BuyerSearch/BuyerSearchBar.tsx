@@ -1,15 +1,14 @@
 import { Button } from "@/components/ui/button";
 import {
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 import BuyerSearchSchema, { BuyerSearchSchemaType } from "./BuyerSearchSchema";
-import { UsedCarListing } from "@prisma/client";
 
 interface SearchBarProps {
   handleSearch: (values: BuyerSearchSchemaType) => Promise<void>;

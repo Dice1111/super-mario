@@ -199,7 +199,7 @@ export default function DashboardSideBar() {
         ],
       };
 
-  const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const [activeTeam] = React.useState(data.teams[0]);
 
   return (
     <Sidebar collapsible="icon">

@@ -8,7 +8,7 @@ const DeniedPage = () => {
           Whoopsie Daisy!
         </h1>
         <p className="text-lg text-gray-700 mb-6">
-          Looks like you don't have permission to enter this page!
+          Looks like you don&apost have permission to enter this page!
         </p>
       </div>
     </div>

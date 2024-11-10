@@ -1,7 +1,5 @@
-import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { baseUrl } from "@/lib/utils";
-import { AgentReview, Status, User } from "@prisma/client";
-import { signIn, signOut } from "next-auth/react";
+import { AgentReview } from "@prisma/client";
 
 export class ReviewAndRatingEntity {
   // Static property to hold the single instance of the class
@@ -17,7 +15,6 @@ export class ReviewAndRatingEntity {
     return ReviewAndRatingEntity.instance;
   }
 
-
   public async getReviewAndRating(): Promise<AgentReview[]> {
     if (!this.reviewsLoaded) {
       await this.loadReviewAndRating();
@@ -25,20 +22,21 @@ export class ReviewAndRatingEntity {
     return this.reviews;
   }
 
-
   public async viewReviewAndRatingEntity(): Promise<AgentReview[]> {
     const reviews = await this.getReviewAndRating();
     return reviews;
   }
 
-  public async viewSpecificReviewAndRatingEntity(email: string): Promise<AgentReview[]> {
-   
+  public async viewSpecificReviewAndRatingEntity(
+    email: string
+  ): Promise<AgentReview[]> {
     const reviews = await this.getReviewAndRating();
-    const filteredReviews = reviews.filter(review => review.agentEmail === email || review.userEmail === email);
+    const filteredReviews = reviews.filter(
+      (review) => review.agentEmail === email || review.userEmail === email
+    );
     console.log("filteredReviews:", filteredReviews);
     return filteredReviews;
   }
-
 
   public async createReviewAndRatingEntity(
     comment: string,
@@ -51,7 +49,7 @@ export class ReviewAndRatingEntity {
         comment,
         rating,
         userEmail,
-        agentEmail
+        agentEmail,
       };
 
       const response = await fetch(`${baseUrl}/api/reviewAndRating`, {
@@ -63,11 +61,9 @@ export class ReviewAndRatingEntity {
       });
 
       if (!response.ok) {
-        console.log("Failed to create listing");
         return false;
       }
 
-      console.log("Listing created successfully");
       await this.loadReviewAndRating(); // Refresh cached listings
 
       return true;
@@ -77,8 +73,6 @@ export class ReviewAndRatingEntity {
     }
   }
 
-  
-  
   private async loadReviewAndRating(): Promise<void> {
     try {
       const response = await fetch(`${baseUrl}/api/reviewAndRating`, {
@@ -98,6 +92,4 @@ export class ReviewAndRatingEntity {
       console.error("Failed to load review and rating:", error);
     }
   }
-
-
 }

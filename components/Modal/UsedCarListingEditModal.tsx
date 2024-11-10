@@ -86,7 +86,7 @@ export function UsedCarListingEditModal({
           <DialogTitle>Edit used car listing</DialogTitle>
           <DialogDescription>
             Make changes to your used car listing details here. Click save when
-            you're done.
+            you are done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(submitEditUsedCarListing)}>

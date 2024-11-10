@@ -26,7 +26,7 @@ interface UsedCarListingFormProps {
 const UsedCarListingForm = ({
   submitUsedCarListing,
 }: UsedCarListingFormProps) => {
-  const { status, data: session } = useSession();
+  const { data: session } = useSession();
 
   const form = useForm({
     resolver: zodResolver(UsedCarListingFormSchema),
@@ -116,7 +116,7 @@ const UsedCarListingForm = ({
           <FormField
             control={form.control}
             name="mileage"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Mileage</FormLabel>
                 <FormControl>
@@ -159,7 +159,7 @@ const UsedCarListingForm = ({
           <FormField
             control={form.control}
             name="imgUrl"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Image Upload</FormLabel>
                 <FormControl>
@@ -182,7 +182,7 @@ const UsedCarListingForm = ({
           <FormField
             control={form.control}
             name="manufacturedYear"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Manufactured Year</FormLabel>
                 <FormControl>
@@ -199,7 +199,7 @@ const UsedCarListingForm = ({
           <FormField
             control={form.control}
             name="price"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>

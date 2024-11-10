@@ -20,7 +20,7 @@ class UserLoginUI {
     return UserLoginUI.instance;
   }
 
-  public displayLoginUI() {
+  public displayLoginUI = () => {
     const router = useRouter();
     const { data: session } = useSession();
     useEffect(() => {
@@ -51,11 +51,12 @@ class UserLoginUI {
         }
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
       }
     };
 
     return <LoginForm handleLogin={handleLogin} />;
-  }
+  };
 
   public displaySuccessUI() {
     toast.success("Login Successful", successToast);

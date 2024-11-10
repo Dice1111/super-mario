@@ -2,7 +2,6 @@
 
 import CreateShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
 import Card from "@/components/Card/Card";
-import { SearchUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
