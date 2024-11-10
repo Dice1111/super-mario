@@ -1,6 +1,3 @@
-import { User, UserProfile } from "@prisma/client";
-import React from "react";
-
 interface SearchOutputFrameProps {
   entityType: string;
   data: any | any[]; // Accepts both a single object and an array of objects

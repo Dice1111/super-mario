@@ -17,7 +17,7 @@ class CreateReviewAndRatingUI {
     return CreateReviewAndRatingUI.instance;
   }
 
-  public displayCreateReviewAndRatingUI(agentEmail: string): JSX.Element {
+  public displayCreateReviewAndRatingUI = (agentEmail: string): JSX.Element => {
     const router = useRouter();
     const { data: session, status } = useSession();
 
@@ -51,7 +51,7 @@ class CreateReviewAndRatingUI {
     };
 
     return <CreateReviewForm addReview={addReview} />;
-  }
+  };
 
   public displaySuccessUI() {
     toast.success("Review and Rating Creation Successful", successToast);

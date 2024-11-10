@@ -1,8 +1,5 @@
 "use client";
-import UserSignupUI from "@/app/boundaries/AdminUI/CreateUserAccountUI";
 import CreateUsedCarListingUI from "@/app/boundaries/UsedCarAgentUI/CreateUsedCarListingUI";
-
-import React from "react";
 
 const CreateAccountPage = () => {
   const boundary = CreateUsedCarListingUI.getInstance();

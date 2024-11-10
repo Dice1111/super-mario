@@ -28,6 +28,7 @@ class ViewUserProfileUI {
         return data; // Return the fetched data
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
         return []; // Return an empty array on error
       }
     };

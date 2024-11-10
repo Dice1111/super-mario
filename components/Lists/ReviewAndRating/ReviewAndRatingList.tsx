@@ -56,7 +56,7 @@ const ReviewAndRatingList = ({ loadData }: ReviewAndRatingListProps) => {
               Rating: {renderStars(review.rating)}
             </p>
             <p style={{ margin: "10px 0", fontStyle: "italic" }}>
-              "{review.comment}"
+              &quot{review.comment}&quot
             </p>
             <small style={{ color: "#777" }}>
               Reviewed on: {new Date(review.createdAt).toLocaleDateString()}

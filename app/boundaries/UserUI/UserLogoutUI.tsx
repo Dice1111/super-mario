@@ -18,10 +18,9 @@ class UserLogoutUI {
   public displayLogoutUI = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null as string | null);
     const handleLogout = async () => {
       setLoading(true);
-      setError(null);
+
       const controller = AuthControl.getInstance();
       try {
         const success = await controller.logoutAccountController();
@@ -33,7 +32,7 @@ class UserLogoutUI {
           this.displayErrorUI();
         }
       } catch (error) {
-        setError("Logout failed. Please try again.");
+        console.error(error);
         this.displayErrorUI();
       } finally {
         setLoading(false);

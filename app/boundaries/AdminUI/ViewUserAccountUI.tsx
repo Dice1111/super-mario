@@ -29,6 +29,7 @@ class ViewUserAccountUI {
         return users;
       } catch (error) {
         this.displayErrorUI();
+        console.error(error);
         return [];
       }
     };

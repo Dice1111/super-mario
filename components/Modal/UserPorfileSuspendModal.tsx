@@ -29,9 +29,9 @@ export default function UserAccountSuspendModal({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action will change user profile of "
-            {selectedUserProfile.userEmail}" to "{newStatus}
-            ".
+            This action will change user profile of &quot
+            {selectedUserProfile.userEmail}&quot to &quot{newStatus}
+            &quot.
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end space-x-2 mt-4">

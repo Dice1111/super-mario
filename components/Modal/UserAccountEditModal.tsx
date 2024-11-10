@@ -47,7 +47,7 @@ export function UserAccountEditModal({
         <DialogHeader>
           <DialogTitle>Edit Account</DialogTitle>
           <DialogDescription>
-            Make changes to your account details here. Click save when you're
+            Make changes to your account details here. Click save when you are
             done.
           </DialogDescription>
         </DialogHeader>

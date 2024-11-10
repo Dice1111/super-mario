@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
 import Header from "@/components/Header/Header";
+import type { Metadata } from "next";
 import { ReactNode } from "react";
-import Landing from "@/components/Landing/Landing";
 
 export const metadata: Metadata = {
   title: "Super Mario",

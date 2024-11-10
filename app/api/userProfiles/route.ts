@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { Role, Status, UserProfile } from "@prisma/client";
+import { UserProfile } from "@prisma/client";
 
 import { NextResponse } from "next/server";
 
@@ -16,18 +16,6 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
-
-interface EditProfileProps {
-  id: string;
-  name: string;
-  role: Role;
-  address: string;
-  mobileNumber: string;
-}
-interface suspendProfileProps {
-  id: string;
-  status: Status;
 }
 
 export async function PUT(request: Request) {
