@@ -23,7 +23,6 @@ export class UsedCarListingEntity {
 
   public async viewUsedCarListingEntity(): Promise<UsedCarListing[]> {
     const usedCarListings = await this.getUsedCarListing();
-    console.log("Loaded used car listings:", usedCarListings);
     return usedCarListings;
   }
 

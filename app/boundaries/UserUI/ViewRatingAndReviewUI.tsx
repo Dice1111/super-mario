@@ -15,14 +15,12 @@ class ViewRatingAndReviewUI {
     return ViewRatingAndReviewUI.instance;
   }
 
-  public displayRatingAndReviewUI(agentEmail: string): JSX.Element {
+  public displayRatingAndReviewUI(email: string): JSX.Element {
     const loadData = async (): Promise<AgentReview[]> => {
       const viewReviewController =
         ViewRatingAndReviewListController.getInstance();
       const loadData =
-        await viewReviewController.viewRatingAndReviewListController(
-          agentEmail
-        );
+        await viewReviewController.viewRatingAndReviewListController(email);
       if (loadData.length > 0) {
         this.displaySuccessUI();
       } else {

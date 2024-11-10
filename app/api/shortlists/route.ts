@@ -25,15 +25,32 @@ export async function POST(req: Request) {
   console.log(data);
 
   try {
-
-    // Create a new shortlist in the database
-    const newUser = await prisma.shortlist.create({
-      data: {
+    // Check if the car is already in the shortlist for this user
+    const existingEntry = await prisma.shortlist.findFirst({
+      where: {
         userEmail: data.userEmail,
         listingId: data.car_id,
       },
     });
-    return NextResponse.json(newUser, { status: 201 });
+
+    if (existingEntry) {
+      // If it exists, delete it to remove from the shortlist
+      await prisma.shortlist.delete({
+        where: {
+          id: existingEntry.id,
+        },
+      });
+      return NextResponse.json({ message: "Removed from shortlist" }, { status: 200 });
+    } else {
+      // If it doesn't exist, create a new shortlist entry
+      const newUser = await prisma.shortlist.create({
+        data: {
+          userEmail: data.userEmail,
+          listingId: data.car_id,
+        },
+      });
+      return NextResponse.json(newUser, { status: 201 });
+    }
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong", details: error },
