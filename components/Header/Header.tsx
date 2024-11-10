@@ -17,7 +17,6 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 export default function Header() {
-  const router = useRouter();
   const [isNav, setNav] = useState<boolean>(false); // Track nav state on mobile
   const [scrolled, setScrolled] = useState(false); // Track scroll state
 

@@ -1,9 +1,11 @@
-import Card from "@/components/Card/Card";
+// SearchBuyerUsedCarListingUI.tsx
+
+import React, { useState, useCallback } from "react";
+import CarListing from "@/components/Lists/CarListing/CarListing";
 import BuyerSearchBar from "@/components/Search/BuyerSearch/BuyerSearchBar";
 import { BuyerSearchSchemaType } from "@/components/Search/BuyerSearch/BuyerSearchSchema";
 import { SearchUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
-import { useState } from "react";
 
 class SearchBuyerUsedCarListingUI {
   private static instance: SearchBuyerUsedCarListingUI;
@@ -18,7 +20,10 @@ class SearchBuyerUsedCarListingUI {
   }
 
   public displaySearchBuyerUsedCarListingUI = (): JSX.Element => {
-    const [searchResult, setSearchResult] = useState<UsedCarListing[] | null>();
+    const [searchResult, setSearchResult] = useState<UsedCarListing[] | null>(
+      null
+    );
+
     const handleSearch = async (
       values: BuyerSearchSchemaType
     ): Promise<void> => {
@@ -28,29 +33,26 @@ class SearchBuyerUsedCarListingUI {
           values.title
         );
         this.displaySuccessUI();
-        SearchedCars ? setSearchResult(SearchedCars) : setSearchResult(null);
+        setSearchResult(SearchedCars || null);
       } catch (err) {
         this.displayErrorUI();
         setSearchResult(null);
       }
     };
+
+    const loadData = useCallback(
+      async () => searchResult || [],
+      [searchResult]
+    );
+
     return (
       <>
         <BuyerSearchBar handleSearch={handleSearch} />
-        <div className="container mx-auto px-4 py-8">
-          {searchResult ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {searchResult.map((car) => (
-                <Card key={car.id} car={car} />
-              ))}
-            </div>
-          ) : (
-            <p>No Cars To Show.</p>
-          )}
-        </div>
+        <CarListing loadData={loadData} />
       </>
     );
   };
+
   public displaySuccessUI() {
     alert("Search Data Retrieval Successful");
   }

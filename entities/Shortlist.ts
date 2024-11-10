@@ -46,23 +46,31 @@ export class ShortlistEntity {
   }
 
   public async viewBuyerSpecificShortlistEntity(email: string): Promise<UsedCarListing[]> {
-    // Get all shortlist entries and filter by user email
-    const shortlists = await this.getShortlist();
-    const filteredListings = shortlists.filter((listing) => listing.userEmail === email);
+    try {
+      // Fetch shortlist and car listings for the specified email
+      const response = await fetch(`${baseUrl}/api/shortlists/${email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
   
-    // Extract car_ids from the filtered listings
-    const carIds = filteredListings.map((listing) => listing.listingId);
+      if (!response.ok) {
+        console.error("Failed to fetch shortlist entries");
+        return [];
+      }
   
-    // Query the UsedCarListing table to get details of all cars in the shortlist
-    const usedCarListings = await prisma.usedCarListing.findMany({
-      where: {
-        id: { in: carIds },
-      },
-    });
+      // Parse the response JSON to get the car listings
+      const data = await response.json();
+      const usedCarListings: UsedCarListing[] = data.usedCarListings;
   
-    return usedCarListings;
+      // Optionally, cache the car listings here if needed
+      return usedCarListings;
+    } catch (error) {
+      console.error("Failed to fetch used car listings:", error);
+      return [];
+    }
   }
-  
   
 
   public async createShortlistEntity(
