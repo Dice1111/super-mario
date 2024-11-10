@@ -1,7 +1,9 @@
 import UsedCarAgentProfileTable from "@/components/Table/UsedCarAgentProfile/UsedCarAgentProfileTable";
 import { ViewUsedCarAgentProfileController } from "@/controls/UsedCarListingControllers/ViewUsedCarAgentProfileController";
+import { successToast, errorToast } from "@/lib/utils";
 
 import { UserProfile } from "@prisma/client";
+import { toast } from "sonner";
 
 class ViewUsedCarAgentProfileUI {
   private static instance: ViewUsedCarAgentProfileUI;
@@ -35,11 +37,11 @@ class ViewUsedCarAgentProfileUI {
   };
 
   public displaySuccessUI() {
-    alert("User Account Data Retrieval Successful");
+    toast.success("Agent Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Account Data Retrieval Failed");
+    toast.error("Agent Data Retrieval Failed", errorToast);
   }
 }
 

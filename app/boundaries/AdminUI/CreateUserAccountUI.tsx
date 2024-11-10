@@ -1,7 +1,9 @@
 import CreateUserAccountForm from "@/components/Forms/CreateUserAccountForm";
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { CreateUserAccountController } from "@/controls/UserAccountContollers/CreateUserAccountController";
+import { errorToast, successToast } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 class CreateUserAccountUI {
   private static instance: CreateUserAccountUI;
@@ -39,12 +41,12 @@ class CreateUserAccountUI {
     return <CreateUserAccountForm submitUserAccount={submitUserAccount} />;
   };
 
-  public displaySuccessUI(): void {
-    alert("Successfully created user account");
+  public displaySuccessUI() {
+    toast.success("Successfully created user account", successToast);
   }
 
-  public displayErrorUI(): void {
-    alert("Failed to create user account");
+  public displayErrorUI() {
+    toast.error("Failed to create user account", errorToast);
   }
 }
 

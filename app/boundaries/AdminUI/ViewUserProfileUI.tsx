@@ -1,6 +1,8 @@
 import UserProfileTable from "@/components/Table/UserProfile/UserProfileTable";
 import { ViewUserProfileController } from "@/controls/UserProfileControllers/ViewUserProfileController";
+import { errorToast, successToast } from "@/lib/utils";
 import { UserProfile } from "@prisma/client";
+import { toast } from "sonner";
 
 class ViewUserProfileUI {
   private static instance: ViewUserProfileUI;
@@ -34,11 +36,11 @@ class ViewUserProfileUI {
   }
 
   public displaySuccessUI() {
-    alert("User Profile Data Retrieval Successful");
+    toast.success("User Profile Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Profile Data Retrieval Failed");
+    toast.error("User Profile Data Retrieval Failed", errorToast);
   }
 }
 

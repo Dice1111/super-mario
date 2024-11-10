@@ -6,6 +6,8 @@ import BuyerSearchBar from "@/components/Search/BuyerSearch/BuyerSearchBar";
 import { BuyerSearchSchemaType } from "@/components/Search/BuyerSearch/BuyerSearchSchema";
 import { SearchUsedCarListingController } from "@/controls/UsedCarListingControllers/SearchUsedCarListingController";
 import { UsedCarListing } from "@prisma/client";
+import { successToast, errorToast } from "@/lib/utils";
+import { toast } from "sonner";
 
 class SearchBuyerUsedCarListingUI {
   private static instance: SearchBuyerUsedCarListingUI;
@@ -32,8 +34,8 @@ class SearchBuyerUsedCarListingUI {
         const SearchedCars = await controller.searchUsedCarListingController(
           values.title
         );
-        this.displaySuccessUI();
-        setSearchResult(SearchedCars || null);
+        setSearchResult(SearchedCars);
+        SearchedCars ? this.displaySuccessUI() : this.displayErrorUI();
       } catch (err) {
         this.displayErrorUI();
         setSearchResult(null);
@@ -52,13 +54,12 @@ class SearchBuyerUsedCarListingUI {
       </>
     );
   };
-
   public displaySuccessUI() {
-    alert("Search Data Retrieval Successful");
+    toast.success("Search Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Search Data Retrieval Failed");
+    toast.error("Search Data Retrieval Failed", errorToast);
   }
 }
 

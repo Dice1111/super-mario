@@ -1,7 +1,9 @@
 import { UserAccountFormSchemaType } from "@/components/Forms/UserAccountFormSchema";
 import { UserAccountEditModal } from "@/components/Modal/UserAccountEditModal";
 import { EditUserAccountController } from "@/controls/UserAccountContollers/EditUserAccountController";
+import { errorToast, successToast } from "@/lib/utils";
 import { User } from "@prisma/client";
+import { toast } from "sonner";
 
 class EditUserAccountUI {
   private static instance: EditUserAccountUI;
@@ -51,11 +53,11 @@ class EditUserAccountUI {
   };
 
   public displaySuccessUI() {
-    alert("User Account Updated Successfully");
+    toast.success("User Account Updated Successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Account Update Failed");
+    toast.error("User Account Update Failed", errorToast);
   }
 }
 

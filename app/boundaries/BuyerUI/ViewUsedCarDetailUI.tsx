@@ -1,5 +1,7 @@
 import UsedCarDetail from "@/components/UsedCarDetail/UsedCarDetail";
+import { successToast, errorToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
+import { toast } from "sonner";
 
 class ViewUsedCarDetailUI {
   private static instance: ViewUsedCarDetailUI;
@@ -19,11 +21,11 @@ class ViewUsedCarDetailUI {
   }
 
   public displaySuccessUI() {
-    alert("Review and Rating Data Retrieval Successful");
+    toast.success("Car Detail Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Review and Rating Data Retrieval Failed");
+    toast.error("Car Detail Data Retrieval Failed", errorToast);
   }
 }
 

@@ -1,6 +1,8 @@
 import UserAccountSuspendModal from "@/components/Modal/UserAccountSuspendModal";
 import { SuspendUserAccountController } from "@/controls/UserAccountContollers/SuspendUserAccountController";
+import { errorToast, successToast } from "@/lib/utils";
 import { Status, User } from "@prisma/client";
+import { toast } from "sonner";
 
 class SuspendUserAccountUI {
   private static instance: SuspendUserAccountUI;
@@ -52,11 +54,11 @@ class SuspendUserAccountUI {
   };
 
   public displaySuccessUI() {
-    alert("User Account Suspended Successfully");
+    toast.success("User Account Suspended Successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Account Suspension Failed");
+    toast.error("User Account Suspension Failed", errorToast);
   }
 }
 

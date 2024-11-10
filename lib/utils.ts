@@ -10,6 +10,22 @@ export type MenuType = {
   link: string;
 };
 
+export const successToast = {
+  duration: 2000,
+  style: {
+    background: "green",
+    color: "white",
+  },
+};
+
+export const errorToast = {
+  duration: 2000,
+  style: {
+    background: "red",
+    color: "white",
+  },
+};
+
 export const MenuItems: MenuType[] = [
   {
     name: "Home",
@@ -31,8 +47,10 @@ export const MenuItems: MenuType[] = [
 
 export const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; // Fallback for local development
 
-
-export const checkCarInShortList = async (car_id: string, userEmail: string): Promise<boolean> => {
+export const checkCarInShortList = async (
+  car_id: string,
+  userEmail: string
+): Promise<boolean> => {
   try {
     const response = await fetch(`${baseUrl}/api/shortlists/check`, {
       method: "POST",
@@ -49,12 +67,9 @@ export const checkCarInShortList = async (car_id: string, userEmail: string): Pr
 
     const data = await response.json();
 
-
     return Boolean(data.exists); // Return true if `exists` is true, false otherwise
   } catch (error) {
     console.error("Error fetching shortlist status:", error);
     return false;
   }
 };
-
-

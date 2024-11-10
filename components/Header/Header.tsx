@@ -8,15 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MenuItems } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 
 export default function Header() {
+  const { data: session } = useSession();
   const [isNav, setNav] = useState<boolean>(false); // Track nav state on mobile
   const [scrolled, setScrolled] = useState(false); // Track scroll state
 
@@ -55,7 +55,7 @@ export default function Header() {
         <li>
           <h1 className="text-2xl">Super Mario</h1>
         </li>
-        <li>{UserLogoutUI.getInstance().displayLogoutUI()}</li>
+
         <li>
           <ul className="hidden items-center justify-center gap-8 md:flex">
             {MenuItems.map((item, index) => (
@@ -88,19 +88,14 @@ export default function Header() {
         <li>
           <ul className="flex items-center justify-center gap-8">
             <li>
-              <Link href={"/auth/login"}>
-                <Button variant={"secondary"}>Login</Button>
-              </Link>
+              <p className="text-sm">
+                {session ? session?.user?.email : "unknown user"}
+              </p>
             </li>
+            <li>{UserLogoutUI.getInstance().displayLogoutUI()}</li>
             <li>
               <Link href={"/product/shortlist"} className="relative">
                 <CiShoppingCart className="text-3xl" />
-                <Badge
-                  variant={"secondary"}
-                  className="absolute -right-2 -top-3 grid h-5 w-5 place-items-center rounded-full p-0"
-                >
-                  {0}
-                </Badge>
               </Link>
             </li>
           </ul>

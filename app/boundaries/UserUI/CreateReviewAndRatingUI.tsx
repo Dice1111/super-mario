@@ -1,7 +1,9 @@
 import CreateReviewForm from "@/components/Forms/CreateReviewForm";
 import { CreateReviewAndRatingController } from "@/controls/ReviewAndRatingControllers/CreateReviewAndRatingController";
+import { successToast, errorToast } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 class CreateReviewAndRatingUI {
   private static instance: CreateReviewAndRatingUI;
@@ -33,7 +35,7 @@ class CreateReviewAndRatingUI {
         CreateReviewAndRatingController.getInstance();
 
       const success =
-        await createReviewController.CreateReviewAndRatingController(
+        await createReviewController.createReviewAndRatingController(
           comment,
           rating,
           userEmail,
@@ -52,11 +54,11 @@ class CreateReviewAndRatingUI {
   }
 
   public displaySuccessUI() {
-    alert("Review and Rating Creation Successful");
+    toast.success("Review and Rating Creation Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("Review and Rating Creation Failed");
+    toast.error("Review and Rating Creation Failed", errorToast);
   }
 }
 

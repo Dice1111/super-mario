@@ -1,7 +1,9 @@
 import { UsedCarListingFormSchemaType } from "@/components/Forms/UsedCarListingFormSchema";
 import { UsedCarListingEditModal } from "@/components/Modal/UsedCarListingEditModal";
 import { EditUsedCarListingController } from "@/controls/UsedCarListingControllers/EditUsedCarListingController";
+import { successToast, errorToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
+import { toast } from "sonner";
 
 class EditUsedCarListingUI {
   private static instance: EditUsedCarListingUI;
@@ -62,11 +64,11 @@ class EditUsedCarListingUI {
   };
 
   public displaySuccessUI() {
-    alert("Used Car Listing Updated Successfully");
+    toast.success("Used Car Listing Updated Successfully", successToast);
   }
 
   public displayErrorUI() {
-    alert("Used Car Listing Update Failed");
+    toast.error("Used Car Listing Update Failed", errorToast);
   }
 }
 

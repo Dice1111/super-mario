@@ -1,7 +1,8 @@
 import CarListing from "@/components/Lists/CarListing/CarListing";
 import { ViewTopUsedCarListingController } from "@/controls/UsedCarListingControllers/ViewTopUsedCarListingController";
-import { ViewUsedCarListingController } from "@/controls/UsedCarListingControllers/ViewUsedCarListingController";
+import { errorToast, successToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
+import { toast } from "sonner";
 
 class ViewTopCarListingUI {
   private static instance: ViewTopCarListingUI;
@@ -34,11 +35,11 @@ class ViewTopCarListingUI {
   };
 
   public displaySuccessUI() {
-    alert("User Account Data Retrieval Successful");
+    toast.success("Popular Car Data Retrieval Successful", successToast);
   }
 
   public displayErrorUI() {
-    alert("User Account Data Retrieval Failed");
+    toast.error("Popular Car Data Retrieval Failed", errorToast);
   }
 }
 
