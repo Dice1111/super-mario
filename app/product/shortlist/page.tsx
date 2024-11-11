@@ -1,5 +1,6 @@
 "use client";
 
+import SearchBuyerShortlistUI from "@/app/boundaries/BuyerUI/SearchBuyerShortlistUI";
 import ViewShortlistUI from "@/app/boundaries/BuyerUI/ViewShortlistUI";
 import { useSession } from "next-auth/react";
 import React from "react";
