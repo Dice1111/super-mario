@@ -24,34 +24,43 @@ const BuyerSearchBar = ({ handleSearch }: SearchBarProps) => {
 
   return (
     <FormProvider {...form}>
-      <div className="flex items-center space-x-4 w-full">
+      <div className="w-full max-w-3xl mx-auto p-4">
         <form
           onSubmit={form.handleSubmit(handleSearch)}
-          className="flex flex-row items-center space-x-4"
+          className="flex items-center space-x-3 bg-white p-4 rounded-lg shadow-lg"
         >
+          {/* Search Input Field */}
           <FormField
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem className="flex items-center">
+              <FormItem className="flex items-center flex-1">
                 <FormControl>
                   <Input
                     {...field}
                     placeholder="Search by title"
-                    className="w-[180px] border border-gray-300 rounded-md p-2"
+                    className="w-full p-3 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-indigo-500"
                   />
                 </FormControl>
-                {/* Error message display */}
-                {form.formState.errors.title && (
-                  <FormMessage className="text-red-500">
-                    {form.formState.errors.title?.message}
-                  </FormMessage>
-                )}
               </FormItem>
             )}
           />
-          <Button type="submit">Search</Button>
+
+          {/* Search Button */}
+          <Button
+            type="submit"
+            className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            Search
+          </Button>
         </form>
+
+        {/* Error Message */}
+        {form.formState.errors.title && (
+          <FormMessage className="text-red-500 mt-2 text-sm">
+            {form.formState.errors.title?.message}
+          </FormMessage>
+        )}
       </div>
     </FormProvider>
   );

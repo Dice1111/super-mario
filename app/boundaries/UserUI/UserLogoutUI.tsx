@@ -27,7 +27,7 @@ class UserLogoutUI {
 
         if (success) {
           this.displaySuccessUI();
-          router.refresh();
+          router.push("/auth/login");
         } else {
           this.displayErrorUI();
         }

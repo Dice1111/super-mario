@@ -4,7 +4,7 @@ import { errorToast, successToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
 import { toast } from "sonner";
 import SearchBuyerShortlistUI from "./SearchBuyerShortlistUI";
-import React from "react";
+import React, { useState } from "react";
 
 class ViewShortlistUI {
   private static instance: ViewShortlistUI;
@@ -19,25 +19,31 @@ class ViewShortlistUI {
   }
 
   // Update here: id is now a string parameter
-  public displayViewShortlistUI = (email: string): JSX.Element => {
-    const [showData, setShowData] = React.useState<UsedCarListing[] | null>(
-      null
-    );
+  public displayViewShortlistUI = (): JSX.Element => {
+    const [showData, setShowData] = useState<UsedCarListing[] | null>(null);
 
     const loadData = async (): Promise<UsedCarListing[]> => {
       if (showData) return showData;
       const viewShortlistController = ViewShortlistController.getInstance();
-      const shortlists = await viewShortlistController.viewShortlistController(
-        email
-      );
-
-      return shortlists;
+      try {
+        const shortlists =
+          await viewShortlistController.viewShortlistController();
+        if (shortlists.length > 0) {
+          this.displaySuccessUI();
+          return shortlists;
+        } else {
+          this.displayErrorUI();
+          return [];
+        }
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
     };
 
     return (
       <>
         {SearchBuyerShortlistUI.getInstance().displaySearchBuyerShortlistUI(
-          email,
           setShowData
         )}
         <CarListing loadData={loadData} />

@@ -1,31 +1,28 @@
 import AddToShotListModal from "@/components/Modal/AddToShortListModal";
-import { CreateShortlistController } from "@/controls/ShortlistControllers/CreateShortlistController";
+import { HandleShortlistController } from "@/controls/ShortlistControllers/HandleShortlistController";
+
 import { errorToast, successToast } from "@/lib/utils";
 import { toast } from "sonner";
 
-class CreateShortlistUI {
-  private static instance: CreateShortlistUI;
+class HandleShortlistUI {
+  private static instance: HandleShortlistUI;
 
   private constructor() {}
 
-  public static getInstance(): CreateShortlistUI {
-    if (!CreateShortlistUI.instance) {
-      CreateShortlistUI.instance = new CreateShortlistUI();
+  public static getInstance(): HandleShortlistUI {
+    if (!HandleShortlistUI.instance) {
+      HandleShortlistUI.instance = new HandleShortlistUI();
     }
-    return CreateShortlistUI.instance;
+    return HandleShortlistUI.instance;
   }
 
-  public displayCreateShortlistUI(
+  public displayHandleShortlistUI = (
     fetchData: () => void,
-    car_id: string,
-    userEmail: string
-  ): JSX.Element {
+    car_id: string
+  ): JSX.Element => {
     const handleConfirm = async () => {
-      const createShortlistController = CreateShortlistController.getInstance();
-      const result = await createShortlistController.createShortlistController(
-        car_id,
-        userEmail
-      );
+      const controller = HandleShortlistController.getInstance();
+      const result = await controller.handleShortlistController(car_id);
       if (result) {
         this.displaySuccessUI();
       } else {
@@ -35,15 +32,15 @@ class CreateShortlistUI {
     };
 
     return <AddToShotListModal handleConfirm={handleConfirm} />;
-  }
+  };
 
   public displaySuccessUI() {
-    toast.success("Shortlist has been made successfully", successToast);
+    toast.success("Changes Saved to shortlist", successToast);
   }
 
   public displayErrorUI() {
-    toast.error("Failed to add Shortlist", errorToast);
+    toast.error("Failed to save changes", errorToast);
   }
 }
 
-export default CreateShortlistUI;
+export default HandleShortlistUI;

@@ -1,12 +1,32 @@
 import prisma from "@/lib/db";
+import { getServerSession } from "next-auth";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/authOptions";
+import { Role } from "@prisma/client";
 
 export async function GET() {
-  try {
-    const shortlists = await prisma.shortlist.findMany({});
+  const session = await getServerSession(authOptions);
+  if (!session || session?.user.role !== Role.buyer)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    return NextResponse.json({ shortlists: shortlists }, { status: 200 });
+  try {
+    const shortlistsWithCarListings = await prisma.shortlist.findMany({
+      where: {
+        userEmail: session.user.email!,
+      },
+      select: {
+        carlisting: true,
+      },
+    });
+
+    const shortlistsWithCarListingsWithoutWrapperObj =
+      shortlistsWithCarListings.map((shortlist) => shortlist.carlisting);
+
+    return NextResponse.json(
+      { shortlists: shortlistsWithCarListingsWithoutWrapperObj },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching users:", error);
 
@@ -17,15 +37,18 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
-  // Get the shortlist data from the request body
+export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session || session?.user.role !== Role.buyer)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const data = await req.json();
 
   try {
     // Check if the car is already in the shortlist for this user
     const existingEntry = await prisma.shortlist.findFirst({
       where: {
-        userEmail: data.userEmail,
+        userEmail: session.user.email!,
         listingId: data.car_id,
       },
     });
@@ -51,10 +74,9 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     } else {
-      // If it doesn't exist, create a new shortlist entry
-      const newUser = await prisma.shortlist.create({
+      await prisma.shortlist.create({
         data: {
-          userEmail: data.userEmail,
+          userEmail: session.user.email!,
           listingId: data.car_id,
         },
       });
@@ -68,7 +90,10 @@ export async function POST(req: Request) {
         },
       });
 
-      return NextResponse.json(newUser, { status: 201 });
+      return NextResponse.json(
+        { message: "Added to shortlist" },
+        { status: 201 }
+      );
     }
   } catch (error) {
     return NextResponse.json(

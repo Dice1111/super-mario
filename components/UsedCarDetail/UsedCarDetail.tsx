@@ -1,12 +1,12 @@
 "use client";
 
-import CreateShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
+import HandleShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
 import { Button } from "@/components/ui/button";
-import { checkCarInShortList } from "@/lib/utils";
+import { ViewShortlistController } from "@/controls/ShortlistControllers/ViewShortlistController";
 import { UsedCarListing } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
@@ -15,36 +15,37 @@ interface UsedCarDetailProps {
 }
 
 const UsedCarDetail = ({ car }: UsedCarDetailProps) => {
-  const { status, data: session } = useSession();
-  const userEmail = session?.user?.email;
-
+  const router = useRouter();
   const [liked, setLiked] = useState(false);
   const [modal, setModal] = useState<JSX.Element | null>(null);
-  const fetchFavoriteStatus = async () => {
-    if (userEmail) {
-      const exists = await checkCarInShortList(car.id, userEmail);
+  const controller = ViewShortlistController.getInstance();
 
-      setLiked(exists);
-      setModal(null);
-    }
+  // Fetch the favorite status from the backend
+  const fetchFavoriteStatus = async () => {
+    const exists = await controller.checkCarInShortListController(car.id);
+    setLiked(exists); // Update liked status based on the result
+    setModal(null); // Clear any existing modal
   };
 
-  // Only fetch favorite status once session is loaded and userEmail is available
+  // Ensure the fetchFavoriteStatus runs only once when the component mounts or car.id changes
   useEffect(() => {
-    if (status === "authenticated" && userEmail) {
-      fetchFavoriteStatus();
-    }
-  }, [status, userEmail]);
+    fetchFavoriteStatus();
+  }, [car.id]); // Dependency array ensures this runs only when car.id changes
 
-  const toggleLike = () => {
-    const createShortlistBoundary = CreateShortlistUI.getInstance();
-    const modal = createShortlistBoundary.displayCreateShortlistUI(
+  const toggleLike = async () => {
+    const boundary = HandleShortlistUI.getInstance();
+
+    // Display the modal
+    const modal = boundary.displayHandleShortlistUI(
       fetchFavoriteStatus,
-      car.id,
-      userEmail ?? ""
+      car.id
     );
     setModal(modal);
     setLiked(!liked);
+  };
+
+  const handleLoanButton = () => {
+    router.push("/product/loan_calculator");
   };
 
   return (
@@ -59,7 +60,6 @@ const UsedCarDetail = ({ car }: UsedCarDetailProps) => {
             className="object-cover shadow-lg rounded-lg"
             style={{ width: "350px", height: "250px" }}
           />
-
           <div
             onClick={toggleLike}
             className="absolute top-3 right-3 cursor-pointer text-red-500"
@@ -102,7 +102,7 @@ const UsedCarDetail = ({ car }: UsedCarDetailProps) => {
             </ul>
           </div>
           <br />
-          <Button>Calculate Loan</Button>
+          <Button onClick={handleLoanButton}>Calculate Loan</Button>
         </div>
       </div>
       {modal}

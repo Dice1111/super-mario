@@ -1,6 +1,6 @@
 import prisma from "@/lib/db";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -17,7 +17,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const body = await req.json();
 
   try {

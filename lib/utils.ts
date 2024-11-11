@@ -47,17 +47,14 @@ export const MenuItems: MenuType[] = [
 
 export const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; // Fallback for local development
 
-export const checkCarInShortList = async (
-  car_id: string,
-  userEmail: string
-): Promise<boolean> => {
+export const checkCarInShortList = async (car_id: string): Promise<boolean> => {
   try {
     const response = await fetch(`${baseUrl}/api/shortlists/check`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ car_id, userEmail }),
+      body: JSON.stringify({ car_id }),
     });
 
     if (!response.ok) {

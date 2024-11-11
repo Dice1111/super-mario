@@ -1,12 +1,10 @@
-import CarListing from "@/components/Lists/CarListing/CarListing";
 import BuyerSearchBar from "@/components/Search/BuyerSearch/BuyerSearchBar";
 import { BuyerSearchSchemaType } from "@/components/Search/BuyerSearch/BuyerSearchSchema";
 import { SearchBuyerShortlistController } from "@/controls/ShortlistControllers/SearchBuyerShortlistController";
 
-import { successToast, errorToast } from "@/lib/utils";
+import { errorToast, successToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
 
-import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 class SearchBuyerShortlistUI {
@@ -22,8 +20,7 @@ class SearchBuyerShortlistUI {
   }
 
   public displaySearchBuyerShortlistUI = (
-    email?: string,
-    setShowData?: (data: UsedCarListing[] | null) => void
+    setShowData: (data: UsedCarListing[] | null) => void
   ): JSX.Element => {
     const handleSearch = async (
       values: BuyerSearchSchemaType
@@ -31,12 +28,10 @@ class SearchBuyerShortlistUI {
       const controller = SearchBuyerShortlistController.getInstance();
       try {
         const SearchedCars = await controller.searchBuyerShortlistController(
-          email!,
           values.title
         );
-        if (setShowData) {
-          setShowData(SearchedCars);
-        }
+        setShowData(SearchedCars);
+
         if (SearchedCars) {
           this.displaySuccessUI();
         } else {

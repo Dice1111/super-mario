@@ -1,9 +1,8 @@
 "use client";
 
-import CreateShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
+import HandleShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
 import Card from "@/components/Card/Card";
 import { UsedCarListing } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface ViewUsedCarListingProps {
@@ -15,8 +14,6 @@ const CarListing = ({ loadData }: ViewUsedCarListingProps) => {
   const [car_id, setCarID] = useState<string>("");
   const [modal, setModal] = useState<JSX.Element | null>(null);
   const [openModal, setOpenModal] = useState(false);
-  const { data: session } = useSession();
-  const userEmail = session?.user?.email;
 
   const fetchData = async () => {
     const data = await loadData();
@@ -30,12 +27,8 @@ const CarListing = ({ loadData }: ViewUsedCarListingProps) => {
 
   useEffect(() => {
     if (car_id) {
-      const createShortlistBoundary = CreateShortlistUI.getInstance();
-      const modal = createShortlistBoundary.displayCreateShortlistUI(
-        fetchData,
-        car_id,
-        userEmail ?? ""
-      );
+      const boundary = HandleShortlistUI.getInstance();
+      const modal = boundary.displayHandleShortlistUI(fetchData, car_id);
       setModal(modal);
     }
   }, [openModal]);

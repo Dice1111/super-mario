@@ -18,11 +18,9 @@ export class SearchBuyerShortlistController {
   }
 
   public async searchBuyerShortlistController(
-    email: string,
     title: string
   ): Promise<UsedCarListing[] | null> {
     const success = await this.shortlistEntity.searchBuyerShortlistEntity(
-      email,
       title
     );
     return success;
