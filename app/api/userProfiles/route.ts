@@ -1,7 +1,7 @@
 import prisma from "@/lib/db";
 import { UserProfile } from "@prisma/client";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -18,7 +18,7 @@ export async function GET() {
   }
 }
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   const body = await request.json();
 
   try {
@@ -65,7 +65,7 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const data: UserProfile = await req.json();
 
   try {

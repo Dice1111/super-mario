@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -16,7 +16,7 @@ export async function GET() {
   }
 }
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   const body = await request.json();
   try {
     const carListingObj = await prisma.usedCarListing.findUnique({
@@ -32,25 +32,39 @@ export async function PUT(request: Request) {
       );
     }
 
-    const updatedCarListing = await prisma.usedCarListing.update({
-      where: {
-        id: carListingObj.id,
-      },
-      data: {
-        title: body.title,
-        //not changing agentEmail
-        sellerEmail: body.sellerEmail,
-        mileage: body.mileage,
-        color: body.color,
-        condition: body.condition,
-        imgUrl: body.imgUrl,
-        manufacturedYear: body.manufacturedYear,
-        price: body.price,
-        description: body.description,
-      },
-    });
+    if (body.purpose === "viewCount") {
+      await prisma.usedCarListing.update({
+        where: { id: body.id },
+        data: {
+          viewCount: {
+            increment: 1,
+          },
+        },
+      });
+    } else {
+      await prisma.usedCarListing.update({
+        where: {
+          id: carListingObj.id,
+        },
+        data: {
+          title: body.title,
+          //not changing agentEmail
+          sellerEmail: body.sellerEmail,
+          mileage: body.mileage,
+          color: body.color,
+          condition: body.condition,
+          imgUrl: body.imgUrl,
+          manufacturedYear: body.manufacturedYear,
+          price: body.price,
+          description: body.description,
+        },
+      });
+    }
 
-    return NextResponse.json(updatedCarListing);
+    return NextResponse.json(
+      { message: "Car listing updated successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching user:", error);
     return NextResponse.json(
@@ -60,7 +74,7 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const body = await req.json();
 
   try {
@@ -102,6 +116,35 @@ export async function POST(req: Request) {
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong", details: error },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    const usedCarlistingObj = await prisma.usedCarListing.findUnique({
+      where: { id: body.id },
+    });
+
+    if (!usedCarlistingObj) {
+      return NextResponse.json({ error: "Car Not Found" }, { status: 404 });
+    }
+
+    await prisma.usedCarListing.delete({
+      where: { id: body.id },
+    });
+
+    return NextResponse.json(
+      { message: "Car listing deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting car listing:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

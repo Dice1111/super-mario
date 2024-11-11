@@ -5,7 +5,12 @@ import SearchBuyerUsedCarListingUI from "@/app/boundaries/BuyerUI/SearchBuyerUse
 const ExploreProductPage = () => {
   const boundary = SearchBuyerUsedCarListingUI.getInstance();
 
-  return <>{boundary.displaySearchBuyerUsedCarListingUI()}</>;
+  return (
+    <>
+      <h1 className="text-2xl font-bold w-full text-center py-4">Explore</h1>
+      {boundary.displaySearchBuyerUsedCarListingUI()}
+    </>
+  );
 };
 
 export default ExploreProductPage;

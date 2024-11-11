@@ -1,7 +1,6 @@
 import { ShortlistEntity } from "@/entities/Shortlist";
 import { Shortlist, UsedCarListing } from "@prisma/client";
 
-
 export class ViewShortlistController {
   private static instance: ViewShortlistController;
   private shortlistEntity: ShortlistEntity;
@@ -19,8 +18,14 @@ export class ViewShortlistController {
     return ViewShortlistController.instance;
   }
 
-  public async viewShortlistController(email: string): Promise<UsedCarListing[]> {
-    const result = await this.shortlistEntity.viewBuyerSpecificShortlistEntity(email);
+  public async viewShortlistController(): Promise<UsedCarListing[]> {
+    const result =
+      await this.shortlistEntity.viewBuyerSpecificShortlistEntity();
+    return result;
+  }
+
+  public async checkCarInShortListController(car_id: string): Promise<boolean> {
+    const result = await this.shortlistEntity.checkCarInShortListEntity(car_id);
     return result;
   }
 }

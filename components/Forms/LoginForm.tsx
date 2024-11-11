@@ -26,37 +26,58 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
       password: "",
     },
   });
+
   return (
-    <div className="w-[300px]">
+    <div className="text-black">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8">
+          {/* Email Field */}
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-left">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" type="email" {...field} />
+                  <Input
+                    className="p-3 border border-gray-300 rounded-md"
+                    placeholder="Enter Your Email Address"
+                    type="email"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          {/* Password Field */}
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-left">Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="password" type="password" {...field} />
+                  <Input
+                    className="p-3 border border-gray-300 rounded-md"
+                    placeholder="Enter Your Password"
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            className="w-full py-3 bg-primary text-white rounded-md hover:bg-blue-600 transition"
+          >
+            Submit
+          </Button>
         </form>
       </Form>
     </div>

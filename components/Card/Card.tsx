@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEye, FaHeart, FaRegHeart, FaUser } from "react-icons/fa";
 import { Button } from "../ui/button";
-import { checkCarInShortList } from "@/lib/utils";
-import { useSession } from "next-auth/react";
+import { ViewShortlistController } from "@/controls/ShortlistControllers/ViewShortlistController";
 
 interface CardProps {
   car: UsedCarListing;
@@ -17,12 +16,11 @@ interface CardProps {
 }
 
 const Card = ({ car, setCarID, setOpenModal }: CardProps) => {
-  const { data: session } = useSession();
-  const userEmail = session?.user?.email;
   const [isFavorited, setIsFavorited] = useState(false);
   const router = useRouter();
+  const controller = ViewShortlistController.getInstance();
   const fetchFavoriteStatus = async () => {
-    const exists = await checkCarInShortList(car.id, userEmail ?? ""); // Assuming agentEmail is userEmail
+    const exists = await controller.checkCarInShortListController(car.id);
     setIsFavorited(exists);
   };
   useEffect(() => {

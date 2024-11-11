@@ -212,7 +212,9 @@ export const columns: ColumnDef<UsedCarListing>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center">{row.getValue("createdAt")}</div>
+      <div className="text-center">
+        {new Date(row.original.createdAt).toLocaleString()}
+      </div>
     ),
   },
   {
@@ -230,7 +232,9 @@ export const columns: ColumnDef<UsedCarListing>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center">{row.getValue("updatedAt")}</div>
+      <div className="text-center">
+        {new Date(row.original.updatedAt).toLocaleString()}
+      </div>
     ),
   },
 ];

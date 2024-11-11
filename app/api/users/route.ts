@@ -1,6 +1,6 @@
 import prisma from "@/lib/db";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -20,7 +20,7 @@ export async function GET() {
     );
   }
 }
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   const body = await request.json();
   try {
     const userObj = await prisma.user.findUnique({
@@ -62,7 +62,7 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   // Get the user data from the request body
   const data = await req.json();
 

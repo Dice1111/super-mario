@@ -60,11 +60,12 @@ export class UsedCarListingEntity {
 
   public async addNumberOfViewEntity(id: string): Promise<boolean> {
     try {
-      const response = await fetch(`${baseUrl}/api/usedCarListing/${id}`, {
-        method: "POST",
+      const response = await fetch(`${baseUrl}/api/usedCarListing/`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ id, purpose: "viewCount" }),
       });
 
       if (!response.ok) {
@@ -130,11 +131,12 @@ export class UsedCarListingEntity {
 
   public async deleteUsedCarListingEntity(id: string): Promise<boolean> {
     try {
-      const response = await fetch(`${baseUrl}/api/usedCarListing/${id}`, {
+      const response = await fetch(`${baseUrl}/api/usedCarListing/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ id }),
       });
 
       if (!response.ok) {
