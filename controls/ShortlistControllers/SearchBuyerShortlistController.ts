@@ -1,24 +1,23 @@
 import { ShortlistEntity } from "@/entities/Shortlist";
 import { UsedCarListing } from "@prisma/client";
 
-export class SearchBuyerShortlistUI {
-  private static instance: SearchBuyerShortlistUI;
+export class SearchBuyerShortlistController {
+  private static instance: SearchBuyerShortlistController;
   private shortlistEntity: ShortlistEntity;
 
   private constructor(shortlistEntity: ShortlistEntity) {
     this.shortlistEntity = shortlistEntity;
   }
 
-  public static getInstance(): SearchBuyerShortlistUI {
-    if (!SearchBuyerShortlistUI.instance) {
-      SearchBuyerShortlistUI.instance = new SearchBuyerShortlistUI(
-        ShortlistEntity.getInstance()
-      );
+  public static getInstance(): SearchBuyerShortlistController {
+    if (!SearchBuyerShortlistController.instance) {
+      SearchBuyerShortlistController.instance =
+        new SearchBuyerShortlistController(ShortlistEntity.getInstance());
     }
-    return SearchBuyerShortlistUI.instance;
+    return SearchBuyerShortlistController.instance;
   }
 
-  public async searchBuyerShortlistUI(
+  public async searchBuyerShortlistController(
     email: string,
     title: string
   ): Promise<UsedCarListing[] | null> {

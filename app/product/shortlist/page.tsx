@@ -17,9 +17,6 @@ const ShortlistPage = () => {
   // Ensure email is available before rendering the UI
   return (
     <div>
-      {SearchBuyerShortlistUI.getInstance().displaySearchBuyerShortlistUI(
-        email ?? ""
-      )}
       {ViewShortlistUI.getInstance().displayViewShortlistUI(email ?? "")}
     </div>
   );

@@ -21,11 +21,10 @@ class SearchBuyerShortlistUI {
     return SearchBuyerShortlistUI.instance;
   }
 
-  public displaySearchBuyerShortlistUI = (email?: string): JSX.Element => {
-    const [searchResult, setSearchResult] = useState<UsedCarListing[] | null>(
-      null
-    );
-
+  public displaySearchBuyerShortlistUI = (
+    email?: string,
+    setShowData?: (data: UsedCarListing[] | null) => void
+  ): JSX.Element => {
     const handleSearch = async (
       values: BuyerSearchSchemaType
     ): Promise<void> => {
@@ -35,7 +34,9 @@ class SearchBuyerShortlistUI {
           email!,
           values.title
         );
-        setSearchResult(SearchedCars);
+        if (setShowData) {
+          setShowData(SearchedCars);
+        }
         if (SearchedCars) {
           this.displaySuccessUI();
         } else {
@@ -44,19 +45,15 @@ class SearchBuyerShortlistUI {
       } catch (error) {
         console.error(error);
         this.displayErrorUI();
-        setSearchResult(null);
+        if (setShowData) {
+          setShowData(null);
+        }
       }
     };
-
-    const loadData = useCallback(
-      async () => searchResult || [],
-      [searchResult]
-    );
 
     return (
       <>
         <BuyerSearchBar handleSearch={handleSearch} />
-        <CarListing loadData={loadData} />
       </>
     );
   };
