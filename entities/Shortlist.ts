@@ -92,7 +92,7 @@ export class ShortlistEntity {
         return false;
       }
 
-      await this.loadShotlists();
+      this.shortlistLoaded = false;
 
       return true;
     } catch (error) {
@@ -114,7 +114,7 @@ export class ShortlistEntity {
         return false;
       }
 
-      await this.loadShotlists(); // Refresh cached listings
+      this.shortlistLoaded = false;
 
       return true;
     } catch (error) {
