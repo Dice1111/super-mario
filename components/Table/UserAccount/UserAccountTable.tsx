@@ -27,7 +27,6 @@ export default function UserAccountTable({ loadData }: ViewUserAccountProps) {
 
   useEffect(() => {
     if (!hasFetchedRef.current) {
-      console.log("yes");
       fetchData();
       return () => {
         hasFetchedRef.current = true;

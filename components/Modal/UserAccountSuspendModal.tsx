@@ -28,9 +28,10 @@ export default function UserAccountSuspendModal({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action will change user &quot{selectedUser.email}&quot to &quot
+            This action will change user &quot;{selectedUser.email}&quot; to
+            &quot;
             {newStatus}
-            &quot.
+            &quot;.
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end space-x-2 mt-4">

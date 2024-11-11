@@ -22,8 +22,6 @@ class ViewTopCarListingUI {
       try {
         const usedCarlisting =
           await controller.viewTopUsedCarListingController();
-
-        console.log(usedCarlisting);
         this.displaySuccessUI();
         return usedCarlisting;
       } catch (error) {

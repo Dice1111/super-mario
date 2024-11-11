@@ -20,7 +20,6 @@ export async function GET() {
 export async function POST(req: Request) {
   // Get the shortlist data from the request body
   const data = await req.json();
-  console.log(data);
 
   try {
     // Check if the car is already in the shortlist for this user

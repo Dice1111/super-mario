@@ -34,7 +34,7 @@ export class ReviewAndRatingEntity {
     const filteredReviews = reviews.filter(
       (review) => review.agentEmail === email || review.userEmail === email
     );
-    console.log("filteredReviews:", filteredReviews);
+
     return filteredReviews;
   }
 

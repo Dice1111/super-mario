@@ -21,10 +21,9 @@ const UsedCarDetail = ({ car }: UsedCarDetailProps) => {
   const [liked, setLiked] = useState(false);
   const [modal, setModal] = useState<JSX.Element | null>(null);
   const fetchFavoriteStatus = async () => {
-    console.log(userEmail);
     if (userEmail) {
       const exists = await checkCarInShortList(car.id, userEmail);
-      console.log(exists);
+
       setLiked(exists);
       setModal(null);
     }

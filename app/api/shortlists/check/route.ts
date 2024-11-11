@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const data = await request.json();
 
-    console.log(data.userEmail, data.car_id);
-
   try {
     const existingEntry = await prisma.shortlist.findFirst({
       where: {
@@ -14,9 +12,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log(existingEntry);
-
-    // Return true if exists, false if not
     return NextResponse.json({ exists: !!existingEntry }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

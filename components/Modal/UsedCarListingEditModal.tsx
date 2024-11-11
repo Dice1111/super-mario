@@ -70,7 +70,7 @@ export function UsedCarListingEditModal({
       return;
     } else {
       const info = result.info as CloudinaryResult;
-      console.log(result);
+
       form.setValue("imgUrl", info.public_id);
       setPublicId(info.public_id);
     }

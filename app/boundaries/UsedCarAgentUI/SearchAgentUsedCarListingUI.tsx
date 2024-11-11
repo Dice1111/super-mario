@@ -49,8 +49,12 @@ class SearchAgentUsedCarListingUI {
             email,
             values.title
           );
-        searchedListing ? this.displaySuccessUI() : this.displayErrorUI();
         setSearchResult(searchedListing);
+        if (searchedListing) {
+          this.displaySuccessUI();
+        } else {
+          this.displayErrorUI();
+        }
       } catch (error) {
         this.displayErrorUI();
         console.error(error);

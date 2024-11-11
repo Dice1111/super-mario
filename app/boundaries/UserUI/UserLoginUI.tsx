@@ -12,7 +12,9 @@ import { toast } from "sonner";
 
 class UserLoginUI {
   private static instance: UserLoginUI;
+
   private constructor() {}
+
   public static getInstance(): UserLoginUI {
     if (!UserLoginUI.instance) {
       UserLoginUI.instance = new UserLoginUI();
@@ -23,19 +25,30 @@ class UserLoginUI {
   public displayLoginUI = () => {
     const router = useRouter();
     const { data: session } = useSession();
+
     useEffect(() => {
       if (session) {
-        if (session.user.role === Role.admin) {
-          router.push("/admin/");
-        } else if (session.user.role === Role.agent) {
-          router.push("/used_car_agent/");
-        } else if (session.user.role === Role.seller) {
-          router.push("/seller/");
-        } else if (session.user.role === Role.buyer) {
-          router.push("/");
+        // Use switch-case to handle different user roles
+        switch (session.user.role) {
+          case Role.admin:
+            router.push("/admin/");
+            break;
+          case Role.agent:
+            router.push("/used_car_agent/");
+            break;
+          case Role.seller:
+            router.push("/seller/");
+            break;
+          case Role.buyer:
+            router.push("/");
+            break;
+          default:
+            // If the role doesn't match any known role, you could handle it here or redirect to a default page
+            router.push("/login");
         }
       }
     }, [session, router]);
+
     const handleLogin = async (values: UserAccountFormSchemaType) => {
       const controller = AuthControl.getInstance();
 

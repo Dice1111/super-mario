@@ -1,12 +1,13 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Props {
-  params: { email: string };
-}
-
-export async function GET(request: NextRequest, { params: { email } }: Props) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ email: string }> }
+) {
   try {
+    const resolvedParams = await params;
+    const { email } = resolvedParams;
     const userObj = await prisma.user.findUnique({
       where: { email: email },
     });

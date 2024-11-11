@@ -31,7 +31,6 @@ class SearchAdminUI {
       values: AdminSearchSchemaType
     ): Promise<void> => {
       setSearchResult(null);
-      console.log(values.email, values.searchType);
 
       if (values.searchType === "account") {
         setSearchType(values.searchType);
@@ -41,7 +40,11 @@ class SearchAdminUI {
             values.email
           );
           setSearchResult(searchedUser);
-          searchedUser ? this.displaySuccessUI() : this.displayErrorUI();
+          if (searchedUser) {
+            this.displaySuccessUI();
+          } else {
+            this.displayErrorUI();
+          }
         } catch (error) {
           this.displayErrorUI();
           console.error(error);
@@ -54,8 +57,11 @@ class SearchAdminUI {
             values.email
           );
           setSearchResult(searchedProfile);
-          searchedProfile ? this.displaySuccessUI() : this.displayErrorUI();
-          this.displaySuccessUI();
+          if (searchedProfile) {
+            this.displaySuccessUI();
+          } else {
+            this.displayErrorUI();
+          }
         } catch (error) {
           this.displayErrorUI();
           console.error(error);

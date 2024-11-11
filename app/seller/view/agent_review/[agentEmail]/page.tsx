@@ -10,7 +10,7 @@ interface Props {
 const UsedCarDetailPage = ({ params }: Props) => {
   const unwrappedParams = use(params);
   const decodedEmail = decodeURIComponent(unwrappedParams.agentEmail);
-  console.log(decodedEmail);
+
   const createReviewBoundary = CreateReviewAndRatingUI.getInstance();
   const viewReviewBoundary = ViewRatingAndReviewUI.getInstance();
 

@@ -61,7 +61,6 @@ export const checkCarInShortList = async (
     });
 
     if (!response.ok) {
-      console.log("Failed to fetch shortlist status");
       return false;
     }
 

@@ -35,7 +35,11 @@ class SearchBuyerUsedCarListingUI {
           values.title
         );
         setSearchResult(SearchedCars);
-        SearchedCars ? this.displaySuccessUI() : this.displayErrorUI();
+        if (SearchedCars) {
+          this.displaySuccessUI();
+        } else {
+          this.displayErrorUI();
+        }
       } catch (error) {
         console.error(error);
         this.displayErrorUI();
