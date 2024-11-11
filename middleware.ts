@@ -3,42 +3,36 @@ import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 const isDisabled = process.env.MIDDLEWARE_DISABLED === "true";
+
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
-    console.log(isDisabled);
     if (isDisabled) {
       return NextResponse.next(); // Skip all checks
     }
+
     const { pathname } = request.nextUrl;
 
     // Check if user is not authenticated
     if (!request.nextauth.token) {
-      return NextResponse.rewrite(new URL("/auth/adm", request.url));
+      return NextResponse.rewrite(new URL("/auth/login", request.url));
     }
 
-    // Check user role for specific routes
-    if (
-      pathname.startsWith("/admin") &&
-      request.nextauth.token?.role !== Role.admin
-    ) {
-      return NextResponse.rewrite(new URL("/denied", request.url));
-    } else if (
-      pathname.startsWith("/used_car_agent") &&
-      request.nextauth.token?.role !== Role.agent
-    ) {
-      return NextResponse.rewrite(new URL("/denied", request.url));
-    } else if (
-      pathname.startsWith("/seller") &&
-      request.nextauth.token?.role !== Role.seller
-    ) {
-      return NextResponse.rewrite(new URL("/denied", request.url));
-    } else if (
-      pathname === "/" &&
-      request.nextauth.token?.role !== Role.buyer
-    ) {
-      return NextResponse.rewrite(new URL("/denied", request.url));
+    const userRole = request.nextauth.token?.role;
+
+    // Use switch case to handle role-based path checks
+    switch (true) {
+      case pathname.startsWith("/admin") && userRole !== Role.admin:
+        return NextResponse.rewrite(new URL("/denied", request.url));
+      case pathname.startsWith("/used_car_agent") && userRole !== Role.agent:
+        return NextResponse.rewrite(new URL("/denied", request.url));
+      case pathname.startsWith("/seller") && userRole !== Role.seller:
+        return NextResponse.rewrite(new URL("/denied", request.url));
+      case (pathname === "/" || pathname.startsWith("/product")) &&
+        userRole !== Role.buyer:
+        return NextResponse.rewrite(new URL("/denied", request.url));
+      default:
+        return NextResponse.next();
     }
-    return NextResponse.next();
   },
   {
     callbacks: {
@@ -48,5 +42,11 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/used_car_agent/:path*", "/seller/:path*", "/"],
+  matcher: [
+    "/admin/:path*",
+    "/used_car_agent/:path*",
+    "/seller/:path*",
+    "/",
+    "/product/:path*",
+  ],
 };

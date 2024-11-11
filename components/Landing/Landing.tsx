@@ -11,7 +11,7 @@ const Landing = () => {
       <div className="absolute inset-0 bg-black opacity-20 z-0"></div>
 
       <p className="z-auto text-white text-2xl sm:text-4xl font-extrabold text-shadow-lg absolute p-6 ml-10 z-10">
-        &quotQuality Cars, Great Prices&quot
+        &quot;Quality Cars, Great Prices&quot;
       </p>
     </div>
   );

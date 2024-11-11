@@ -30,7 +30,7 @@ class ViewSellerUsedCarListing {
     }
 
     const email = session.user.email;
-    console.log(email);
+
     const loadData = async (): Promise<UsedCarListing[]> => {
       const controller =
         ViewSellerSpecificUsedCarListingController.getInstance();

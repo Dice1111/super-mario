@@ -47,10 +47,9 @@ export class UserEntity {
       });
 
       if (!response.ok) {
-        console.log("Entity update failed");
         return false;
       }
-      console.log("Entity update success");
+
       await this.loadUsers();
 
       return true;
@@ -69,7 +68,7 @@ export class UserEntity {
         id,
         status,
       };
-      console.log("data sending", data);
+
       const response = await fetch(`${baseUrl}/api/users`, {
         method: "PUT",
         headers: {
@@ -79,12 +78,10 @@ export class UserEntity {
       });
 
       if (!response.ok) {
-        console.log("Entity update failed");
         return false;
       }
-      console.log("Entity update success");
+
       await this.loadUsers();
-      console.log("entitySuspend: ", this.users);
 
       return true;
     } catch (error) {
@@ -188,7 +185,6 @@ export class UserEntity {
         password: password,
         redirect: false,
       });
-      console.log(response);
 
       // Check if the response is not successful (status 200-299)
       if (!response?.ok) {

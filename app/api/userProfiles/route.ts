@@ -33,7 +33,6 @@ export async function PUT(request: Request) {
     }
 
     if ("status" in body) {
-      console.log("Updating Suspend:", body.status);
       const suspendedUserProfile = await prisma.userProfile.update({
         where: {
           id: userObj.id,

@@ -80,7 +80,7 @@ export class ShortlistEntity {
         car_id,
         userEmail,
       };
-      console.log("entity", data);
+
       const response = await fetch(`${baseUrl}/api/shortlists`, {
         method: "POST",
         headers: {
@@ -103,7 +103,6 @@ export class ShortlistEntity {
 
   public async deleteShortlistEntity(car_id: string): Promise<boolean> {
     try {
-      console.log(car_id);
       const response = await fetch(`${baseUrl}/api/shortlists/${car_id}`, {
         method: "DELETE",
         headers: {
@@ -112,11 +111,9 @@ export class ShortlistEntity {
       });
 
       if (!response.ok) {
-        console.log("Failed to delete listing");
         return false;
       }
 
-      console.log("Listing deleted successfully");
       await this.loadShotlists(); // Refresh cached listings
 
       return true;

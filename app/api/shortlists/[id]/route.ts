@@ -1,15 +1,15 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Props {
-  params: { id: string };
-}
-
-
-
-export async function GET(request: NextRequest, { params: { id } }: Props) {
+// GET handler - Fetch shortlisted car listings for a user
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    // Get shortlist entries for the specified user
+    const resolvedParams = await params;
+    const { id } = resolvedParams;
+
     const shortlists = await prisma.shortlist.findMany({
       where: { userEmail: id },
     });
@@ -24,6 +24,7 @@ export async function GET(request: NextRequest, { params: { id } }: Props) {
       },
     });
 
+    // Return the used car listings
     return NextResponse.json({ usedCarListings }, { status: 200 });
   } catch (error) {
     console.error("Failed to fetch shortlist and car listings:", error);
@@ -34,30 +35,42 @@ export async function GET(request: NextRequest, { params: { id } }: Props) {
   }
 }
 
+// DELETE handler - Remove a shortlist entry
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const resolvedParams = await params;
+    const { id } = resolvedParams; // Get the shortlist ID from params
 
-export async function DELETE(request: NextRequest, { params: { id } }: Props) {
-    try {
+    // Find the shortlist entry by its ID
+    const shortlistObj = await prisma.shortlist.findUnique({
+      where: { id: id }, // Assuming `id` here is the primary key for the shortlist table
+    });
 
-      const shortlistObj = await prisma.shortlist.findUnique({
-        where: { id: id },
-      });
-  
-      if (!shortlistObj) {
-        return NextResponse.json({ error: "usedCarlisting Not Found" }, { status: 404 });
-      }
-  
-      await prisma.shortlist.delete({
-        where: { id: id },
-      });
-  
-      return NextResponse.json({ message: "usedCarlistingObj deleted successfully" }, { status: 200 });
-    } catch (error) {
-      console.error("Error deleting user:", error);
+    if (!shortlistObj) {
       return NextResponse.json(
-        { error: "Internal Server Error" },
-        { status: 500 }
+        { error: "Shortlist not found" },
+        { status: 404 }
       );
     }
-  }
 
-  
+    // Delete the shortlist entry
+    await prisma.shortlist.delete({
+      where: { id: id },
+    });
+
+    // Return success message
+    return NextResponse.json(
+      { message: "Shortlist entry deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting shortlist:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}

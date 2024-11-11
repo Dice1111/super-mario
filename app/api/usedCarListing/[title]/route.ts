@@ -1,25 +1,28 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Props {
-  params: { title: string };
-}
-
-export async function GET(request: NextRequest, { params: { title } }: Props) {
+// GET request: Fetch used car listings based on title
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ title: string }> }
+) {
   try {
+    const resolvedParams = await params;
+    const { title } = resolvedParams; // Destructure title from params
     const usedCarlistingObj = await prisma.usedCarListing.findMany({
       where: { title: title },
     });
 
-    if (!usedCarlistingObj) {
-      return NextResponse.json({ error: "User Not Found" }, { status: 404 });
+    if (usedCarlistingObj.length === 0) {
+      return NextResponse.json({ error: "Car Not Found" }, { status: 404 });
     }
+
     return NextResponse.json(
       { usedCarListings: usedCarlistingObj },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching car listings:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -27,14 +30,21 @@ export async function GET(request: NextRequest, { params: { title } }: Props) {
   }
 }
 
-export async function POST(request: NextRequest, { params: { title } }: Props) {
+// POST request: Update the view count of a specific car listing by its id
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ title: string }> }
+) {
   try {
+    const resolvedParams = await params;
+    const { title } = resolvedParams; // Destructure title from params
+
     const usedCarlistingObj = await prisma.usedCarListing.findUnique({
       where: { id: title },
     });
 
     if (!usedCarlistingObj) {
-      return NextResponse.json({ error: "User Not Found" }, { status: 404 });
+      return NextResponse.json({ error: "Car Not Found" }, { status: 404 });
     }
 
     await prisma.usedCarListing.update({
@@ -51,7 +61,7 @@ export async function POST(request: NextRequest, { params: { title } }: Props) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error updating car listing:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -59,20 +69,21 @@ export async function POST(request: NextRequest, { params: { title } }: Props) {
   }
 }
 
+// DELETE request: Delete a car listing by its title
 export async function DELETE(
   request: NextRequest,
-  { params: { title } }: Props
+  { params }: { params: Promise<{ title: string }> }
 ) {
   try {
+    const resolvedParams = await params;
+    const { title } = resolvedParams; // Destructure title from params
+    // Assuming title is not the primary identifier; use a unique identifier (e.g., `id`)
     const usedCarlistingObj = await prisma.usedCarListing.findUnique({
       where: { id: title },
     });
 
     if (!usedCarlistingObj) {
-      return NextResponse.json(
-        { error: "usedCarlisting Not Found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Car Not Found" }, { status: 404 });
     }
 
     await prisma.usedCarListing.delete({
@@ -80,11 +91,11 @@ export async function DELETE(
     });
 
     return NextResponse.json(
-      { message: "usedCarlistingObj deleted successfully" },
+      { message: "Car listing deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error("Error deleting car listing:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

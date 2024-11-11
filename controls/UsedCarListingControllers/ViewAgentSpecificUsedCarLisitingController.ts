@@ -11,16 +11,19 @@ export class ViewAgentSpecifcUsedCarListingController {
 
   public static getInstance(): ViewAgentSpecifcUsedCarListingController {
     if (!ViewAgentSpecifcUsedCarListingController.instance) {
-      ViewAgentSpecifcUsedCarListingController.instance = new ViewAgentSpecifcUsedCarListingController(
-        UsedCarListingEntity.getInstance()
-      );
+      ViewAgentSpecifcUsedCarListingController.instance =
+        new ViewAgentSpecifcUsedCarListingController(
+          UsedCarListingEntity.getInstance()
+        );
     }
     return ViewAgentSpecifcUsedCarListingController.instance;
   }
 
-  public async viewAgentSpecifcUsedCarListingController(email: string): Promise<UsedCarListing[]> {
-    console.log("email: ", email);
-    const result = await this.usedCarListingEntity.viewUsedCarListingForAgentEntity(email);
+  public async viewAgentSpecifcUsedCarListingController(
+    email: string
+  ): Promise<UsedCarListing[]> {
+    const result =
+      await this.usedCarListingEntity.viewUsedCarListingForAgentEntity(email);
     return result;
   }
 }

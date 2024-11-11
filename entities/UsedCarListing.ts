@@ -21,15 +21,17 @@ export class UsedCarListingEntity {
     return this.usedCarListings;
   }
 
-  public async viewTopFourUsedCarListingsByViewCount(): Promise<UsedCarListing[]> {
+  public async viewTopFourUsedCarListingsByViewCount(): Promise<
+    UsedCarListing[]
+  > {
     // Ensure listings are loaded
     const usedCarListings = await this.getUsedCarListing();
-    
+
     // Sort by viewCount in descending order and get the top 4
     const topFourListings = usedCarListings
       .sort((a, b) => b.viewCount - a.viewCount)
       .slice(0, 4);
-  
+
     return topFourListings;
   }
 
@@ -66,11 +68,9 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.log("Failed to increment view count");
         return false;
       }
 
-      console.log("View count incremented successfully");
       await this.loadUsedCarListings();
       return true;
     } catch (error) {
@@ -116,11 +116,9 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.log("Failed to update listing");
         return false;
       }
 
-      console.log("Listing updated successfully");
       await this.loadUsedCarListings(); // Refresh cached listings
 
       return true;
@@ -132,7 +130,6 @@ export class UsedCarListingEntity {
 
   public async deleteUsedCarListingEntity(id: string): Promise<boolean> {
     try {
-      console.log(id);
       const response = await fetch(`${baseUrl}/api/usedCarListing/${id}`, {
         method: "DELETE",
         headers: {
@@ -141,11 +138,9 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.log("Failed to delete listing");
         return false;
       }
 
-      console.log("Listing deleted successfully");
       await this.loadUsedCarListings(); // Refresh cached listings
 
       return true;
@@ -215,11 +210,9 @@ export class UsedCarListingEntity {
       });
 
       if (!response.ok) {
-        console.log("Failed to create listing");
         return false;
       }
 
-      console.log("Listing created successfully");
       await this.loadUsedCarListings(); // Refresh cached listings
 
       return true;

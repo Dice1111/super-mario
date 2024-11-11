@@ -25,8 +25,8 @@ export default function UsedCarListingDeleteModal({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action will permanently delete used car listing &quot
-            {selectedUsedCarListing.title}&quot.
+            This action will permanently delete used car listing &quot;
+            {selectedUsedCarListing.title}&quot;.
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end space-x-2 mt-4">

@@ -27,7 +27,7 @@ const Card = ({ car, setCarID, setOpenModal }: CardProps) => {
   };
   useEffect(() => {
     fetchFavoriteStatus();
-  }, []);
+  });
 
   const handleFavoriteClick = () => {
     setCarID();

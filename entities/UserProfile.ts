@@ -70,13 +70,9 @@ export class UserProfileEntity {
       });
 
       if (!response.ok) {
-        console.log("Entity update failed");
         return false;
       }
       await this.loadUserProfiles();
-
-      console.log("Entity update success");
-      console.log("entity:", this.userProfiles);
 
       return true;
     } catch (error) {
@@ -119,7 +115,7 @@ export class UserProfileEntity {
         id,
         status,
       };
-      console.log("data sending", data);
+
       const response = await fetch(`${baseUrl}/api/userProfiles`, {
         method: "PUT",
         headers: {
@@ -129,10 +125,9 @@ export class UserProfileEntity {
       });
 
       if (!response.ok) {
-        console.log("Entity update failed");
         return false;
       }
-      console.log("Entity update success");
+
       await this.loadUserProfiles();
 
       return true;

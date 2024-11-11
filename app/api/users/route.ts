@@ -43,7 +43,6 @@ export async function PUT(request: Request) {
       });
       return NextResponse.json(updatedUser);
     } else {
-      console.log("Updating Suspend :", body.status);
       const suspendUser = await prisma.user.update({
         where: {
           id: userObj.id,
