@@ -14,7 +14,13 @@ export async function GET(
       where: { userEmail: id },
     });
 
-    // Extract listing IDs from the shortlist entries
+    if (shortlists.length === 0) {
+      return NextResponse.json(
+        { error: "No shortlist found" },
+        { status: 404 }
+      );
+    }
+
     const listingIds = shortlists.map((shortlist) => shortlist.listingId);
 
     // Fetch car listings with matching listing IDs from usedCarListing
@@ -23,6 +29,12 @@ export async function GET(
         id: { in: listingIds },
       },
     });
+    if (usedCarListings.length === 0) {
+      return NextResponse.json(
+        { error: "No shortlist found" },
+        { status: 404 }
+      );
+    }
 
     // Return the used car listings
     return NextResponse.json({ usedCarListings }, { status: 200 });
