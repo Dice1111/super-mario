@@ -37,6 +37,15 @@ export async function POST(req: Request) {
           id: existingEntry.id,
         },
       });
+
+      await prisma.usedCarListing.update({
+        where: { id: data.car_id },
+        data: {
+          shortlistCount: {
+            decrement: 1,
+          },
+        },
+      });
       return NextResponse.json(
         { message: "Removed from shortlist" },
         { status: 200 }
@@ -49,6 +58,16 @@ export async function POST(req: Request) {
           listingId: data.car_id,
         },
       });
+
+      await prisma.usedCarListing.update({
+        where: { id: data.car_id },
+        data: {
+          shortlistCount: {
+            increment: 1,
+          },
+        },
+      });
+
       return NextResponse.json(newUser, { status: 201 });
     }
   } catch (error) {
