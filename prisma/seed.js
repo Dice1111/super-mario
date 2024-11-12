@@ -3,6 +3,8 @@ const { PrismaClient } = require('@prisma/client')
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const axios = require('axios')
 const prisma = new PrismaClient()
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const cloudinary = require('cloudinary').v2
 
 const UNSPLASH_ACCESS_KEY = '1pBBinLyJN3YD8tFiY-a_piaZQbQTGM8sBS38X9h3z8'
 
@@ -35,14 +37,27 @@ async function getCarImages(totalImages) {
   return carImageUrls
 }
 
+async function uploadToCloudinary(url) {
+  try {
+    const result = await cloudinary.uploader.upload(url)
+    return result.secure_url
+  } catch (error) {
+    console.error(`Error uploading image to Cloudinary: ${error}`)
+    return null
+  }
+}
+
 async function main() {
-  // Fetch 100 car images
   const carImageUrls = await getCarImages(100)
 
   if (carImageUrls.length < 100) {
     console.error('Failed to fetch enough images, seeding aborted.')
     return
   }
+
+  const cloudinaryUrls = await Promise.all(
+    carImageUrls.map((url) => uploadToCloudinary(url)),
+  )
 
   const carListings = Array.from({ length: 100 }, (_, i) => ({
     title: `Car Listing ${i + 1}`,
@@ -55,7 +70,7 @@ async function main() {
       Math.floor(Math.random() * 5)
     ],
     condition: ['New', 'Used', 'Certified'][Math.floor(Math.random() * 3)],
-    imgUrl: carImageUrls[i],
+    imgUrl: cloudinaryUrls[i],
     manufacturedYear: 2000 + Math.floor(Math.random() * 23),
     price: parseFloat((Math.random() * 50000 + 5000).toFixed(2)),
     description: `This is a description for car listing ${i + 1}`,
