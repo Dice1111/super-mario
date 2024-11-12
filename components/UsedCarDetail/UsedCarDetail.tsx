@@ -1,6 +1,6 @@
 "use client";
 
-import HandleShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
+import HandleShortlistUI from "@/app/boundaries/BuyerUI/HandleShortlistUI";
 import { Button } from "@/components/ui/button";
 import { ViewShortlistController } from "@/controls/ShortlistControllers/ViewShortlistController";
 import { UsedCarListing } from "@prisma/client";
