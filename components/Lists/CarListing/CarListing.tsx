@@ -1,6 +1,6 @@
 "use client";
 
-import HandleShortlistUI from "@/app/boundaries/BuyerUI/CreateShortlistUI";
+import HandleShortlistUI from "@/app/boundaries/BuyerUI/HandleShortlistUI";
 import Card from "@/components/Card/Card";
 import { UsedCarListing } from "@prisma/client";
 import { useEffect, useState } from "react";
