@@ -310,7 +310,7 @@ export default function DashboardSideBar() {
                     </div>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuItem>
+                <DropdownMenuItem className="bg-sidebar-accent flex justify-center items-center">
                   {boundary.displayLogoutUI()}
                 </DropdownMenuItem>
               </DropdownMenuContent>

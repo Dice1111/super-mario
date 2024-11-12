@@ -1,4 +1,5 @@
 import React from "react";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 interface LogoutFormProps {
   isLoading: boolean;
@@ -7,18 +8,13 @@ interface LogoutFormProps {
 
 const LogoutForm = ({ handleLogout, isLoading }: LogoutFormProps) => {
   return (
-    <form className="w-full flex justify-center">
-      <button
-        type="button"
-        disabled={isLoading}
-        onClick={handleLogout}
-        className={`w-full py-2 px-4 text-white font-semibold rounded-lg transition-colors
-                  ${isLoading ? "bg-gray-400" : "bg-red-500 hover:bg-red-600"} 
-                  disabled:opacity-50`}
-      >
-        {isLoading ? "Logging out..." : "Logout"}
-      </button>
-    </form>
+    <button
+      className="w-full cursor-pointer hover:scale-110 transition-transform flex"
+      disabled={isLoading}
+      onClick={handleLogout}
+    >
+      <RiLogoutCircleRLine className="h-5 w-full" />
+    </button>
   );
 };
 

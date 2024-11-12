@@ -28,9 +28,13 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
   });
 
   return (
-    <div className="text-black">
+    <div className="text-white w-[300px] h-[300px] flex flex-col items-center justify-center space-y-4">
+      <div className="text-2xl font-semibold">Login</div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(handleLogin)}
+          className="space-y-6 w-full"
+        >
           {/* Email Field */}
           <FormField
             control={form.control}
@@ -40,7 +44,7 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
                 <FormLabel className="text-left">Email</FormLabel>
                 <FormControl>
                   <Input
-                    className="p-3 border border-gray-300 rounded-md"
+                    className="p-3 border-b border-gray-300 rounded-none bg-transparent text-white placeholder-white focus:border-white"
                     placeholder="Enter Your Email Address"
                     type="email"
                     {...field}
@@ -60,7 +64,7 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
                 <FormLabel className="text-left">Password</FormLabel>
                 <FormControl>
                   <Input
-                    className="p-3 border border-gray-300 rounded-md"
+                    className="p-3 border-b border-gray-300 rounded-none bg-transparent text-white placeholder-white focus:border-white"
                     placeholder="Enter Your Password"
                     type="password"
                     {...field}
@@ -74,7 +78,7 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full py-3 bg-primary text-white rounded-md hover:bg-blue-600 transition"
+            className="w-full py-3 rounded-none hover:bg-blue-600 transition"
           >
             Submit
           </Button>
