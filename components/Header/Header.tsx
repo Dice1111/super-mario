@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CiShoppingCart } from "react-icons/ci";
+import { FaBookBookmark } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function Header() {
@@ -88,14 +88,14 @@ export default function Header() {
         <li>
           <ul className="flex items-center justify-center gap-8">
             <li>
-              <p className="text-sm">
+              <p className="text-sm hidden md:block">
                 {session ? session?.user?.email : "unknown user"}
               </p>
             </li>
             <li>{UserLogoutUI.getInstance().displayLogoutUI()}</li>
             <li>
               <Link href={"/product/shortlist"} className="relative">
-                <CiShoppingCart className="text-3xl" />
+                <FaBookBookmark className="hover:scale-110 transition-transform" />
               </Link>
             </li>
           </ul>

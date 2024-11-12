@@ -43,6 +43,7 @@ export const MenuItems: MenuType[] = [
     name: "Popular Cars",
     link: "/product/popular",
   },
+
 ];
 
 export const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; // Fallback for local development
