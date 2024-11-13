@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const BuyerSearchSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
+  title: z.string(),
 });
 
 export default BuyerSearchSchema;

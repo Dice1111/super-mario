@@ -2,9 +2,9 @@ import CarListing from "@/components/Lists/CarListing/CarListing";
 import { ViewShortlistController } from "@/controls/ShortlistControllers/ViewShortlistController";
 import { errorToast, successToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import SearchBuyerShortlistUI from "./SearchBuyerShortlistUI";
-import React, { useState } from "react";
 
 class ViewShortlistUI {
   private static instance: ViewShortlistUI;
@@ -18,35 +18,63 @@ class ViewShortlistUI {
     return ViewShortlistUI.instance;
   }
 
-  // Update here: id is now a string parameter
   public displayViewShortlistUI = (): JSX.Element => {
     const [showData, setShowData] = useState<UsedCarListing[] | null>(null);
+    const [data, setData] = useState<UsedCarListing[] | null>(null);
+    const [needRefetch, setNeedRefetch] = useState<boolean>(false);
 
-    const loadData = async (): Promise<UsedCarListing[]> => {
-      if (showData) return showData;
+    const retrieveAllData = async (): Promise<void> => {
       const viewShortlistController = ViewShortlistController.getInstance();
+
       try {
         const shortlists =
           await viewShortlistController.viewShortlistController();
         if (shortlists.length > 0) {
           this.displaySuccessUI();
-          return shortlists;
         } else {
           this.displayErrorUI();
-          return [];
         }
+        setData(shortlists); // Store all shortlisted data
       } catch (error) {
         console.error(error);
-        return [];
+        setData([]); // Reset on error
       }
+    };
+
+    useEffect(() => {
+      retrieveAllData();
+    }, []);
+
+    useEffect(() => {
+      if (needRefetch) {
+        retrieveAllData();
+        setNeedRefetch(false);
+      }
+    }, [needRefetch]);
+
+    const loadData = async (page: number, pageSize: number) => {
+      const dataToDisplay = showData ?? data;
+      const totalCount = dataToDisplay!.length;
+      const offset = (page - 1) * pageSize;
+      const cars = dataToDisplay!.slice(offset, offset + pageSize);
+      return { cars, totalCount };
     };
 
     return (
       <>
+        {/* Render SearchBuyerShortlistUI to filter or search the shortlisted data */}
         {SearchBuyerShortlistUI.getInstance().displaySearchBuyerShortlistUI(
-          setShowData
+          setShowData,
+          needRefetch,
+          setNeedRefetch
         )}
-        <CarListing loadData={loadData} />
+
+        {/* Render CarListing with the paginated data */}
+        {data || showData ? (
+          <CarListing loadData={loadData} setNeedRefetch={setNeedRefetch} />
+        ) : (
+          <p>Loading...</p>
+        )}
       </>
     );
   };
