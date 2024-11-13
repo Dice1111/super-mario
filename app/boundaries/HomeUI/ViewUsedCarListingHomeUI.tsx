@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import CarListing from "@/components/Lists/CarListing/CarListing";
 import { ViewUsedCarListingController } from "@/controls/UsedCarListingControllers/ViewUsedCarListingController";
 import { successToast, errorToast } from "@/lib/utils";
@@ -18,26 +19,57 @@ class ViewUsedCarListingHomeUI {
 
   // Method to display the used car listing UI
   public displayViewUsedCarListingHomeUI = (): JSX.Element => {
-    const loadData = async (): Promise<UsedCarListing[]> => {
+    const [data, setData] = useState<UsedCarListing[] | null>(null);
+    const [needRefetch, setNeedRefetch] = useState<boolean>(false);
+    const retrieveAllData = async (): Promise<void> => {
       const controller = ViewUsedCarListingController.getInstance();
       try {
         const usedCarlisting = await controller.viewUsedCarListingController();
-        this.displaySuccessUI();
-        return usedCarlisting;
+
+        if (usedCarlisting.length > 0) {
+          this.displaySuccessUI();
+        } else {
+          this.displayErrorUI();
+        }
+        setData(usedCarlisting);
       } catch (error) {
         console.error(error);
         this.displayErrorUI();
-        return [];
+        setData([]);
       }
     };
-    return <CarListing loadData={loadData} />;
+
+    useEffect(() => {
+      retrieveAllData();
+    }, []);
+
+    useEffect(() => {
+      if (needRefetch) {
+        retrieveAllData();
+        setNeedRefetch(false);
+      }
+    }, [needRefetch]);
+
+    // Function to load data based on pagination
+    const loadData = async (page: number, pageSize: number) => {
+      const offset = (page - 1) * pageSize;
+      const cars = data!.slice(offset, offset + pageSize); // Slice the data for the current page
+      const totalCount = data!.length; // Total number of cars available
+      return { cars, totalCount };
+    };
+
+    return data ? (
+      <CarListing loadData={loadData} setNeedRefetch={setNeedRefetch} />
+    ) : (
+      <p>Loading....</p>
+    );
   };
 
-  public displaySuccessUI() {
+  private displaySuccessUI() {
     toast.success("Car Data Retrieval Successful", successToast);
   }
 
-  public displayErrorUI() {
+  private displayErrorUI() {
     toast.error("Car Data Retrieval Failed", errorToast);
   }
 }

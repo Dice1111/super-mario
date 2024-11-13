@@ -86,9 +86,9 @@ const SearchOutputFrame = ({ entityType, data }: SearchOutputFrameProps) => {
                       {label}:
                     </td>
                     <td className="py-2 px-4 text-gray-700 text-left">
-                      {item[key] && !isNaN(Date.parse(item[key]))
+                      {key === "createdAt" || key === "updatedAt"
                         ? new Date(item[key]).toLocaleString()
-                        : item[key] || "N/A"}
+                        : item[key]}
                     </td>
                   </tr>
                 ))}

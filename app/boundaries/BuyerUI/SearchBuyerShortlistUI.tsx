@@ -4,6 +4,7 @@ import { SearchBuyerShortlistController } from "@/controls/ShortlistControllers/
 
 import { errorToast, successToast } from "@/lib/utils";
 import { UsedCarListing } from "@prisma/client";
+import { useEffect, useState } from "react";
 
 import { toast } from "sonner";
 
@@ -20,17 +21,32 @@ class SearchBuyerShortlistUI {
   }
 
   public displaySearchBuyerShortlistUI = (
-    setShowData: (data: UsedCarListing[] | null) => void
+    setShowData: (data: UsedCarListing[] | null) => void,
+    needRefetch: boolean,
+    setNeedRefetch: (needRefetch: boolean) => void
   ): JSX.Element => {
+    const [searchValue, setSearchValue] = useState<string | null>(null);
+
+    const [searchResult, setSearchResult] = useState<UsedCarListing[] | null>(
+      null
+    );
+
     const handleSearch = async (
       values: BuyerSearchSchemaType
     ): Promise<void> => {
       const controller = SearchBuyerShortlistController.getInstance();
       try {
+        if (values.title === "") {
+          setShowData(null);
+          setSearchResult(null);
+          return;
+        }
         const SearchedCars = await controller.searchBuyerShortlistController(
           values.title
         );
+        setSearchValue(values.title);
         setShowData(SearchedCars);
+        setSearchResult(SearchedCars);
 
         if (SearchedCars) {
           this.displaySuccessUI();
@@ -45,6 +61,14 @@ class SearchBuyerShortlistUI {
         }
       }
     };
+
+    useEffect(() => {
+      if (needRefetch && searchResult) {
+        console.log(searchValue);
+        handleSearch({ title: searchValue! });
+        setNeedRefetch(false);
+      }
+    }, [needRefetch]);
 
     return (
       <>
