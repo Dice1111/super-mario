@@ -43,30 +43,6 @@ export const MenuItems: MenuType[] = [
     name: "Popular Cars",
     link: "/product/popular",
   },
-
 ];
 
 export const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; // Fallback for local development
-
-export const checkCarInShortList = async (car_id: string): Promise<boolean> => {
-  try {
-    const response = await fetch(`${baseUrl}/api/shortlists/check`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ car_id }),
-    });
-
-    if (!response.ok) {
-      return false;
-    }
-
-    const data = await response.json();
-
-    return Boolean(data.exists); // Return true if `exists` is true, false otherwise
-  } catch (error) {
-    console.error("Error fetching shortlist status:", error);
-    return false;
-  }
-};
