@@ -34,8 +34,9 @@ class CreateUserProfileUI {
         } else {
           this.displayErrorUI();
         }
-      } catch {
+      } catch (error) {
         this.displayErrorUI();
+        console.error(error);
       }
     };
 
